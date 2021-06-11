@@ -5,6 +5,7 @@
   margin-bottom: 20px;
   border: 1px solid #000000;
   width: 90%;
+  max-width: 240px;
   height: 250px;
   background: #ffffff;
   border: 1px solid #cccccc;
@@ -48,4 +49,31 @@
 }
 .colectedData {
   padding-left: 15px;
+}
+.alertIcon {
+  padding-top: 55px;
+}
+.faixaVerticalAlert {
+  position: relative;
+  top: 50px;
+  left: -22%;
+  right: 0;
+  width: 130px;
+  height: 10px;
+  float: right;
+  vertical-align: middle !important;
+  text-align: center;
+
+  box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+  border-radius: 14px 14px 0px 0px;
+  transform: rotate(0deg);
+}
+.statusUser {
+  text-align: center;
+  padding-top: 48px;
+}
+#statusUserSpan {
+  font-size: 25px;
+  font-weight: 600;
+  color: #053245;
 }
