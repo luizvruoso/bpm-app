@@ -6,7 +6,7 @@
   border: 1px solid #000000;
   width: 90%;
   max-width: 240px;
-  height: 250px;
+  height: 290px;
   background: #ffffff;
   border: 1px solid #cccccc;
   box-sizing: border-box;
@@ -16,7 +16,7 @@
 
 .faixaVertical {
   position: relative;
-  top: 74px;
+  top: 113px;
   left: -22%;
   right: 0;
   width: 130px;
@@ -55,7 +55,7 @@
 }
 .faixaVerticalAlert {
   position: relative;
-  top: 50px;
+  top: 90px;
   left: -22%;
   right: 0;
   width: 130px;
