@@ -1,8 +1,8 @@
 import React from "react";
 import "./assets/styles/index.css";
 import { Icon, InlineIcon } from "@iconify/react";
-import walkingIcon from "@iconify/icons-fa-solid/walking";
 import heartbeatIcon from "@iconify/icons-ph/heartbeat";
+import walkingIcon from "@iconify/icons-fa-solid/walking";
 import alertUrgent24Filled from "@iconify/icons-fluent/alert-urgent-24-filled";
 import patchCheckFill from "@iconify/icons-bi/patch-check-fill";
 

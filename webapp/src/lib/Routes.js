@@ -4,6 +4,8 @@ import App from "./screens/App";
 import Dashboard from "./screens/Dashboard";
 import VerticalMenu from "./components/VerticalMenu/index";
 import UserInfo from "./screens/UserInfo";
+import Batimentos from "./screens/Batimentos";
+import Passos from "./screens/Passos";
 
 export default function Routes() {
   return (
@@ -21,6 +23,12 @@ export default function Routes() {
             </Route>
             <Route path="/user-info">
               <UserInfo />
+            </Route>
+            <Route path="/batimentos">
+              <Batimentos />
+            </Route>
+            <Route path="/passos">
+              <Passos />
             </Route>
           </Switch>
         </Router>
