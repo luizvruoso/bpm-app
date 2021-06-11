@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@iconify/icons-fa-solid": "^1.1.1",
+    "@iconify/icons-fluent": "^1.1.18",
     "@iconify/icons-ph": "^1.1.2",
     "@iconify/react": "^1.1.4",
     "@iconify/svelte": "^1.0.4",

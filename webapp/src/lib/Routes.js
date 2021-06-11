@@ -8,6 +8,7 @@ import {
 import App from './screens/App';
 import Dashboard from './screens/Dashboard';
 import VerticalMenu from './components/VerticalMenu/index';
+import UserInfo from './screens/UserInfo';
 
 
 export default function Routes() {
@@ -23,6 +24,9 @@ export default function Routes() {
             </Route>
             <Route path="/dashboard">
               <Dashboard />
+            </Route>
+            <Route path="/user-info">
+              <UserInfo />
             </Route>
           </Switch>
       </Router>
