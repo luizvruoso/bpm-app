@@ -36,7 +36,8 @@ class Dashboard extends Component {
               height={30}
             />
           </button>
-          <span> Dependente</span>
+          <div><span style={{marginLeft: "90px", position: "relative", top: "-57px", marginBottom: "-30px"}}> Dependente</span></div>
+          
       </div>
 
         <div className="row">
