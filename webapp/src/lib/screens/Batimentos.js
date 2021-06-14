@@ -4,78 +4,26 @@ import Header from "../components/Header/index";
 import addCircle32Filled from "@iconify/icons-fluent/add-circle-32-filled";
 import { Icon, InlineIcon } from "@iconify/react";
 import heartbeatIcon from "@iconify/icons-ph/heartbeat";
-import { Bar } from "react-chartjs-2";
 import VerticalCard from "../components/VerticalCard";
 import patchCheckFill from "@iconify/icons-bi/patch-check-fill";
-
-const data = {
-  labels: [
-    "Segunda",
-    "Terça-Feira",
-    "Quarta-Feira",
-    "Quinta-Feira",
-    "Sexta-Feira",
-    "Sábado",
-    "Domingo",
-    "Segunda",
-    "Terça-Feira",
-    "Quarta-Feira",
-    "Quinta-Feira",
-    "Sexta-Feira",
-    "Sábado",
-    "Domingo",
-    "Segunda",
-    "Terça-Feira",
-    "Quarta-Feira",
-    "Quinta-Feira",
-    "Sexta-Feira",
-    "Sábado",
-    "Domingo",
-  ],
-  datasets: [
-    {
-      label: "bpm",
-      data: [
-        80, 95, 72, 68, 87, 90, 91, 80, 95, 72, 68, 87, 90, 91, 80, 95, 72, 68,
-        87, 90, 91, 80, 95, 72, 68, 87, 90, 130,
-      ],
-      backgroundColor: ["rgb(253, 71, 85, 0.5)"],
-      borderColor: ["rgba(255, 255, 255, 1)"],
-      borderWidth: 1,
-    },
-  ],
-};
-
-const options = {
-  indexAxis: "x",
-  // Elements options apply to all of the options unless overridden in a dataset
-  // In this case, we are setting the border of each horizontal bar to be 2px wide
-  elements: {
-    bar: {
-      borderWidth: 1,
-    },
-  },
-  responsive: true,
-  plugins: {
-    legend: {
-      position: "bottom",
-    },
-    title: {
-      display: false,
-      text: "Chart.js Horizontal Bar Chart",
-    },
-  },
-};
+import { options, dataFinal } from "../components/Chart/index";
+import Chart from "chart.js/auto";
+import { Line } from "react-chartjs-2";
 
 class Batimentos extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      chart: "",
+    };
   }
+
+  componentDidMount() {}
 
   render() {
     return (
       <div
-        className="col-10 containerDash"
+        className="col-12 containerDash"
         style={{ height: "100vh", overflowX: "auto" }}
       >
         <div className="row">
@@ -167,7 +115,7 @@ class Batimentos extends Component {
                   className="col-lg-12"
                   style={{ width: "95%", height: 150, margin: "0 auto" }}
                 >
-                  <Bar data={data} options={options} />
+                  <Line data={dataFinal.data} options={options.options} />
                 </div>
               </div>
             </div>

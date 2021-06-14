@@ -76,7 +76,7 @@ class Batimentos extends Component {
   render() {
     return (
       <div
-        className="col-10 containerDash"
+        className="col-12 containerDash"
         style={{ height: "100vh", overflowX: "auto" }}
       >
         <div className="row">

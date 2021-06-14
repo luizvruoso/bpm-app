@@ -4,12 +4,20 @@ import "./assets/card.css";
 import { Icon, InlineIcon } from "@iconify/react";
 import walkingIcon from "@iconify/icons-fa-solid/walking";
 import heartbeatIcon from "@iconify/icons-ph/heartbeat";
-
+/*<div className="faixa"></div> */
 function Card(props) {
   return (
     <div className="containerCard">
-      <div className="faixa"></div>
-      <div className="row" style={{ height: "100%" }}>
+      <div
+        className="row"
+        style={{
+          height: "100%",
+          borderRight: "10px solid #6F6F6F",
+          padding: "0",
+          margin: "0",
+          borderRadius: "15px",
+        }}
+      >
         <div className="col-2">
           <div className="photo">
             <img src="./assets/img/idoso.png" />

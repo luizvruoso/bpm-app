@@ -11,7 +11,11 @@ function VerticalCard(props) {
     return (
       <div
         className="containerVerticalCard"
-        style={{ backgroundColor: "#000000" }}
+        style={{
+          backgroundColor: "#000000",
+          borderBottom: "10px solid #FD4755",
+          borderRadius: "20px",
+        }}
       >
         <div className="row">
           <div
@@ -21,31 +25,28 @@ function VerticalCard(props) {
             <Icon icon={heartbeatIcon} color={"#FD4755"} height={58} />
           </div>
           <div
-            className="col-6"
+            className="col-6 containerTimeSpan"
             style={{ paddingTop: "10px", color: "#FFFFFF" }}
           >
             <span id="timeSpan">atualizado há 20 min</span>
           </div>
         </div>
 
-        <div className="row avgLabel" style={{ color: "#FFFFFF" }}>
-          <span>Média do dia</span>
-        </div>
         <div className="row colectedData" style={{ color: "#FFFFFF" }}>
           <p>
+            <span className="avgLabel">Média do dia</span>
+            <br />
             <span id="numberData">85</span> <span>bpm</span>
           </p>
         </div>
-
-        <div
-          className="faixaVertical"
-          style={{ backgroundColor: "#FD4755" }}
-        ></div>
       </div>
     );
   } else if (props.type == 2) {
     return (
-      <div className="containerVerticalCard">
+      <div
+        className="containerVerticalCard"
+        style={{ borderBottom: "10px solid #EBA605", borderRadius: "20px" }}
+      >
         <div className="row alertIcon">
           <Icon
             icon={alertUrgent24Filled}
@@ -63,16 +64,14 @@ function VerticalCard(props) {
             Alertar
           </p>
         </div>
-
-        <div
-          className="faixaVerticalAlert"
-          style={{ backgroundColor: "#EBA605" }}
-        ></div>
       </div>
     );
   } else if (props.type == 3) {
     return (
-      <div className="containerVerticalCard">
+      <div
+        className="containerVerticalCard"
+        style={{ borderBottom: "10px solid #308940", borderRadius: "20px" }}
+      >
         <div className="row">
           <div
             className="col-6"
@@ -81,31 +80,28 @@ function VerticalCard(props) {
             <Icon icon={walkingIcon} color={"#308940"} height={58} />
           </div>
           <div
-            className="col-6"
+            className="col-6 containerTimeSpan"
             style={{ paddingTop: "10px", color: "#053245" }}
           >
             <span id="timeSpan">atualizado há 20 min</span>
           </div>
         </div>
 
-        <div className="row avgLabel" style={{ color: "#053245" }}>
-          <span>Média do dia</span>
-        </div>
         <div className="row colectedData" style={{ color: "#053245" }}>
           <p>
+            <span className="avgLabel">Média do dia</span>
+            <br />
             <span id="numberData">1200</span> <span>passos</span>
           </p>
         </div>
-
-        <div
-          className="faixaVertical"
-          style={{ backgroundColor: "#308940" }}
-        ></div>
       </div>
     );
   } else if (props.type == 4) {
     return (
-      <div className="containerVerticalCard">
+      <div
+        className="containerVerticalCard"
+        style={{ borderBottom: "10px solid #0186B0", borderRadius: "20px" }}
+      >
         <div className="row">
           <div
             className="col-6"
@@ -120,11 +116,6 @@ function VerticalCard(props) {
             <span id="statusUserSpan">Você está bem!</span>
           </p>
         </div>
-
-        <div
-          className="faixaVertical"
-          style={{ backgroundColor: "#0186B0" }}
-        ></div>
       </div>
     );
   }

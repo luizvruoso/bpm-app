@@ -12,7 +12,7 @@ class Dashboard extends Component {
   render() {
     return (
       <div
-        className="col-10 containerDash"
+        className="containerDash"
         style={{ height: "100vh", overflowX: "auto" }}
       >
         <div className="row">
