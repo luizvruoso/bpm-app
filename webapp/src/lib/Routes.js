@@ -6,6 +6,7 @@ import VerticalMenu from "./components/VerticalMenu/index";
 import UserInfo from "./screens/UserInfo";
 import Batimentos from "./screens/Batimentos";
 import Passos from "./screens/Passos";
+import ContactList from "./screens/ContactList";
 
 export default function Routes() {
   const [menuSize, setMenuSize] = useState(1);
@@ -36,6 +37,9 @@ export default function Routes() {
               </Route>
               <Route path="/passos">
                 <Passos />
+              </Route>
+              <Route path="/contact-list">
+                <ContactList />
               </Route>
             </Switch>
           </div>

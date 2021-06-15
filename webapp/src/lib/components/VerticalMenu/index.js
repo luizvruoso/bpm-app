@@ -124,7 +124,7 @@ function Index(props) {
             </a>
           </li>
           <li className="nav-item iconMenu">
-            <a className="nav-link" href="#">
+            <a className="nav-link" href="/contact-list">
               <svg
                 width="28"
                 height="32"
@@ -270,7 +270,7 @@ function Index(props) {
             </a>
           </li>
           <li className="nav-item iconMenu">
-            <a className="nav-link" href="#">
+            <a className="nav-link" href="/contact-list">
               <svg
                 width="28"
                 height="32"
