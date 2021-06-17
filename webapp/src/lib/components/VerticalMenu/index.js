@@ -137,7 +137,7 @@ function Index(props) {
                   fill="#053245"
                 />
               </svg>
-              <span className="spanMenu">Contatos de Alerta</span>
+              <span className="spanMenu">Contatos</span>
             </a>
           </li>
           <li className="nav-item iconMenu">

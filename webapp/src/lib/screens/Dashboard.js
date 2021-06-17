@@ -21,43 +21,20 @@ class Dashboard extends Component {
     return (
       <div
         className="containerDash"
-        style={{ height: "100vh", overflowX: "auto" }}
+        style={{ height: "100vh", overflowX: "hidden" }}
       >
-        <div className="row">
+        <div className="row ">
           <Header content={"Dashboard"} />
         </div>
-        <div>
-          <ModalRoot />
-          <button
-            style={{
-              outline: "none",
-              background: "none",
-              border: "none",
-              paddingLeft: "30px",
-              paddingTop: "20px",
-            }}
-            onClick={addModal}
-            className="btn btn-primary m-4"
-          >
+        <div className="row ">
+          <p style={{ paddingLeft: "30px", paddingTop: "20px" }}>
             <Icon
               icon={addCircle32Filled}
               style={{ color: "#2B374F" }}
               height={30}
             />
-          </button>
-          <div>
-            <span
-              style={{
-                marginLeft: "90px",
-                position: "relative",
-                top: "-57px",
-                marginBottom: "-30px",
-              }}
-            >
-              {" "}
-              Dependente
-            </span>
-          </div>
+            <span> Dependente</span>
+          </p>
         </div>
 
         <div className="row">

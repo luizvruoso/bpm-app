@@ -90,8 +90,8 @@ class Batimentos extends Component {
                 margin: "10px",
                 border: "1px solid #CCC",
                 borderRadius: 15,
-                minHeight: "800px",
-                height: "800px",
+                minHeight: "900px",
+                height: "1000px",
                 paddingBottom: "10px",
               }}
             >

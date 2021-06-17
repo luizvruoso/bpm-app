@@ -8,22 +8,13 @@ import heartbeatIcon from "@iconify/icons-ph/heartbeat";
 function Card(props) {
   return (
     <div className="containerCard">
-      <div
-        className="row"
-        style={{
-          height: "100%",
-          borderRight: "10px solid #6F6F6F",
-          padding: "0",
-          margin: "0",
-          borderRadius: "15px",
-        }}
-      >
-        <div className="col-2">
+      <div className="row faixa" style={{}}>
+        <div className="col-lg-2 col-12">
           <div className="photo">
             <img src="./assets/img/idoso.png" />
           </div>
         </div>
-        <div className="col-3">
+        <div className="col-lg-3 col-12 center">
           <div className="detailedInfo">
             <span id="patientTitle">Paciente</span>
             <br />
@@ -32,7 +23,7 @@ function Card(props) {
             <span id="bdaySpan">01/06/1931</span>
           </div>
         </div>
-        <div className="col-3">
+        <div className="col-lg-3 col-12 center">
           <div className="row stepContainer">
             <div className="col-6 iconCard">
               <Icon icon={walkingIcon} color={"#308940"} height={58} />
@@ -46,7 +37,7 @@ function Card(props) {
             </div>
           </div>
         </div>
-        <div className="col-4">
+        <div className="col-lg-4 col-12 center">
           <div className="row heartContainer">
             <div className="col-6 iconCard">
               <Icon icon={heartbeatIcon} color={"#FD4755"} height={58} />

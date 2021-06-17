@@ -30,3 +30,6 @@ a.nav-link {
 .iconMenu > a {
   color: #053245 !important;
 }
+.spanMenu {
+  font-size: 15px;
+}

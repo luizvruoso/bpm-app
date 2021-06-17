@@ -38,7 +38,7 @@ class Batimentos extends Component {
                 border: "1px solid #CCC",
                 borderRadius: 15,
                 minHeight: "800px",
-                height: "800px",
+                height: "900px",
                 paddingBottom: "10px",
               }}
             >

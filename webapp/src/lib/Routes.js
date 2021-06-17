@@ -16,8 +16,8 @@ export default function Routes() {
       <div className="row">
         <Router>
           <div
-            className={"col-" + menuSize}
-            style={{ paddingLeft: 20, backgroundColor: "#e5e5e5" }}
+            className={"d-none d-sm-block d-lg-block  col-" + menuSize}
+            style={{ paddingLeft: 8, backgroundColor: "#e5e5e5" }}
           >
             <VerticalMenu setMenuSize={setMenuSize} />
           </div>

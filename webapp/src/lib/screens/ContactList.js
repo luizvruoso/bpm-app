@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import Header from "../components/Header/index";
 import Contact from "../components/ContactCard/index";
 import { Icon, InlineIcon } from "@iconify/react";
-import addCircle20Filled from "@iconify/icons-fluent/add-circle-20-filled";
 import "../components/ContactCard/assets/contact.css";
+import addCircle32Filled from "@iconify/icons-fluent/add-circle-32-filled";
 
 class ContactList extends Component {
   constructor(props) {
@@ -13,27 +13,22 @@ class ContactList extends Component {
   render() {
     return (
       <div
-        className="col-10 containerDash"
+        className="col-12 containerDash"
         style={{ height: "100vh", overflowX: "auto" }}
       >
         <div className="row">
           <Header content={"Dashboard > Contatos de alerta"} />
         </div>
 
-        <Icon icon={addCircle20Filled} color={"#6F6F6F"} height={50} />
-
-        <div>
-          <span
-            style={{
-              marginLeft: "60px",
-              position: "relative",
-              top: "-40px",
-              marginBottom: "-30px",
-            }}
-          >
-            {" "}
-            Contato
-          </span>
+        <div className="row">
+          <p style={{ paddingLeft: "30px", paddingTop: "20px" }}>
+            <Icon
+              icon={addCircle32Filled}
+              style={{ color: "#2B374F" }}
+              height={30}
+            />
+            <span> Contato</span>
+          </p>
         </div>
 
         <div className="row">
