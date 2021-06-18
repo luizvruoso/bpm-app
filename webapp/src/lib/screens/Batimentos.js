@@ -31,7 +31,7 @@ class Batimentos extends Component {
         </div>
 
         <div className="row">
-          <div className="col-lg-12">
+          <div className="col-lg-12 col-12">
             <div
               style={{
                 margin: "10px",
@@ -43,12 +43,12 @@ class Batimentos extends Component {
               }}
             >
               <div className="row">
-                <div className="col-2">
+                <div className="col-lg-2 col-12">
                   <div className="photoUserInfo">
                     <img src="./assets/img/idoso.png" />
                   </div>
                 </div>
-                <div className="col-3">
+                <div className="col-lg-2 col-13">
                   <div
                     className="detailedInfoUserInfo"
                     style={{ paddingTop: 30, marginLeft: "-30px" }}
@@ -60,7 +60,7 @@ class Batimentos extends Component {
                     <span id="bdaySpanUserInfo">01/06/1931</span>
                   </div>
                 </div>
-                <div className="col-7" style={{ marginTop: "20px" }}>
+                <div className="col-7 col-20" style={{ marginTop: "20px" }}>
                   <div className="row">
                     <div
                       className="col-2"
@@ -70,13 +70,14 @@ class Batimentos extends Component {
                         icon={heartbeatIcon}
                         color={"#FD4755"}
                         height={90}
+                        id="heartBeat"
                       />
                     </div>
                     <div
-                      className="col-10"
-                      style={{ marginTop: 10, display: "grid" }}
+                      className="col-lg-2 col-10"
+                      style={{ marginTop: 20,  display: "grid" }}
                     >
-                      <span style={{ fontWeight: "bold", fontSize: 22 }}>
+                      <span id="textBPM">
                         80 - 120 bpm
                       </span>
                       <span
@@ -85,6 +86,8 @@ class Batimentos extends Component {
                           fontSize: 15,
                           marginTop: "-25px",
                         }}
+
+                        id="timeText"
                       >
                         dez - fev
                       </span>
@@ -94,10 +97,10 @@ class Batimentos extends Component {
               </div>
 
               <div className="row">
-                <div className="col-lg-3">
+                <div className="col-lg-3" id="continueThis">
                   <div
                     style={{
-                      width: "100%",
+                      width: "90%",
                       margin: 20,
                       padding: 15,
                       borderRadius: 10,
