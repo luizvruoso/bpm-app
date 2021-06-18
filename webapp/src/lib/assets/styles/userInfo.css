@@ -8,8 +8,6 @@
   border-radius: 15px;
 }
 
-<<<<<<< Updated upstream
-=======
 .detailedInfoUserInfo {
   padding-top: 30px;
   margin-left: -30px;
@@ -18,124 +16,26 @@
   .detailedInfoUserInfo {
     padding-top: 5px;
     padding-bottom: 5px;
-    margin-left: 0px;
+    margin-left: 0px !important;
     text-align: center;
   }
   #iframeDiv {
     height: 50px;
   }
+  .iconHeart {
+    margin-left: 10px;
+  }
 }
 
-#patientTitleUserInfo {
-}
->>>>>>> Stashed changes
 #patientNameUserInfo {
   font-size: 20px;
   font-weight: 700;
   color: #053245;
 }
-
 #patientTitleUserInfo,
 #bdaySpanUserInfo {
   font-size: 15px;
 }
-
-#textDistance {
-  font-weight: bold;
-  font-size: 22;
-}
-
-#textBPM {
-  font-weight: bold;
-  font-size: 22;
-}
-
-
-@media only screen and (max-width: 1024px) {
-  #patientTitleUserInfo {
-    font-size: 15px;
-    position: relative;
-    padding-left: 100px;
-    top: -30px;
-    left: 80px;
-  }
-
-  #bdaySpanUserInfo {
-    font-size: 15px;
-    position: relative;
-    padding-left: 100px;
-    top: -30px;
-    left: 70px;
-  }
-
-  #patientNameUserInfo {
-    font-size: 20px;
-    font-weight: 700;
-    position: relative;
-    left: 120px;
-    top: -30px;
-    color: #053245;
-  }
-
-  #textDistance {
-    font-weight: bold;
-    font-size: 22;
-    position: absolute;
-    top: -30px;
-    left: 110px;
-  }
-
-  #time {
-    position: absolute;
-    left: 125px;
-    top: 20px;
-  }
-
-  #continueThis {
-    position: relative;
-    top: -10px;
-  }
-
-  #walkingMan {
-    position: relative;
-    left: 100px;
-    top: -30px;
-  }
-
-  #timeText {
-    position: relative;
-    right: -145px;
-    top: 40px;
-  }
-
-  #textBPM {
-    font-weight: bold;
-    font-size: 33;
-    white-space:nowrap;
-    position: absolute;
-    top: -10px;
-    left: 140px;
-  }
-
-  #heartBeat {
-    position: relative;
-    left: 70px;
-    top: -20px;
-  }
-
-  
-.photoUserInfo img {
-  width: 100px;
-  height: auto;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  position: relative;
-  right: 19px;
-}
-
-}
-
 .photoUserInfo img {
   width: 100px;
   height: auto;
@@ -143,8 +43,6 @@
   border-radius: 50%;
   display: inline-block;
 }
-
-
 .photoUserInfo {
   padding-top: 20px;
   padding-left: 10px;

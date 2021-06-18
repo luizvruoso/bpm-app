@@ -84,14 +84,14 @@ class Batimentos extends Component {
         </div>
 
         <div className="row">
-          <div className="col-lg-12 col-12">
+          <div className="col-lg-12 col-12 ">
             <div
               style={{
                 margin: "10px",
                 border: "1px solid #CCC",
                 borderRadius: 15,
-                minHeight: "900px",
-                height: "1000px",
+                minHeight: "800px",
+                height: "900px",
                 paddingBottom: "10px",
               }}
             >
@@ -101,7 +101,7 @@ class Batimentos extends Component {
                     <img src="./assets/img/idoso.png" />
                   </div>
                 </div>
-                <div className="col-lg-2 col-13">
+                <div className="col-lg-3 col-12">
                   <div
                     className="detailedInfoUserInfo"
                     style={{ paddingTop: 30, marginLeft: "-30px" }}
@@ -113,19 +113,19 @@ class Batimentos extends Component {
                     <span id="bdaySpanUserInfo">01/06/1931</span>
                   </div>
                 </div>
-                <div className="col-lg-7 col-20" style={{ marginTop: "20px" }}>
-                  <div className="row">
+                <div className="col-lg-7 col-12" style={{ marginTop: "20px" }}>
+                  <div className="row iconHeart">
                     <div
-                      className="col-lg-2 col-2"
+                      className="col-lg-2 col-4"
                       style={{ fontWeight: "bold", fontSize: 20 }}
                     >
-                      <Icon icon={walkingIcon} color={"#308940"} height={90} id="walkingMan"/>
+                      <Icon icon={walkingIcon} color={"#308940"} height={90} />
                     </div>
                     <div
-                      className="col-lg-2 col-10"
+                      className="col-lg-10 col-8"
                       style={{ marginTop: 10, display: "grid" }}
                     >
-                      <span id="textDistance">
+                      <span style={{ fontWeight: "bold", fontSize: 22 }}>
                         0,5 - 5,0 Km
                       </span>
                       <span
@@ -134,8 +134,6 @@ class Batimentos extends Component {
                           fontSize: 15,
                           marginTop: "-25px",
                         }}
-
-                        id="time"
                       >
                         dez - fev
                       </span>
@@ -145,7 +143,7 @@ class Batimentos extends Component {
               </div>
 
               <div className="row">
-                <div className="col-lg-3" id="continueThis">
+                <div className="col-lg-3 col-12">
                   <div
                     style={{
                       width: "90%",
@@ -161,9 +159,9 @@ class Batimentos extends Component {
                 </div>
               </div>
 
-              <div className="row" >
+              <div className="row">
                 <div
-                  className="col-lg-12"
+                  className="col-lg-12 col-12"
                   style={{ width: "95%", height: 150, margin: "0 auto" }}
                 >
                   <Bar data={data} options={options} />
