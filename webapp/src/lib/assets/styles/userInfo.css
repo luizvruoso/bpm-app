@@ -8,6 +8,27 @@
   border-radius: 15px;
 }
 
+<<<<<<< Updated upstream
+=======
+.detailedInfoUserInfo {
+  padding-top: 30px;
+  margin-left: -30px;
+}
+@media (max-width: 720px) {
+  .detailedInfoUserInfo {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-left: 0px;
+    text-align: center;
+  }
+  #iframeDiv {
+    height: 50px;
+  }
+}
+
+#patientTitleUserInfo {
+}
+>>>>>>> Stashed changes
 #patientNameUserInfo {
   font-size: 20px;
   font-weight: 700;

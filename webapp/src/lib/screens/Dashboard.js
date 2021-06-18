@@ -24,7 +24,7 @@ class Dashboard extends Component {
         style={{ height: "100vh", overflowX: "hidden" }}
       >
         <div className="row ">
-          <Header content={"Dashboard"} />
+          <Header content={"Dependentes"} />
         </div>
         <div className="row ">
           <p style={{ paddingLeft: "30px", paddingTop: "20px" }}>

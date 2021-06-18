@@ -61,7 +61,7 @@ function VerticalCard(props) {
               textAlign: "center",
             }}
           >
-            Alertar
+            Alertas
           </p>
         </div>
       </div>

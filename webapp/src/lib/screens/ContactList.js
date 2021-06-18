@@ -32,9 +32,15 @@ class ContactList extends Component {
         </div>
 
         <div className="row">
-          <Contact />
-          <Contact />
-          <Contact />
+          <div className="col-lg-4 col-12">
+            <Contact />
+          </div>
+          <div className="col-lg-4 col-12">
+            <Contact />
+          </div>
+          <div className="col-lg-4 col-12">
+            <Contact />
+          </div>
         </div>
       </div>
     );

@@ -23,16 +23,13 @@ class UserInfo extends Component {
           <Header content={"Dashboard > Dependente"} />
         </div>
         <div className="row">
-          <div className="col-2">
+          <div className="col-lg-2 col-12">
             <div className="photoUserInfo">
               <img src="./assets/img/idoso.png" />
             </div>
           </div>
-          <div className="col-3">
-            <div
-              className="detailedInfoUserInfo"
-              style={{ paddingTop: 30, marginLeft: "-30px" }}
-            >
+          <div className="col-lg-3 col-12">
+            <div className="detailedInfoUserInfo" style={{}}>
               <span id="patientTitleUserInfo">Paciente</span>
               <br />
               <span id="patientNameUserInfo">Jorge Felicio Guedes</span>
@@ -43,16 +40,16 @@ class UserInfo extends Component {
         </div>
 
         <div className="row">
-          <div className="col-3">
+          <div className="col-lg-3 col-12">
             <VerticalCard type={1} />
           </div>
-          <div className="col-3">
+          <div className="col-lg-3 col-12">
             <VerticalCard type={2} />
           </div>
-          <div className="col-3">
+          <div className="col-lg-3 col-12">
             <VerticalCard type={3} />
           </div>
-          <div className="col-3">
+          <div className="col-lg-3 col-12">
             <VerticalCard type={4} />
           </div>
         </div>
