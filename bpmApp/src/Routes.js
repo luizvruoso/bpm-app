@@ -33,7 +33,7 @@ export default class Routes extends Component {
       <NavigationContainer ref={navigationRef} >
         <RootStack.Navigator>
           <RootStack.Screen
-            options={{headerShown: false}}
+            //options={{headerShown: false}}
             name="Home"
             component={Home}
           />

@@ -17,7 +17,7 @@ class Home extends Component {
   }
 
   render() {
-    return <View> <Text> Hello</Text></View>;
+    return (<View><Text>Hello</Text></View>);
   }
 }
 
