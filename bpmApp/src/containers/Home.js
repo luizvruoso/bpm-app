@@ -1,28 +1,16 @@
-import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-} from 'react-native';
+import {connect} from 'react-redux';
+import Home from '../screens/Home';
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
-   
+const mapStateToProps = state => {
+  return {user: state.user};
+};
 
-   
-  }
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    onInit: () => {
+      return;
+    },
+  };
+};
 
-  render() {
-    return (<View><Text>Hello</Text></View>);
-  }
-}
-
-export default Home;
-
-const styles = StyleSheet.create({
-  
-});
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
