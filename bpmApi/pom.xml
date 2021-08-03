@@ -13,16 +13,19 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>bpmAPI</name>
     <description>Demo project for Spring Boot</description>
-    <properties>
-        <java.version>11</java.version>
-        <repackage.classifier/>
-        <azure.version>3.6.0</azure.version>
-        <spring-native.version>0.10.2-SNAPSHOT</spring-native.version>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jdbc</artifactId>
+            <version>2.2.3</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -35,26 +38,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.azure.spring</groupId>
-            <artifactId>azure-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.azure.spring</groupId>
-            <artifactId>azure-spring-boot-starter-active-directory</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.azure.spring</groupId>
-            <artifactId>azure-spring-boot-starter-keyvault-secrets</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.azure.spring</groupId>
-            <artifactId>azure-spring-boot-starter-storage</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.experimental</groupId>
@@ -102,18 +85,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.1.0.Final</version>
+        </dependency>
     </dependencies>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.azure.spring</groupId>
-                <artifactId>azure-spring-boot-bom</artifactId>
-                <version>${azure.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>
@@ -154,7 +131,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin><plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><configuration><source>8</source><target>8</target></configuration></plugin>
         </plugins>
     </build>
     <repositories>

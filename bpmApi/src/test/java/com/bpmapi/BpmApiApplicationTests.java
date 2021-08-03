@@ -1,4 +1,4 @@
-package com.example.bpmapi;
+package com.bpmapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
