@@ -5,18 +5,18 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {variables} from '../../assets/variables';
 import {navigate} from '../../Routes';
 
-export default function HeartMeasure(props) {
+export default function index(props) {
   const items = props.items;
 
   return (
     <View>
-      <HeartBeatFocus />
-      <HeartBeat />
+      <StepsMeasureFocus />
+      <StepsMeasure />
     </View>
   );
 }
 
-function HeartBeatFocus(props) {
+function StepsMeasureFocus(props) {
   return (
     <View
       style={[
@@ -28,8 +28,8 @@ function HeartBeatFocus(props) {
         {
           borderRadius: 20,
           borderBottomWidth: 12,
-          borderBottomColor: variables.redVelvet,
-          backgroundColor: 'black',
+          borderBottomColor: variables.success,
+          //backgroundColor: 'black',
           //borderWidth: 1,
           //borderColor: '#fff',
           //justifyContent: 'flex-start',
@@ -45,27 +45,25 @@ function HeartBeatFocus(props) {
             //alignSelf: 'flex-start',
           },
         ]}>
-        <Text style={[{color: variables.white}]}>agora</Text>
+        <Text style={[{color: variables.darkGray3}]}>agora</Text>
       </View>
 
       <View style={[styles.row, styles.my10, styles.centerXY]}>
-        <Icon
-          name="heart"
-          color={variables.redVelvet}
-          size={50}
-          style={[styles.textVerticalCenter, styles.centerXY]}
+        <Image
+          style={{height: 80, width: 80}}
+          source={require('../../assets/img/icon/littleSalsaWalk.png')}
         />
         <View style={[styles.colorWhite, styles.row, styles.ml10]}>
           <Text
             style={[
-              {fontSize: 40, color: variables.white},
+              {fontSize: 40, color: variables.darkGray3},
               styles.bold,
               //styles.textLeft,
               styles.textVerticalCenter,
             ]}>
-            89
-            <Text style={[{fontSize: 20, color: variables.white}]}>
-              &nbsp; bpm
+            1.500
+            <Text style={[{fontSize: 20, color: variables.darkGray3}]}>
+              &nbsp; passos
             </Text>
           </Text>
         </View>
@@ -74,11 +72,11 @@ function HeartBeatFocus(props) {
   );
 }
 
-function HeartBeat(props) {
+function StepsMeasure(props) {
   return (
     <View
       style={[
-        {height: 155},
+        {height: 120},
         styles.borderContainers,
         styles.m10,
         styles.centerXY,
@@ -103,16 +101,15 @@ function HeartBeat(props) {
             alignSelf: 'flex-start',
           },
         ]}>
-        <Text style={[{color: variables.darkGray4}]}>Hoje</Text>
+        <Text style={[{color: variables.darkGray4}]}>Ontem</Text>
       </View>
-      <View style={[styles.row, styles.my5, {flex: 1}]}>
-        <Icon
-          name="heart"
-          color={variables.redVelvet}
-          size={50}
-          style={[styles.textVerticalCenter, {flex: 1}]}
+      <View
+        style={[styles.row, styles.my5, {flex: 1, alignSelf: 'flex-start'}]}>
+        <Image
+          style={{height: 50, width: 50}}
+          source={require('../../assets/img/icon/littleSalsaWalk.png')}
         />
-        <View style={[styles.colorWhite, styles.row, styles.ml10, {flex: 2}]}>
+        <View style={[styles.colorWhite, styles.row, styles.ml10]}>
           <Text
             style={[
               {fontSize: 40, color: variables.darkGray4},
@@ -120,60 +117,14 @@ function HeartBeat(props) {
               styles.textLeft,
               styles.textVerticalCenter,
             ]}>
-            89
+            1.550
             <Text
               style={[
                 {fontSize: 20, color: variables.darkGray3},
                 styles.textLeft,
               ]}>
-              &nbsp; bpm
+              &nbsp; passos
             </Text>
-          </Text>
-        </View>
-
-        <View
-          style={[
-            styles.colorWhite,
-            styles.row,
-            styles.ml10,
-            styles.centerXY,
-            {
-              justifyContent: 'flex-end',
-
-              flex: 3,
-            },
-            //styles.fullWidth,
-          ]}>
-          <Text style={[{color: variables.darkGray4, textAlign: 'right'}]}>
-            14:00
-          </Text>
-        </View>
-      </View>
-
-      <View style={[styles.row, {alignSelf: 'flex-start'}]}>
-        <View style={[styles.row]}>
-          <Text
-            style={[
-              {fontSize: variables.fontSmall},
-              styles.textVerticalCenter,
-            ]}>
-            min &nbsp;
-          </Text>
-          <Text style={[{fontSize: variables.fontLarger}, styles.bold]}>
-            85
-          </Text>
-        </View>
-
-        <View style={[styles.row, styles.ml20]}>
-          <Text
-            style={[
-              {fontSize: variables.fontSmall},
-              styles.textVerticalCenter,
-            ]}>
-            máx &nbsp;
-          </Text>
-          <Text style={[{fontSize: variables.fontLarger}, styles.bold]}>
-            150
           </Text>
         </View>
       </View>

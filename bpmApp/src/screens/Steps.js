@@ -11,6 +11,8 @@ import DashMenu from '../components/DashMenu';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {variables} from '../assets/variables';
 import Header from '../components/Header';
+import StepsMeasure from '../components/StepsMeasure';
+
 export default function Steps(props) {
   return (
     <View
@@ -19,7 +21,9 @@ export default function Steps(props) {
         styles.flex1,
         styles.fullSize,
         styles.m10,
-      ]}></View>
+      ]}>
+      <StepsMeasure />
+    </View>
   );
 }
 
