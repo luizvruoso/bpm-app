@@ -17,6 +17,7 @@ export const variables = {
   lightInfo: '#50A8EB',
   lightInfo2: '#EDF5FC',
   lightInfo3: '#DCECF9',
+  redVelvet: '#FD4755',
 
   //Cores neutras
   white: '#fff',
