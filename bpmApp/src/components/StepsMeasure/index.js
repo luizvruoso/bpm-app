@@ -45,7 +45,7 @@ function StepsMeasureFocus(props) {
             //alignSelf: 'flex-start',
           },
         ]}>
-        <Text style={[{color: variables.darkGray3}]}>agora</Text>
+        <Text style={[{color: variables.darkGray3}]}>hoje</Text>
       </View>
 
       <View style={[styles.row, styles.my10, styles.centerXY]}>

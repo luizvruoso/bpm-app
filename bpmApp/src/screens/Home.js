@@ -26,7 +26,7 @@ class Home extends Component {
           styles.fullSize,
           styles.m10,
         ]}>
-        <Header />
+        <Header navigation={this.props.navigation} />
         <DashMenu items={['alert', 'steps', 'heartBeat']} />
       </View>
     );
