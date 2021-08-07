@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import styles from '../../assets/globals';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {variables} from '../../assets/variables';
 import {navigate} from '../../Routes';
+import AlertModal from '../../components/AlertModal';
 
 export default function DashMenu(props) {
   const items = props.items;
@@ -131,18 +132,12 @@ function HeartBeat(props) {
 }
 
 function Alert(props) {
+  const [modal, setModal] = useState(false);
+
   return (
     <TouchableOpacity
       onPress={() => {
-        navigate(
-          'Alert' /*{
-    trace: {
-      parent: infoToSend.parent,
-      extraInfo: jsonIcone,
-    },
-    data: TICKET,
-  }*/,
-        );
+        setModal(!modal);
       }}>
       <View
         style={[
@@ -174,6 +169,8 @@ function Alert(props) {
           Acionar Alertar
         </Text>
       </View>
+
+      <AlertModal status={modal} setModal={status => setModal(status)} />
     </TouchableOpacity>
   );
 }

@@ -22,7 +22,7 @@ function HeartBeatFocus(props) {
       style={[
         {height: 150},
         styles.borderContainers,
-        styles.m10,
+        styles.mt10,
         styles.centerXY,
         styles.p20,
         {
@@ -80,7 +80,7 @@ function HeartBeat(props) {
       style={[
         {height: 155},
         styles.borderContainers,
-        styles.m10,
+        styles.mt10,
         styles.centerXY,
         styles.p20,
         {

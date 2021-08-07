@@ -22,7 +22,7 @@ function StepsMeasureFocus(props) {
       style={[
         {height: 150},
         styles.borderContainers,
-        styles.m10,
+        styles.mt10,
         styles.centerXY,
         styles.p20,
         {
@@ -78,7 +78,7 @@ function StepsMeasure(props) {
       style={[
         {height: 120},
         styles.borderContainers,
-        styles.m10,
+        styles.mt10,
         styles.centerXY,
         styles.p20,
         {

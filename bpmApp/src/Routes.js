@@ -141,7 +141,7 @@ export default class Routes extends Component {
           <Drawer.Screen
             name="HeartBeat"
             options={{
-              headerShown: true,
+              headerShown: false,
               title: 'Batimentos',
             }}>
             {props => (
@@ -152,13 +152,18 @@ export default class Routes extends Component {
           </Drawer.Screen>
 
           <Drawer.Screen
-            options={{
-              //headerShown: true,
-              title: 'Passos',
-            }}
             name="Steps"
-            component={Steps}
-          />
+            options={{
+              headerShown: false,
+              title: 'Passos',
+            }}>
+            {props => (
+              <MainTemplate {...props}>
+                <Steps />
+              </MainTemplate>
+            )}
+          </Drawer.Screen>
+
           <Drawer.Screen
             options={{
               //headerShown: true,
