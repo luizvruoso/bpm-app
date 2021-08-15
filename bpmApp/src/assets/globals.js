@@ -995,6 +995,17 @@ export default styles = StyleSheet.create({
     elevation: variables.modalElevation,
   },
 
+  input: {
+    //flex: 1,
+    borderRadius: 3,
+    borderWidth: 0.2,
+    borderColor: '#000000',
+    height: 50,
+    backgroundColor: '#fcfcfc',
+    paddingLeft: 10,
+    marginBottom: 20,
+    fontSize: variables.fontNormal,
+  },
   //outras classes
   iconSm: {
     width: variables.iconSm,

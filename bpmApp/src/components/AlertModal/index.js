@@ -60,46 +60,52 @@ export default function index(props) {
           ]}>
           <View
             style={[
-              //styles.spaceAround,
               {width: '100%', height: '100%', backgroundColor: 'white'},
+              styles.spaceAround,
             ]}>
             <View style={[styles.mt30, styles.mb30, styles.p20]}>
-              <View style={[styles.row]}>
-                <Text>O alerta será disparado em: </Text>
+              <View style={[styles.row, styles.centerXY]}>
+                <Text style={[styles.h1, {color: '#d3ad3b'}]}>
+                  Disparando Alerta
+                </Text>
+              </View>
+              <View style={[styles.row, styles.centerXY]}>
+                <Text style={[{fontSize: variables.fontNormal}]}>
+                  O alerta será disparado em:
+                </Text>
+              </View>
+            </View>
+            <View style={[styles.p20]}>
+              <View style={[styles.row, styles.centerXY, styles.mt20]}>
+                <Text style={[{fontSize: variables.titulo1 + 18}]}>00:30</Text>
               </View>
             </View>
 
-            <TouchableOpacity
-              style={[
-                //styles.fullWidth,
-                styles.centerXY,
-                {width: '95%'},
-                styles.mx20,
-                styles.bgPrimary,
-                styles.p10,
-                styles.mb20,
-                styles.btnBorderRadius,
-              ]}
-              onPress={() => {
-                props.setModal(!props.status);
-
-                setModalVisible(!modalVisible);
-              }}>
-              <View style={[styles.row]}>
-                <Icon name="arrow-drop-down" color={variables.white} />
-
-                <Text
-                  style={[
-                    styles.ml5,
-                    styles.h5Primary,
-                    styles.colorWhite,
-                    styles.textCenter,
-                    {textTransform: 'uppercase'},
-                  ]}>
-                  Fechar
-                </Text>
-              </View>
-            </TouchableOpacity>
+            <View style={[styles.mt30, styles.mb30, styles.p20]}>
+              <TouchableOpacity
+                onPress={() => {
+                  props.setModal(!props.status);
+                }}
+                style={[
+                  styles.fullWidth,
+                  styles.centerXY,
+                  styles.p20,
+                  {backgroundColor: '#FD4755', borderRadius: 10},
+                ]}>
+                <View style={[styles.row]}>
+                  <Text
+                    style={[
+                      styles.ml5,
+                      styles.h5,
+                      styles.colorWhite,
+                      styles.textCenter,
+                      {textTransform: 'uppercase'},
+                    ]}>
+                    Cancelar Alerta
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
