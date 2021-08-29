@@ -1,9 +1,9 @@
-import {collectHeartBeatInfomation} from './middlewares';
+import {collectActualHeartBeatInfomation} from './middlewares';
 
-export function getHeartBeatData() {
+export function getActualHeartBeatData() {
   return dispatch => {
     dispatch(setLoadingData());
-    collectHeartBeatInfomation()
+    collectActualHeartBeatInfomation()
       .then(ret => {
         if (ret) {
           return dispatch(setHeartBeat(ret));
@@ -11,28 +11,28 @@ export function getHeartBeatData() {
       })
       .catch(err => {
         dispatch(setError(err));
-        console.error('Error while colleting heart beat data', err);
+        console.error('Error while colleting instant heart beat data', err);
       });
   };
 }
 
 function setHeartBeat(data) {
   return {
-    type: 'SET_HEART_BEAT',
+    type: 'SET_HEART_BEAT_INSTANT',
     payload: data,
   };
 }
 
 function setLoadingData() {
   return {
-    type: 'SET_LOADING_DATA',
+    type: 'SET_LOADING_DATA_INSTANT',
     payload: {},
   };
 }
 
 function setError(err) {
   return {
-    type: 'SET_ERROR',
+    type: 'SET_ERROR_INSTANT',
     payload: err,
   };
 }

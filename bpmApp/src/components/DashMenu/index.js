@@ -5,18 +5,26 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {variables} from '../../assets/variables';
 import {navigate} from '../../Routes';
 import AlertModal from '../../components/AlertModal';
+import {convertDate, fromDateTimeGetTime} from '../../assets/utils';
 
 export default function DashMenu(props) {
   const items = props.items;
-
+  const instantHeartBeatData = props.instantHeartBeatData;
+  const instantStepsData = props.instantStepsData;
   const makeMenu = () => {
     return items.map((item, index) => {
       if (item == 'steps') {
-        return <Steps key={index} />;
+        //return <View></View>;
+        return <Steps key={index} instantStepsData={instantStepsData[0]} />;
       }
 
       if (item == 'heartBeat') {
-        return <HeartBeat key={index} />;
+        return (
+          <HeartBeat
+            key={index}
+            instantHeartBeatData={instantHeartBeatData[0]}
+          />
+        );
       }
 
       if (item == 'alert') {
@@ -29,6 +37,8 @@ export default function DashMenu(props) {
 }
 
 function Steps(props) {
+  let steps = props.instantStepsData;
+
   return (
     <TouchableOpacity
       onPress={() => {
@@ -64,7 +74,7 @@ function Steps(props) {
         />
         <View style={[]}>
           <Text style={[{fontSize: 40}, styles.bold, styles.textLeft]}>
-            1500
+            {parseInt(steps.value)}
           </Text>
           <Text style={[{fontSize: variables.fontNormal}, styles.textRight]}>
             passos
@@ -76,6 +86,8 @@ function Steps(props) {
 }
 
 function HeartBeat(props) {
+  const instantHeartBeatData = props.instantHeartBeatData;
+
   return (
     <TouchableOpacity
       onPress={() => {
@@ -116,7 +128,7 @@ function HeartBeat(props) {
               styles.bold,
               styles.textLeft,
             ]}>
-            89
+            {parseInt(instantHeartBeatData.avegare)}
           </Text>
           <Text
             style={[

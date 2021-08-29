@@ -1,3 +1,5 @@
+import {now} from '../../../../assets/utils';
+
 const HeartBeatData = [
   84.2697, 84.2697, 84.0619, 85.6542, 87.2093, 87.1246, 86.8726, 86.7052,
   87.5899, 89.1475, 89.8204, 89.8204, 90.4375, 91.7605, 93.1081, 94.3291,
@@ -219,22 +221,20 @@ const HeartBeatData = [
   101.623, 99.5679, 99.1835, 98.8567,
 ];
 
-export async function collectHeartBeatInfomation() {
+export async function collectActualHeartBeatInfomation() {
   return new Promise((resolve, reject) => {
     var final = [];
-    var date = new Date('2021-08-10');
-    HeartBeatData.map((item, index) => {
-      if (index % 300 == 0) {
-        date.setMinutes(1440);
-      }
+    var date = now();
+
+    for (let i = 0; i < 180; i++) {
       final.push({
-        time: date.setHours(14),
-        value: item,
+        time: date,
+        value: HeartBeatData[i],
       });
-    });
+    }
 
     return setTimeout(() => {
-      return resolve(final.reverse());
+      return resolve(final);
     }, 500);
   });
 }

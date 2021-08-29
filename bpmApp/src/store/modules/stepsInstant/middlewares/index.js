@@ -1,3 +1,4 @@
+import {now} from '../../../../assets/utils';
 const steps = [
   161.41137464892017, 180.73707360693035, 121.32837050607796, 71.46783241829495,
   42.495631270461985, 39.68895374094301, 35.25743871309053, 56.461437759994794,
@@ -510,22 +511,20 @@ const steps = [
   171.84090612940105, 185.9115340096326, 144.57148453751932, 156.03343427772205,
 ];
 
-export async function collectSteps() {
+export async function collectActualSteps() {
   return new Promise((resolve, reject) => {
     var final = [];
-    var date = new Date('2021-08-10');
-    steps.map((item, index) => {
-      if (index % 300 == 0) {
-        date.setMinutes(1440);
-      }
+    var date = now();
+
+    for (let i = 0; i < 200; i++) {
       final.push({
-        time: date.setHours(22),
-        value: item,
+        time: date,
+        value: steps[i],
       });
-    });
+    }
 
     return setTimeout(() => {
-      return resolve(final.reverse());
+      return resolve(final);
     }, 500);
   });
 }

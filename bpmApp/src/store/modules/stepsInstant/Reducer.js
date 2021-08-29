@@ -1,14 +1,14 @@
 import produce from 'immer';
 
-export default function heartBeat(state = [], action) {
+export default function stepsInstant(state = [], action) {
   switch (action.type) {
-    case 'SET_HEART_BEAT':
+    case 'SET_INSTANT_STEPS':
       return action.payload;
-    case 'SET_LOADING_DATA':
+    case 'SET_LOADING_DATA_INSTANT_STEPS':
       return {
         status: 'loading',
       };
-    case 'SET_ERROR':
+    case 'SET_ERROR_INSTANT_STEPS':
       return {
         status: 'error',
         message: action.payload,

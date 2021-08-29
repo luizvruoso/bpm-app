@@ -1,9 +1,9 @@
-import {collectSteps} from './middlewares';
+import {collectActualSteps} from './middlewares';
 
-export function getSteps() {
+export function getActualSteps() {
   return dispatch => {
     dispatch(setLoadingData());
-    collectSteps()
+    collectActualSteps()
       .then(ret => {
         if (ret) {
           dispatch(setSteps(ret));
@@ -11,7 +11,7 @@ export function getSteps() {
       })
       .catch(err => {
         dispatch(setError(err));
-        console.error('error while colleting steps information', err);
+        console.error('error while colleting instant steps information', err);
         return false;
       });
   };
@@ -19,21 +19,21 @@ export function getSteps() {
 
 function setSteps(data) {
   return {
-    type: 'SET_STEPS',
+    type: 'SET_INSTANT_STEPS',
     payload: data,
   };
 }
 
 function setLoadingData() {
   return {
-    type: 'SET_LOADING_DATA_STEPS',
+    type: 'SET_LOADING_DATA_INSTANT_STEPS',
     payload: {},
   };
 }
 
 function setError(err) {
   return {
-    type: 'SET_ERROR_STEPS',
+    type: 'SET_ERROR_INSTANT_STEPS',
     payload: err,
   };
 }

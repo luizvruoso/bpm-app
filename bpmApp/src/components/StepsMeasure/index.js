@@ -1,22 +1,35 @@
-import React from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import React, {useCallback} from 'react';
+import {View, Text, Image, TouchableOpacity, FlatList} from 'react-native';
 import styles from '../../assets/globals';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {variables} from '../../assets/variables';
 import {navigate} from '../../Routes';
+import {convertDate, fromDateTimeGetTime} from '../../assets/utils';
 
 export default function index(props) {
   const items = props.items;
-
+  const stepsData = props.stepsData;
+  const instantStepsData = props.instantStepsData;
+  console.log(instantStepsData);
+  const Component = useCallback(({item}) => {
+    return <StepsMeasure {...item} />;
+  }, []);
   return (
-    <View>
-      <StepsMeasureFocus />
-      <StepsMeasure />
+    <View style={[styles.flex1]}>
+      <StepsMeasureFocus instantStepsData={instantStepsData[0]} />
+      <View style={[styles.flex1, {paddingBottom: 90}]}>
+        <FlatList
+          data={stepsData}
+          keyExtractor={(item, index) => index}
+          renderItem={Component}
+        />
+      </View>
     </View>
   );
 }
 
 function StepsMeasureFocus(props) {
+  const instantStepsData = props.instantStepsData;
   return (
     <View
       style={[
@@ -45,7 +58,9 @@ function StepsMeasureFocus(props) {
             //alignSelf: 'flex-start',
           },
         ]}>
-        <Text style={[{color: variables.darkGray3}]}>hoje</Text>
+        <Text style={[{color: variables.darkGray3}]}>
+          {fromDateTimeGetTime(instantStepsData?.time)}
+        </Text>
       </View>
 
       <View style={[styles.row, styles.my10, styles.centerXY]}>
@@ -61,7 +76,7 @@ function StepsMeasureFocus(props) {
               //styles.textLeft,
               styles.textVerticalCenter,
             ]}>
-            1.500
+            {parseInt(instantStepsData?.value)}
             <Text style={[{fontSize: 20, color: variables.darkGray3}]}>
               &nbsp; passos
             </Text>
@@ -101,7 +116,9 @@ function StepsMeasure(props) {
             alignSelf: 'flex-start',
           },
         ]}>
-        <Text style={[{color: variables.darkGray4}]}>Ontem</Text>
+        <Text style={[{color: variables.darkGray4}]}>
+          {convertDate(props.time)}
+        </Text>
       </View>
       <View
         style={[styles.row, styles.my5, {flex: 1, alignSelf: 'flex-start'}]}>
@@ -117,7 +134,7 @@ function StepsMeasure(props) {
               styles.textLeft,
               styles.textVerticalCenter,
             ]}>
-            1.550
+            {parseInt(props.value)}
             <Text
               style={[
                 {fontSize: 20, color: variables.darkGray3},

@@ -1,17 +1,30 @@
 import React from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableOpacity, FlatList} from 'react-native';
 import styles from '../../assets/globals';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {variables} from '../../assets/variables';
 import {navigate} from '../../Routes';
-
+import {useCallback} from 'react';
+import {convertDate, fromDateTimeGetTime} from '../../assets/utils';
 export default function HeartMeasure(props) {
   const items = props.items;
 
+  const heartBeatData = props.data;
+  const instantData = props.instantData;
+  const Component = useCallback(({item}) => {
+    return <HeartBeat {...item} />;
+  }, []);
+
   return (
-    <View>
-      <HeartBeatFocus />
-      <HeartBeat />
+    <View style={[styles.flex1]}>
+      <HeartBeatFocus {...instantData[0]} />
+      <View style={[styles.flex1, {paddingBottom: 90}]}>
+        <FlatList
+          data={heartBeatData}
+          keyExtractor={(item, index) => index}
+          renderItem={Component}
+        />
+      </View>
     </View>
   );
 }
@@ -45,7 +58,9 @@ function HeartBeatFocus(props) {
             //alignSelf: 'flex-start',
           },
         ]}>
-        <Text style={[{color: variables.white}]}>agora</Text>
+        <Text style={[{color: variables.white}]}>
+          {convertDate(props.date)}
+        </Text>
       </View>
 
       <View style={[styles.row, styles.my10, styles.centerXY]}>
@@ -63,7 +78,7 @@ function HeartBeatFocus(props) {
               //styles.textLeft,
               styles.textVerticalCenter,
             ]}>
-            89
+            {parseInt(props.avegare)}
             <Text style={[{fontSize: 20, color: variables.white}]}>
               &nbsp; bpm
             </Text>
@@ -75,6 +90,7 @@ function HeartBeatFocus(props) {
 }
 
 function HeartBeat(props) {
+  //console.log(props);
   return (
     <View
       style={[
@@ -103,7 +119,9 @@ function HeartBeat(props) {
             alignSelf: 'flex-start',
           },
         ]}>
-        <Text style={[{color: variables.darkGray4}]}>Hoje</Text>
+        <Text style={[{color: variables.darkGray4}]}>
+          {convertDate(props.date)}
+        </Text>
       </View>
       <View style={[styles.row, styles.my5, {flex: 1}]}>
         <Icon
@@ -120,7 +138,7 @@ function HeartBeat(props) {
               styles.textLeft,
               styles.textVerticalCenter,
             ]}>
-            89
+            {parseInt(props.avegare)}
             <Text
               style={[
                 {fontSize: 20, color: variables.darkGray3},
@@ -145,7 +163,7 @@ function HeartBeat(props) {
             //styles.fullWidth,
           ]}>
           <Text style={[{color: variables.darkGray4, textAlign: 'right'}]}>
-            14:00
+            {fromDateTimeGetTime(props.date)}
           </Text>
         </View>
       </View>
@@ -160,7 +178,7 @@ function HeartBeat(props) {
             min &nbsp;
           </Text>
           <Text style={[{fontSize: variables.fontLarger}, styles.bold]}>
-            85
+            {parseInt(props.min)}
           </Text>
         </View>
 
@@ -173,7 +191,7 @@ function HeartBeat(props) {
             máx &nbsp;
           </Text>
           <Text style={[{fontSize: variables.fontLarger}, styles.bold]}>
-            150
+            {parseInt(props.max)}
           </Text>
         </View>
       </View>

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -11,26 +11,110 @@ import DashMenu from '../components/DashMenu';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {variables} from '../assets/variables';
 import Header from '../components/Header';
+import {convertDate} from '../assets/utils';
+export function Home(props) {
+  const [actualHeartBeatData, setActualHeartBeatData] = useState({
+    status: 'loading',
+  });
+  const [stepsData, setStepsData] = useState({
+    status: 'loading',
+  });
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
-  }
+  useEffect(() => {
+    let {getActualHeartBeatData, getActualStepsData} = props;
+    getActualHeartBeatData();
+    getActualStepsData();
+  }, []);
 
-  render() {
-    return (
-      <View
-        style={[
-          {backgroundColor: variables.primary, height: '100%'},
-          styles.flex1,
-          styles.fullSize,
-          styles.m10,
-        ]}>
-        <Header navigation={this.props.navigation} />
-        <DashMenu items={['alert', 'steps', 'heartBeat']} />
-      </View>
-    );
-  }
+  useEffect(() => {
+    if (
+      props.heartBeatInstant.hasOwnProperty('status') &&
+      (props.heartBeatInstant.status == 'loading' ||
+        props.heartBeatInstant.status == 'error')
+    ) {
+      setActualHeartBeatData({
+        status: 'loading',
+      });
+    } else if (props.heartBeatInstant != null) {
+      let final = [];
+
+      props.heartBeatInstant.map((item, index) => {
+        let indexCtrl = final.findIndex((element, index) => {
+          return element.date == convertDate(item.time, false);
+        });
+        if (indexCtrl == -1) {
+          let max = item.value;
+          let min = item.value;
+          props.heartBeatInstant.map((element, index2) => {
+            if (
+              convertDate(element.time, false) == convertDate(item.time, false)
+            ) {
+              if (max < element.value) {
+                max = element.value;
+              }
+
+              if (min > element.value) {
+                min = element.value;
+              }
+            }
+          });
+
+          final.push({
+            date: convertDate(item.time, false),
+            time: item.time,
+            avegare: (max + min) / 2,
+            min,
+            max,
+          });
+        }
+      });
+      setActualHeartBeatData(final);
+    }
+  }, [props.heartBeatInstant]);
+
+  useEffect(() => {
+    if (
+      props.stepsInstant.hasOwnProperty('status') &&
+      (props.stepsInstant.status == 'loading' ||
+        props.stepsInstant.status == 'error')
+    ) {
+      setStepsData({
+        status: 'loading',
+      });
+    } else if (props.stepsInstant != null) {
+      let final = [];
+      let sum = 0;
+      props.stepsInstant.map((item, index) => {
+        sum += parseFloat(item.value);
+      });
+
+      setStepsData([
+        {
+          time: props.stepsInstant[0].time,
+          value: sum,
+        },
+      ]);
+    }
+  }, [props.stepsInstant]);
+  return (
+    <View
+      style={[
+        {backgroundColor: variables.primary, height: '100%'},
+        styles.flex1,
+        styles.fullSize,
+        styles.m10,
+      ]}>
+      <Header navigation={props.navigation} />
+      {!actualHeartBeatData.hasOwnProperty('status') &&
+        !stepsData.hasOwnProperty('status') && (
+          <DashMenu
+            items={['alert', 'heartBeat', 'steps']}
+            instantHeartBeatData={actualHeartBeatData}
+            instantStepsData={stepsData}
+          />
+        )}
+    </View>
+  );
 }
 
 export default Home;
