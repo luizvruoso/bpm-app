@@ -6,34 +6,21 @@ import LinearGradient from 'react-native-linear-gradient';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 export default function Login(props) {
+  let {telAuth} = props;
+console.log(props);
   return (
     <SafeAreaView>
       <LinearGradient colors={['#F0C882', '#F29282', '#fc196c']}>
         <View style={[styles.p10, styles.fullHeight, styles.centerY]}>
-          <View style={[styles.centerXY]}>
-            <Image
-              style={{height: 200, width: 200}}
-              source={require('../assets/img/icon/bpmLogo3.png')}
-            />
-          </View>
-          <View style={[styles.row, styles.mt10, {width: '60%'}, styles.mb10]}>
-            <Text
-              style={[
-                {
-                  fontSize: 45,
-                  fontWeight: 'normal',
-                  color: '#fff',
-                },
-              ]}>
-              Vamos começar!
-            </Text>
-          </View>
+          
+          
           <View style={[styles.row, styles.mt20, styles.mb10]}>
             <TextInput
               placeholder="(21) 55555-1234"
               placeholderTextColor={'#FCFCFC'}
               style={[
                 {
+                  height: 60,
                   color: '#FFF',
                   borderWidth: 1,
                   borderColor: '#FFF',
@@ -47,6 +34,9 @@ export default function Login(props) {
 
           <View style={[styles.row, styles.mt20]}>
             <TouchableOpacity
+            onPress={()=>{
+              telAuth("123")
+            }}
               style={[
                 styles.row,
                 styles.p10,
@@ -62,11 +52,7 @@ export default function Login(props) {
                 ]}>
                 Avançar
               </Text>
-              <Ionicons
-                name={'arrow-forward-circle-outline'}
-                size={variables.icon}
-                color={'#aaa'}
-              />
+             
             </TouchableOpacity>
           </View>
         </View>

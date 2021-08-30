@@ -1,9 +1,11 @@
 import {connect} from 'react-redux';
-import Login from '../screens/Login';
+import Routes from '../Routes';
 import {loginTelUser} from '../store/modules/user/Actions'
 
 const mapStateToProps = state => {
-  return {user: state.user};
+  return {
+    user: state.user,
+  };
 };
 
 const mapDispatchToProps = (dispatch, props) => {
@@ -15,4 +17,4 @@ const mapDispatchToProps = (dispatch, props) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Routes);

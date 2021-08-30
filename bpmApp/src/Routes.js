@@ -350,6 +350,9 @@ export default class Routes extends Component {
     );
   }
   render() {
+    let {user} = this.props;
+
+    if(user.isAuthenticated) return this.routeLogged();
     return this.routeNotLogged();
   }
 }
