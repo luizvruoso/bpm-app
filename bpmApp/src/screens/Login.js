@@ -7,7 +7,6 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 export default function Login(props) {
   let {telAuth} = props;
-console.log(props);
   return (
     <SafeAreaView>
       <LinearGradient colors={['#F0C882', '#F29282', '#fc196c']}>

@@ -15,6 +15,7 @@ export default function Contact(props) {
         <Text
           style={[
             {
+              marginTop:4,
               fontSize: variables.fontLarge,
               textAlignVertical: 'center',
               marginLeft: 8,
@@ -50,7 +51,7 @@ function ContactCard(props) {
 
         //styles.spaceAround,
       ]}>
-      <View style={[styles.row, styles.my10]}>
+      <View style={[styles.row, styles.my10, styles.centerXY, styles.spaceBetween]}>
         <Image
           style={{
             borderRadius: 40,

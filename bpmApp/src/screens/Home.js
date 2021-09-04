@@ -73,6 +73,7 @@ export function Home(props) {
   }, [props.heartBeatInstant]);
 
   useEffect(() => {
+    //console.log(props.stepsInstant)
     if (
       props.stepsInstant.hasOwnProperty('status') &&
       (props.stepsInstant.status == 'loading' ||
@@ -81,7 +82,7 @@ export function Home(props) {
       setStepsData({
         status: 'loading',
       });
-    } else if (props.stepsInstant != null) {
+    } else if (props.stepsInstant != null && props.stepsInstant.length > 0) {
       let final = [];
       let sum = 0;
       props.stepsInstant.map((item, index) => {
@@ -99,10 +100,11 @@ export function Home(props) {
   return (
     <View
       style={[
-        {backgroundColor: variables.primary, height: '100%'},
+        {backgroundColor: variables.primary, height: '100%',},
         styles.flex1,
         styles.fullSize,
         styles.m10,
+
       ]}>
       <Header navigation={props.navigation} />
       {!actualHeartBeatData.hasOwnProperty('status') &&
