@@ -44,23 +44,23 @@ export default function index(props) {
             //styles.fullWidth,
             //styles.spaceBetween,
             styles.overflowHidden,
-            styles.mx20,
+            //styles.mx20,
             styles.my30,
-            {
-              borderRadius: 20,
-              shadowColor: '#000',
-              shadowOffset: {
-                width: 0,
-                height: 8,
-              },
-              shadowOpacity: 0.46,
-              shadowRadius: 11.14,
-              elevation: 17,
-            },
           ]}>
           <View
             style={[
-              {width: '100%', height: '100%', backgroundColor: 'white'},
+              {width: '95%', height: '80%', backgroundColor: 'white'},
+              {
+                borderRadius: 20,
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 8,
+                },
+                shadowOpacity: 0.46,
+                shadowRadius: 11.14,
+                elevation: 17,
+              },
               styles.spaceAround,
             ]}>
             <View style={[styles.mt30, styles.mb30, styles.p20]}>

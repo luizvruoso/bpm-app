@@ -10,20 +10,6 @@ export default function Contact(props) {
 
   return (
     <View>
-      <TouchableOpacity style={[styles.row, styles.mt10]}>
-        <Icon name="add-circle" size={variables.iconLg} color={'#053245'} />
-        <Text
-          style={[
-            {
-              marginTop:4,
-              fontSize: variables.fontLarge,
-              textAlignVertical: 'center',
-              marginLeft: 8,
-            },
-          ]}>
-          Contato
-        </Text>
-      </TouchableOpacity>
       <ContactCard name="Michael Jorge" />
     </View>
   );
@@ -51,7 +37,8 @@ function ContactCard(props) {
 
         //styles.spaceAround,
       ]}>
-      <View style={[styles.row, styles.my10, styles.centerXY, styles.spaceBetween]}>
+      <View
+        style={[styles.row, styles.my10, styles.centerXY, styles.spaceBetween]}>
         <Image
           style={{
             borderRadius: 40,

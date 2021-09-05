@@ -131,8 +131,10 @@ function StepsRoute(props) {
 }
 
 function Root(props) {
+  const onLogout = props.extra.onLogout;
   return (
-    <Drawer.Navigator drawerContent={props => customDrawerContent(props)}>
+    <Drawer.Navigator
+      drawerContent={props => customDrawerContent(props, onLogout)}>
       <Drawer.Screen
         options={
           {
@@ -302,9 +304,6 @@ const customDrawerContent = (props, onLogout) => {
               color={variables.darkGray3}
             />
           )}
-          onPress={() => {
-            //onLogout();
-          }}
         />
 
         {/*<DrawerItemList {...props} />*/}
@@ -317,7 +316,10 @@ const customDrawerContent = (props, onLogout) => {
           styles.ml20,
           styles.textVerticalCenter,
           {width: '100%'},
-        ]}>
+        ]}
+        onPress={() => {
+          onLogout();
+        }}>
         <Icon name="logout" size={25} color={variables.darkGray3} />
         <Text
           style={[
@@ -347,9 +349,12 @@ export default class Routes extends Component {
   routeLogged() {
     // let {onLogout} = this.props;
     return (
-      <SafeAreaView style={[{flex: 1}, {backgroundColor: '#FFF'}]}>
+      <SafeAreaView style={[{flex: 1}, {backgroundColor: variables.primary}]}>
         <NavigationContainer ref={navigationRef}>
-          <StatusBar barStyle="dark-content" backgroundColor="#FFF" />
+          <StatusBar
+            barStyle="dark-content"
+            backgroundColor={variables.primary}
+          />
           <RootStack.Navigator>
             <RootStack.Screen options={{headerShown: false}} name="Root">
               {props => <Root {...props} extra={this.props} />}
