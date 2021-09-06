@@ -32,6 +32,23 @@ export function logout(tel) {
   };
 }
 
+export function saveUserData(data) {
+  return dispatch => {
+    if (data != null) {
+      dispatch(saveUserDataAction(data));
+    }
+  };
+}
+
+function saveUserDataAction(data) {
+  return {
+    type: 'SET_USER_INFO',
+    payload: {
+      userInfo: data,
+    },
+  };
+}
+
 function failedLogin() {
   return {
     type: 'SET_FAILED_LOGIN',
@@ -73,6 +90,16 @@ function sucessLogin(data) {
     type: 'SET_SUCESS_LOGIN',
     payload: {
       name: data.name,
+      userInfo: {
+        name: '',
+        phone: '',
+        birth: '',
+        weight: '',
+        height: '',
+        sex: '',
+        alzheimer: '',
+        wheelchairUser: '',
+      },
       loginMethod: data.loginMethod,
       userId: data.userId,
       username: data.username,

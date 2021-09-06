@@ -478,7 +478,7 @@ export default styles = StyleSheet.create({
     padding: variables.inputPadding,
     margin: variables.inputMargin,
     borderWidth: variables.inputBorderWidth,
-    borderColor: variables.gray3,
+    borderColor: variables.darkGray2,
     borderRadius: variables.inputBorderRadius,
     color: variables.darkGray4,
     fontSize: variables.fontNormal,

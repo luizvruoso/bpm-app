@@ -5,14 +5,14 @@ import styles from '../assets/globals';
 import LinearGradient from 'react-native-linear-gradient';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AvoidKeyboard from '../components/AvoidKeyboard';
+
 export default function Login(props) {
   let {telAuth} = props;
   return (
     <SafeAreaView>
       <LinearGradient colors={['#F0C882', '#F29282', '#fc196c']}>
         <View style={[styles.p10, styles.fullHeight, styles.centerY]}>
-          
-          
           <View style={[styles.row, styles.mt20, styles.mb10]}>
             <TextInput
               placeholder="(21) 55555-1234"
@@ -33,9 +33,9 @@ export default function Login(props) {
 
           <View style={[styles.row, styles.mt20]}>
             <TouchableOpacity
-            onPress={()=>{
-              telAuth("123")
-            }}
+              onPress={() => {
+                telAuth('123');
+              }}
               style={[
                 styles.row,
                 styles.p10,
@@ -51,7 +51,6 @@ export default function Login(props) {
                 ]}>
                 Avançar
               </Text>
-             
             </TouchableOpacity>
           </View>
         </View>

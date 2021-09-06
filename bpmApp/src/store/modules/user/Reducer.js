@@ -2,6 +2,16 @@ import produce from 'immer';
 
 const INIT_STATE = {
   name: null,
+  userInfo: {
+    name: '',
+    phone: '',
+    birth: '',
+    weight: '',
+    height: '',
+    sex: '',
+    alzheimer: '',
+    wheelchairUser: '',
+  },
   loginMethod: null,
   userId: null,
   username: null,
@@ -19,6 +29,10 @@ export default function user(state = INIT_STATE, action) {
       return action.payload;
     case 'SET_FAILED_LOGIN':
       return action.payload;
+    case 'SET_USER_INFO':
+      return produce(state, draft => {
+        draft.userInfo = action.payload.userInfo;
+      });
     case 'SET_LOGOUT':
       return INIT_STATE;
     default:

@@ -176,7 +176,7 @@ function MedicalRecordRoute(props) {
         }}>
         {props => (
           <MainTemplate {...props}>
-            <MedicalRecord />
+            <MedicalRecord {...props} />
           </MainTemplate>
         )}
       </RootStack.Screen>

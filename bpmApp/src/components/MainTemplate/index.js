@@ -15,9 +15,9 @@ export default function index(props) {
   //const Children = props.children;
   return (
     <View
-      style={[styles.p10, styles.pt20, {backgroundColor: variables.primary, }]}>
+      style={[styles.p10, styles.pt20, {backgroundColor: variables.primary}]}>
       {/*<Header />*/}
-      <View style={[styles.row, styles.mb10, ]}>
+      <View style={[styles.row, styles.mb10]}>
         <TouchableOpacity
           style={[styles.row]}
           onPress={() => {
@@ -35,7 +35,7 @@ export default function index(props) {
         </TouchableOpacity>
       </View>
 
-      <CustomContent />
+      <CustomContent navigation={props.navigation} />
     </View>
   );
 }

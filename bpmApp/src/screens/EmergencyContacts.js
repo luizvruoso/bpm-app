@@ -109,6 +109,7 @@ export function ModalContact(props) {
             </View>
             <View style={[styles.p20]}>
               <TextInput
+                placeholderTextColor={variables.gray3}
                 style={[
                   styles.input,
                   {
@@ -116,9 +117,11 @@ export function ModalContact(props) {
                     fontSize: variables.fontLarge,
                     textAlign: 'center',
                     padding: 0,
+                    borderWidth: 1,
+                    borderColor: '#CCC',
                   },
                 ]}
-                placeholder="#55231"
+                placeholder="55231"
               />
             </View>
 
