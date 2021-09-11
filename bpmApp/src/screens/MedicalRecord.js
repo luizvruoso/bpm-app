@@ -4,6 +4,7 @@ import React, {
   useState,
   useRef,
   useCallback,
+  memo,
 } from 'react';
 import {
   View,
@@ -31,69 +32,71 @@ import Header from '../components/Header';
 import HeartMeasure from '../components/HeartMeasure';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useFocusEffect} from '@react-navigation/native';
+import {useForm, Controller} from 'react-hook-form';
 
-export default function MedicalRecord(props) {
-  console.log(props.user);
+function MedicalRecord(props) {
   const [selectedLanguage, setSelectedLanguage] = useState();
-
   const [mounted, setMounted] = useState(true);
-  const [form, setForm] = useState({
-    name: '',
-    phone: '',
-    birth: '',
-    weight: '',
-    height: '',
-    sex: '',
-    alzheimer: '',
-    wheelchairUser: '',
+
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useForm({
+    mode: 'onSubmit',
+    defaultValues: {
+      name: props.user.userInfo.name,
+      phone: props.user.userInfo.phone,
+      birth: props.user.userInfo.birth,
+      heigth: props.user.userInfo.heigth,
+      weight: props.user.userInfo.weight,
+      sex: props.user.userInfo.sex,
+      alzheimer: props.user.userInfo.alzheimer,
+      wheelchair: props.user.userInfo.wheelchairUser,
+    },
   });
-  const [name, setName] = useState(props.user.userInfo.name);
-  const [phone, setPhone] = useState(props.user.userInfo.phone);
-  const [birth, setBirth] = useState(props.user.userInfo.birth);
-  const [heigth, setHeigth] = useState(props.user.userInfo.heigth);
-  const [weight, setWeight] = useState(props.user.userInfo.weight);
-  const [sex, setSex] = useState(props.user.userInfo.sex);
-  const [alzheimer, setAlzheimer] = useState(props.user.userInfo.alzheimer);
-  const [wheelchairUser, setWheelchairUser] = useState(
-    props.user.userInfo.alzheimer,
-  );
-
   useEffect(() => {
-    const {user} = props;
-    setForm({
-      name: user.userInfo.name,
-      phone: user.userInfo.phone,
-      birth: user.userInfo.birth,
-      weight: user.userInfo.weight,
-      height: user.userInfo.height,
-      sex: user.userInfo.sex,
-      alzheimer: user.userInfo.alzheimer,
-      wheelchairUser: user.userInfo.wheelchairUser,
-    });
+    console.log(new Date(), props.user.userInfo);
   }, []);
+  const onSubmit = data => send(data);
 
-  const handleBlurInput = () => {
+  const send = data => {
     const {saveData} = props;
-    console.log('ddd', heigth);
     saveData({
-      name,
-      phone,
-      birth,
-      heigth: heigth,
-      weight,
-      sex,
-      alzheimer,
-      wheelchairUser,
+      name: control._formValues.name,
+      phone: control._formValues.phone,
+      birth: control._formValues.birth,
+      heigth: control._formValues.heigth,
+      weight: control._formValues.weight,
+      sex: control._formValues.sex,
+      alzheimer: control._formValues.alzheimer,
+      wheelchairUser: control._formValues.wheelchair,
     });
   };
 
-  const handleChange = name => {
-    return value => {
-      setForm({
-        ...form,
-        [name]: value,
-      });
-    };
+  const formatCel = v => {
+    //var v = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+
+    var r = v.replace(/\D/g, '');
+    r = r.replace(/^0/, '');
+    if (r.length > 10) {
+      // 11+ digits. Format as 5+4.
+      // r = r.replace(/^(\d\d)(\d{5})(\d{4}).*/, '(0XX$1) $2-$3');
+      r = r.replace(/^(\d\d)(\d{5})(\d{4}).*/, '(0$1) $2-$3');
+    } else if (r.length > 6) {
+      // 6..10 digits. Format as 4+4
+      //r = r.replace(/^(\d\d)(\d{4})(\d{0,4}).*/, '(0XX$1) $2-$3');
+      r = r.replace(/^(\d\d)(\d{4})(\d{0,4}).*/, '(0$1) $2-$3');
+    } else if (r.length > 2) {
+      // 3..5 digits. Add (0XX..)
+      //r = r.replace(/^(\d\d)(\d{0,5})/, '(0XX$1) $2');
+      r = r.replace(/^(\d\d)(\d{0,5})/, '(0$1) $2');
+    } else if (r.length > 1) {
+      // 0..2 digits. Just add (0XX
+      //r = r.replace(/^(\d*)/, '(0XX$1');
+      r = r.replace(/^(\d*)/, '(0$1');
+    }
+    return r;
   };
 
   return (
@@ -103,16 +106,18 @@ export default function MedicalRecord(props) {
         styles.mt10,
         styles.mb10,
       ]}>
-      {/*<View style={[styles.row, {position: 'absolute', top: -55, right: 0}]}>
+      <View style={[styles.row, {position: 'absolute', top: -55, right: 0}]}>
         <TouchableOpacity
-          onPress={handleBlurInput}
+          onPress={handleSubmit(onSubmit)}
           style={[{padding: 10, backgroundColor: '#1D00AB', borderRadius: 10}]}>
           <Text style={[styles.textRight, {color: 'white'}]}>Salvar</Text>
         </TouchableOpacity>
-    </View>*/}
+      </View>
       <AvoidKeyboard>
-        <ScrollView style={[styles.flex1, {marginBottom: 80}]}>
-          <View style={[styles.row, styles.centerXY, styles.mr20]}>
+        <ScrollView
+          refreshControl={false}
+          style={[styles.flex1, {marginBottom: 80}]}>
+          <View style={[styles.row, styles.centerXY]}>
             <ImageUser />
             <View
               style={[
@@ -137,68 +142,183 @@ export default function MedicalRecord(props) {
             </View>
           </View>
 
-          <NomeInput
-            handleBlurInput={handleBlurInput}
-            handleChange={handleChange}
-            name={name}
-            setName={setName}
+          <Controller
+            control={control}
+            rules={{
+              required: false,
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <View>
+                <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>
+                  Nome:
+                </Text>
+                <TextInput
+                  onBlur={onBlur}
+                  autoCorrect={false}
+                  value={value}
+                  onChangeText={onChange}
+                  style={[styles.input, {borderWidth: 1, borderColor: '#CCC'}]}
+                  placeholderTextColor={variables.gray3}
+                  placeholder="Antonio Roberto"
+                />
+              </View>
+            )}
+            name="name"
+            //defaultValue={props.user.userInfo.name}
           />
 
-          <CelularInput
-            handleBlurInput={handleBlurInput}
-            handleChange={handleChange}
-            phone={phone}
-            setPhone={setPhone}
+          <Controller
+            control={control}
+            rules={{
+              required: false,
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <View>
+                <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>
+                  Celular:
+                </Text>
+
+                <TextInput
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={formatCel(value)}
+                  keyboardType="numeric"
+                  placeholderTextColor={variables.gray3}
+                  style={[styles.input, {borderWidth: 1, borderColor: '#CCC'}]}
+                  placeholder="11 21345-8891"
+                />
+              </View>
+            )}
+            name="phone"
+            //defaultValue=""
           />
 
-          <BirthInput
-            handleBlurInput={handleBlurInput}
-            handleChange={handleChange}
-            birth={birth}
-            setBirth={setBirth}
+          <Controller
+            control={control}
+            rules={{
+              required: false,
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <BirthInput
+                handleBlurInput={onBlur}
+                handleChange={onChange}
+                value={value}
+              />
+            )}
+            name="birth"
+            //defaultValue=""
           />
 
-          <WeightInput
-            handleBlurInput={handleBlurInput}
-            handleChange={handleChange}
-            weight={weight}
-            setWeight={setWeight}
+          <Controller
+            control={control}
+            rules={{
+              required: false,
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <View>
+                <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>
+                  Peso (Kg):
+                </Text>
+                <TextInput
+                  onBlur={onBlur}
+                  keyboardType="numeric"
+                  onChangeText={onChange}
+                  value={value}
+                  placeholderTextColor={variables.gray3}
+                  style={[styles.input, {borderWidth: 1, borderColor: '#CCC'}]}
+                  placeholder="90 Kg"
+                />
+              </View>
+            )}
+            name="weight"
+            //defaultValue=""
           />
 
-          <HeigthInput
-            handleBlurInput={handleBlurInput}
-            handleChange={handleChange}
-            heigth={heigth}
-            setHeigth={setHeigth}
+          <Controller
+            control={control}
+            rules={{
+              required: false,
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <View>
+                <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>
+                  Altura (cm):
+                </Text>
+
+                <TextInput
+                  onBlur={onBlur}
+                  keyboardType="numeric"
+                  onChangeText={onChange}
+                  value={value}
+                  placeholderTextColor={variables.gray3}
+                  style={[styles.input, {borderWidth: 1, borderColor: '#CCC'}]}
+                  placeholder="193"
+                />
+              </View>
+            )}
+            name="heigth"
+            //defaultValue=""
           />
 
-          <SexInput
-            handleBlurInput={handleBlurInput}
-            handleChange={handleChange}
-            sex={sex}
-            setSex={setSex}
+          <Controller
+            control={control}
+            rules={{
+              required: false,
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <SexInput
+                handleBlurInput={onBlur}
+                handleChange={onChange}
+                value={value}
+              />
+            )}
+            name="sex"
+            //defaultValue=""
           />
 
-          <AlzheimerInput
-            handleBlurInput={handleBlurInput}
-            handleChange={handleChange}
-            alzheimer={alzheimer}
-            setAlzheimer={setAlzheimer}
+          <Controller
+            control={control}
+            rules={{
+              required: false,
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <AlzheimerInput
+                handleBlurInput={onBlur}
+                handleChange={onChange}
+                value={value}
+              />
+            )}
+            name="alzheimer"
+            //defaultValue=""
           />
 
-          <WheelchairInput
-            handleBlurInput={handleBlurInput}
-            handleChange={handleChange}
-            wheelchairUser={wheelchairUser}
-            setWheelchairUser={setWheelchairUser}
+          <Controller
+            control={control}
+            rules={{
+              required: false,
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <WheelchairInput
+                handleBlurInput={onBlur}
+                handleChange={onChange}
+                value={value}
+              />
+            )}
+            name="wheelchair"
+            //defaultValue=""
           />
-
           <View style={{marginBottom: 30}}></View>
         </ScrollView>
       </AvoidKeyboard>
     </View>
   );
 }
+function areEqual(a, b) {
+  if (a === b) return true;
+  return true;
+}
+
+export default React.memo(MedicalRecord, areEqual);
 
 function ImageUser(props) {
   return (
@@ -226,81 +346,9 @@ function ImageUser(props) {
   );
 }
 
-function NomeInput(props) {
-  useEffect(() => {}, [props.name]);
-
-  return (
-    <View>
-      <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>Nome:</Text>
-      <TextInput
-        onBlur={props.handleBlurInput}
-        autoCorrect={false}
-        name="name"
-        value={props.name}
-        onChangeText={props.setName}
-        style={[styles.input, {borderWidth: 1, borderColor: '#CCC'}]}
-        placeholderTextColor={variables.gray3}
-        placeholder="Antonio Roberto"
-      />
-    </View>
-  );
-}
-
-function CelularInput(props) {
-  useEffect(() => {}, [props.phone]);
-
-  const formatCel = v => {
-    //var v = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
-
-    var r = v.replace(/\D/g, '');
-    r = r.replace(/^0/, '');
-    if (r.length > 10) {
-      // 11+ digits. Format as 5+4.
-      // r = r.replace(/^(\d\d)(\d{5})(\d{4}).*/, '(0XX$1) $2-$3');
-      r = r.replace(/^(\d\d)(\d{5})(\d{4}).*/, '(0$1) $2-$3');
-    } else if (r.length > 6) {
-      // 6..10 digits. Format as 4+4
-      //r = r.replace(/^(\d\d)(\d{4})(\d{0,4}).*/, '(0XX$1) $2-$3');
-      r = r.replace(/^(\d\d)(\d{4})(\d{0,4}).*/, '(0$1) $2-$3');
-    } else if (r.length > 2) {
-      // 3..5 digits. Add (0XX..)
-      //r = r.replace(/^(\d\d)(\d{0,5})/, '(0XX$1) $2');
-      r = r.replace(/^(\d\d)(\d{0,5})/, '(0$1) $2');
-    } else {
-      // 0..2 digits. Just add (0XX
-      //r = r.replace(/^(\d*)/, '(0XX$1');
-      r = r.replace(/^(\d*)/, '(0$1');
-    }
-    return r;
-  };
-
-  return (
-    <View>
-      <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>
-        Celular:
-      </Text>
-
-      <TextInput
-        onBlur={props.handleBlurInput}
-        name="phone"
-        onChangeText={props.setPhone}
-        value={formatCel(props.phone)}
-        placeholderTextColor={variables.gray3}
-        style={[styles.input, {borderWidth: 1, borderColor: '#CCC'}]}
-        placeholder="11 21345-8891"
-      />
-    </View>
-  );
-}
-
 function BirthInput(props) {
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(props.value);
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (props.birth != null && props.birth != date) setDate(props.birth);
-  }, [props.birth]);
-
   return (
     <View>
       <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>
@@ -328,7 +376,9 @@ function BirthInput(props) {
           ]}
           onPress={() => setOpen(true)}>
           <Text style={[styles.mt5]}>
-            {date == null ? 'Selecione uma data' : convertDate(date)}
+            {isNaN(new Date(date).getTime())
+              ? 'Selecione uma data'
+              : convertDate(date)}
           </Text>
           <Icon
             name="keyboard-arrow-down"
@@ -347,7 +397,7 @@ function BirthInput(props) {
             setOpen(false);
             //setDate(new Date(date));
 
-            props.setBirth(date);
+            props.handleChange(date);
           }}
           onCancel={() => {
             setOpen(false);
@@ -358,58 +408,13 @@ function BirthInput(props) {
   );
 }
 
-function WeightInput(props) {
-  useEffect(() => {}, [props.weight]);
-
-  return (
-    <View>
-      <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>
-        Peso (Kg):
-      </Text>
-      <TextInput
-        onBlur={props.handleBlurInput}
-        keyboardType="numeric"
-        onChangeText={props.setWeight}
-        value={props.weight}
-        placeholderTextColor={variables.gray3}
-        style={[styles.input, {borderWidth: 1, borderColor: '#CCC'}]}
-        placeholder="90 Kg"
-      />
-    </View>
-  );
-}
-
-function HeigthInput(props) {
-  const [heigth, setHeigth] = useState('');
-  useEffect(() => {}, [props.heigth]);
-
-  const handleBlurInput = () => {
-    props.setHeigth(heigth);
-    console.log(heigth);
-    props.handleBlurInput();
-  };
-  return (
-    <View>
-      <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>
-        Altura (cm):
-      </Text>
-
-      <TextInput
-        onBlur={handleBlurInput}
-        keyboardType="numeric"
-        onChangeText={setHeigth}
-        value={heigth}
-        placeholderTextColor={variables.gray3}
-        style={[styles.input, {borderWidth: 1, borderColor: '#CCC'}]}
-        placeholder="193"
-      />
-    </View>
-  );
-}
-
 function AlzheimerInput(props) {
-  useEffect(() => {}, [props.alzheimer]);
+  const convertToString = val => {
+    if (val) return 'Sim';
+    else if (val === false) return 'Não';
 
+    return 'Selecione uma Opção';
+  };
   return (
     <View>
       <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>
@@ -432,8 +437,8 @@ function AlzheimerInput(props) {
         <RNPickerSelect
           onClose={props.handleBlurInput}
           placeholder={{
-            label: 'Selecione uma opção',
-            value: null,
+            label: convertToString(props.value),
+            value: props.value,
           }}
           Icon={() => {
             return (
@@ -444,10 +449,10 @@ function AlzheimerInput(props) {
               />
             );
           }}
-          onValueChange={props.setAlzheimer}
+          onValueChange={value => props.handleChange(value)}
           items={[
-            {label: 'Sim', value: 'true'},
-            {label: 'Não', value: 'no'},
+            {label: 'Sim', value: true},
+            {label: 'Não', value: false},
           ]}
         />
       </View>
@@ -456,6 +461,10 @@ function AlzheimerInput(props) {
 }
 
 function SexInput(props) {
+  const convertToString = val => {
+    if (val == 'male') return 'Masculino';
+    return 'Feminino';
+  };
   return (
     <View>
       <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>Sexo:</Text>
@@ -476,8 +485,11 @@ function SexInput(props) {
         <RNPickerSelect
           onClose={props.handleBlurInput}
           placeholder={{
-            label: 'Selecione uma opção',
-            value: null,
+            label:
+              props.value != null
+                ? convertToString(props.value)
+                : 'Selecione uma opção',
+            value: props.value,
           }}
           Icon={() => {
             return (
@@ -488,7 +500,7 @@ function SexInput(props) {
               />
             );
           }}
-          onValueChange={props.setSex}
+          onValueChange={value => props.handleChange(value)}
           items={[
             {label: 'Masculino', value: 'male'},
             {label: 'Feminino', value: 'female'},
@@ -500,8 +512,12 @@ function SexInput(props) {
 }
 
 function WheelchairInput(props) {
-  useEffect(() => {}, [props.wheelchairUser]);
+  const convertToString = val => {
+    if (val) return 'Sim';
+    else if (val === false) return 'Não';
 
+    return 'Selecione uma Opção';
+  };
   return (
     <View>
       <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>
@@ -511,21 +527,21 @@ function WheelchairInput(props) {
         style={[
           {
             marginBottom: 20,
+            borderRadius: 5,
             flex: 1,
             borderColor: '#ccc',
             borderWidth: 1,
             padding: 10,
             height: 50,
             backgroundColor: '#fcfcfc',
-            borderRadius: 5,
           },
           styles.centerXY,
         ]}>
         <RNPickerSelect
           onClose={props.handleBlurInput}
           placeholder={{
-            label: 'Selecione uma opção',
-            value: null,
+            label: convertToString(props.value),
+            value: props.value,
           }}
           Icon={() => {
             return (
@@ -536,10 +552,10 @@ function WheelchairInput(props) {
               />
             );
           }}
-          onValueChange={props.setWheelchairUser}
+          onValueChange={value => props.handleChange(value)}
           items={[
-            {label: 'Sim', value: 'true'},
-            {label: 'Não', value: 'no'},
+            {label: 'Sim', value: true},
+            {label: 'Não', value: false},
           ]}
         />
       </View>
@@ -552,11 +568,10 @@ function AvoidKeyboard(props) {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={40}
+      enabled
       //behavior="position"
       style={{flex: 1}}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{flex: 1}}>{props.children}</View>
-      </TouchableWithoutFeedback>
+      <View style={{flex: 1, zIndex: 9999}}>{props.children}</View>
     </KeyboardAvoidingView>
   );
 }

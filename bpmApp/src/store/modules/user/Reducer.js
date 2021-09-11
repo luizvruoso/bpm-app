@@ -5,7 +5,7 @@ const INIT_STATE = {
   userInfo: {
     name: '',
     phone: '',
-    birth: '',
+    birth: null,
     weight: '',
     height: '',
     sex: '',
