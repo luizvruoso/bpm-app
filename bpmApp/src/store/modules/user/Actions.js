@@ -1,11 +1,14 @@
-import {telAuth, logoutFetch} from './middlewares';
+import {sendCodeTel, logoutFetch} from './middlewares';
 
-export function loginTelUser(tel) {
+export function sendTokenTel(tel) {
   return dispatch => {
-    telAuth(tel)
+    sendCodeTel(tel)
       .then(ret => {
         if (ret != null) {
-          return dispatch(sucessLogin(ret));
+
+          console.warn(ret);
+
+          //return dispatch(sucessLogin(ret));
         }
       })
       .catch(err => {

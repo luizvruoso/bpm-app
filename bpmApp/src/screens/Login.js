@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import {variables} from '../assets/variables';
 import styles from '../assets/globals';
@@ -8,7 +8,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AvoidKeyboard from '../components/AvoidKeyboard';
 
 export default function Login(props) {
-  let {telAuth} = props;
+  const [tel, setTel] = useState(null);
+  let {sendToken} = props;
   return (
     <SafeAreaView>
       <LinearGradient colors={['#F0C882', '#F29282', '#fc196c']}>
@@ -17,6 +18,8 @@ export default function Login(props) {
             <TextInput
               placeholder="(21) 55555-1234"
               placeholderTextColor={'#FCFCFC'}
+              value={tel}
+              onChangeText={setTel}
               style={[
                 {
                   height: 60,
@@ -34,7 +37,7 @@ export default function Login(props) {
           <View style={[styles.row, styles.mt20]}>
             <TouchableOpacity
               onPress={() => {
-                telAuth('123');
+                sendToken(tel);
               }}
               style={[
                 styles.row,

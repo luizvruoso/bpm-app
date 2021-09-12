@@ -1,5 +1,21 @@
-export async function telAuth() {
-  return new Promise((resolve, reject) => {
+import {fetchAPI} from '../../../../services/api';
+import {URL_API} from '../../../../env';
+export async function sendCodeTel(tel) {
+  return fetchAPI(
+    'POST',
+    URL_API.AUTH.SEND_CODE+"?phoneNumber=55"+tel,
+    null,
+    null,
+  )
+    .then(ret => {
+      if (ret) return ret;
+      return false;
+    })
+    .catch(err => {
+      return false;
+    });
+
+ /* return new Promise((resolve, reject) => {
     let aux = {
       name: 'Jorge Felicio',
       loginMethod: 'tel',
@@ -16,7 +32,7 @@ export async function telAuth() {
     return setTimeout(() => {
       return resolve(aux);
     }, 500);
-  });
+  });*/
 }
 
 export async function logoutFetch() {
