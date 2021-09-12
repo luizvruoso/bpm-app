@@ -9,7 +9,9 @@ import AvoidKeyboard from '../components/AvoidKeyboard';
 
 export default function Login(props) {
   const [tel, setTel] = useState(null);
-  let {sendToken} = props;
+  const [auth, setAuth] = useState(null);
+
+  const {sendToken, validateToken} = props;
   return (
     <SafeAreaView>
       <LinearGradient colors={['#F0C882', '#F29282', '#fc196c']}>
@@ -52,10 +54,56 @@ export default function Login(props) {
                   styles.textVerticalCenter,
                   {fontSize: 20, color: '#aaa'},
                 ]}>
+                Solicitar Codigo
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={[styles.row, styles.mt20, styles.mb10]}>
+            <TextInput
+              placeholder="22222"
+              placeholderTextColor={'#FCFCFC'}
+              value={auth}
+              onChangeText={setAuth}
+              style={[
+                {
+                  height: 60,
+                  color: '#FFF',
+                  borderWidth: 1,
+                  borderColor: '#FFF',
+                  width: '100%',
+                  borderRadius: 5,
+                },
+                styles.p10,
+              ]}
+            />
+          </View>
+
+          <View style={[styles.row, styles.mt20]}>
+            <TouchableOpacity
+              onPress={() => {
+                validateToken(tel, auth);
+              }}
+              style={[
+                styles.row,
+                styles.p10,
+                styles.bgWhite,
+                {width: '40%'},
+                styles.btnBorderRadius,
+                styles.spaceBetween,
+              ]}>
+              <Text
+                style={[
+                  styles.textVerticalCenter,
+                  {fontSize: 20, color: '#aaa'},
+                ]}>
                 Avançar
               </Text>
             </TouchableOpacity>
           </View>
+
+
+
         </View>
       </LinearGradient>
     </SafeAreaView>

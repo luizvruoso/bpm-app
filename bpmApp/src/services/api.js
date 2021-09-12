@@ -12,8 +12,8 @@ export async function fetchAPI(method, path, params = {}, data = {}) {
     params: params,
     data: data,
     header: {
-      ContentType: 'application/json',
-      Authorization: 'Bearer ' + URL_API.CREDENTIALS.BEARER_TOKEN,
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + URL_API.CREDENTIALS.BASIC_AUTH,
     },
   })
     .then(function (response) {

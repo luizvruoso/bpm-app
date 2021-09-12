@@ -3,8 +3,8 @@ import {URL_API} from '../../../../env';
 export async function sendCodeTel(tel) {
   return fetchAPI(
     'POST',
-    URL_API.AUTH.SEND_CODE+"?phoneNumber=55"+tel,
-    null,
+    URL_API.AUTH.SEND_CODE,
+    {phoneNumber: '55' + tel},
     null,
   )
     .then(ret => {
@@ -15,7 +15,7 @@ export async function sendCodeTel(tel) {
       return false;
     });
 
- /* return new Promise((resolve, reject) => {
+  /* return new Promise((resolve, reject) => {
     let aux = {
       name: 'Jorge Felicio',
       loginMethod: 'tel',
@@ -33,6 +33,22 @@ export async function sendCodeTel(tel) {
       return resolve(aux);
     }, 500);
   });*/
+}
+
+export async function authenticateUserToken(tel, auth) {
+  return fetchAPI(
+    'POST',
+    URL_API.AUTH.AUTH_CODE,
+    {code: auth, phone: '55' + tel},
+    null,
+  )
+    .then(ret => {
+      if (ret) return ret;
+      return false;
+    })
+    .catch(err => {
+      return false;
+    });
 }
 
 export async function logoutFetch() {

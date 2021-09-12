@@ -1,12 +1,29 @@
-import {sendCodeTel, logoutFetch} from './middlewares';
+import {sendCodeTel, logoutFetch, authenticateUserToken} from './middlewares';
 
 export function sendTokenTel(tel) {
   return dispatch => {
     sendCodeTel(tel)
       .then(ret => {
         if (ret != null) {
-
           console.warn(ret);
+
+          //return dispatch(sucessLogin(ret));
+        }
+      })
+      .catch(err => {
+        console.error(err);
+
+        return dispatch(failedLogin());
+      });
+  };
+}
+
+export function validateToken(tel, auth) {
+  return dispatch => {
+    authenticateUserToken(tel, auth)
+      .then(ret => {
+        if (ret != null) {
+          console.log(ret);
 
           //return dispatch(sucessLogin(ret));
         }
