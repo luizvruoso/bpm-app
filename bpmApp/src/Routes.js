@@ -42,6 +42,7 @@ import AlertScreen from './containers/Alert';
 import MedicalRecord from './containers/MedicalRecord';
 import EmergencyContacts from './containers/EmergencyContacts';
 import Login from './containers/Login';
+import TypeAuthCode from './containers/TypeAuthCode';
 
 const navigationRef = React.createRef();
 
@@ -392,13 +393,12 @@ export default class Routes extends Component {
           <StatusBar barStyle="dark-content" backgroundColor="#FFF" />
 
           <RootStack.Navigator
-            initialRouteName="Login"
             screenOptions={{
               headerShown: false,
-
-              //headerStyle: {backgroundColor: 'tomato'},
-            }}>
+            }}
+            initialRouteName="Login">
             <RootStack.Screen name="Login" component={Login} />
+            <RootStack.Screen name="TypeAuthCode" component={TypeAuthCode} />
           </RootStack.Navigator>
         </NavigationContainer>
       </SafeAreaView>

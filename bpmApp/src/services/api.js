@@ -3,6 +3,7 @@ import {URL_API} from '../env';
 
 const API = axios.create({
   baseURL: URL_API.URL,
+  headers: {Authorization: 'Basic ' + URL_API.CREDENTIALS.BASIC_AUTH},
 });
 
 export async function fetchAPI(method, path, params = {}, data = {}) {
@@ -11,10 +12,7 @@ export async function fetchAPI(method, path, params = {}, data = {}) {
     url: path,
     params: params,
     data: data,
-    header: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + URL_API.CREDENTIALS.BASIC_AUTH,
-    },
+    //withCredentials: true,
   })
     .then(function (response) {
       return response;

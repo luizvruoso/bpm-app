@@ -1,33 +1,52 @@
-import React, {useState} from 'react';
-import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  ImageBackground,
+} from 'react-native';
 import {variables} from '../assets/variables';
 import styles from '../assets/globals';
 import LinearGradient from 'react-native-linear-gradient';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AvoidKeyboard from '../components/AvoidKeyboard';
-
+import {navigate} from '../Routes';
+import {formatCel} from '../assets/utils';
 export default function Login(props) {
-  const [tel, setTel] = useState(null);
-  const [auth, setAuth] = useState(null);
+  const [phone, setPhone] = useState('');
+  const [showCodView, setCodView] = useState(false);
 
   const {sendToken, validateToken} = props;
+
   return (
-    <SafeAreaView>
-      <LinearGradient colors={['#F0C882', '#F29282', '#fc196c']}>
-        <View style={[styles.p10, styles.fullHeight, styles.centerY]}>
+    <SafeAreaView style={[styles.flex1, styles.bgWhite]}>
+      <View style={[styles.flex1, styles.centerXY]}>
+        <Image
+          style={{height: 95, width: 120}}
+          source={require('../assets/img/logo.png')}
+        />
+      </View>
+
+      <View
+        style={[styles.flex1, styles.centerX, {backgroundColor: '#ff6a61'}]}>
+        <View style={[styles.p10]}>
           <View style={[styles.row, styles.mt20, styles.mb10]}>
             <TextInput
               placeholder="(21) 55555-1234"
-              placeholderTextColor={'#FCFCFC'}
-              value={tel}
-              onChangeText={setTel}
+              placeholderTextColor={'#FFF'}
+              value={formatCel(phone)}
+              onChangeText={setPhone}
               style={[
                 {
-                  height: 60,
-                  color: '#FFF',
+                  width: '100%',
                   borderWidth: 1,
                   borderColor: '#FFF',
+                  fontSize: 16,
+                  height: 50,
+                  color: '#FFF',
                   width: '100%',
                   borderRadius: 5,
                 },
@@ -39,73 +58,33 @@ export default function Login(props) {
           <View style={[styles.row, styles.mt20]}>
             <TouchableOpacity
               onPress={() => {
-                sendToken(tel);
+                console.log(phone.length);
+                if (phone.length == 16) {
+                  sendToken(phone);
+
+                  navigate('TypeAuthCode', {phone: phone});
+                }
               }}
               style={[
                 styles.row,
-                styles.p10,
-                styles.bgWhite,
-                {width: '40%'},
+                //styles.bgWhite,
                 styles.btnBorderRadius,
-                styles.spaceBetween,
-              ]}>
-              <Text
-                style={[
-                  styles.textVerticalCenter,
-                  {fontSize: 20, color: '#aaa'},
-                ]}>
-                Solicitar Codigo
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={[styles.row, styles.mt20, styles.mb10]}>
-            <TextInput
-              placeholder="22222"
-              placeholderTextColor={'#FCFCFC'}
-              value={auth}
-              onChangeText={setAuth}
-              style={[
+                styles.centerXY,
                 {
-                  height: 60,
-                  color: '#FFF',
-                  borderWidth: 1,
-                  borderColor: '#FFF',
                   width: '100%',
-                  borderRadius: 5,
+                  height: 60,
+                  borderColor: '#FFF',
+                  backgroundColor: '#FFF',
                 },
-                styles.p10,
-              ]}
-            />
-          </View>
-
-          <View style={[styles.row, styles.mt20]}>
-            <TouchableOpacity
-              onPress={() => {
-                validateToken(tel, auth);
-              }}
-              style={[
-                styles.row,
-                styles.p10,
-                styles.bgWhite,
-                {width: '40%'},
-                styles.btnBorderRadius,
-                styles.spaceBetween,
               ]}>
               <Text
-                style={[
-                  styles.textVerticalCenter,
-                  {fontSize: 20, color: '#aaa'},
-                ]}>
-                Avançar
+                style={[styles.textCenter, {fontSize: 18, color: '#ff6a61'}]}>
+                Enviar Código
               </Text>
             </TouchableOpacity>
           </View>
-
-
-
         </View>
-      </LinearGradient>
+      </View>
     </SafeAreaView>
   );
 }

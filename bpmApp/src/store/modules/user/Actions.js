@@ -1,13 +1,14 @@
 import {sendCodeTel, logoutFetch, authenticateUserToken} from './middlewares';
 
-export function sendTokenTel(tel) {
+export function sendTokenTel(phone) {
   return dispatch => {
-    sendCodeTel(tel)
+    //return dispatch(setStepTypeCode(phone));
+    sendCodeTel(phone)
       .then(ret => {
-        if (ret != null) {
+        if (ret != false) {
+          //return dispatch(setStepTypeCode(phone));
+        } else {
           console.warn(ret);
-
-          //return dispatch(sucessLogin(ret));
         }
       })
       .catch(err => {
@@ -18,14 +19,36 @@ export function sendTokenTel(tel) {
   };
 }
 
-export function validateToken(tel, auth) {
+export function validateToken(phone, auth) {
   return dispatch => {
-    authenticateUserToken(tel, auth)
+    authenticateUserToken(phone, auth)
       .then(ret => {
-        if (ret != null) {
-          console.log(ret);
-
-          //return dispatch(sucessLogin(ret));
+        if (ret != false) {
+          const aux = {
+            name: '',
+            userInfo: {
+              name: '',
+              phone: '',
+              birth: '',
+              weight: '',
+              height: '',
+              sex: '',
+              alzheimer: '',
+              wheelchairUser: '',
+            },
+            loginMethod: 'phone',
+            userId: ret.data.id,
+            username: ret.data.username,
+            isAuthenticated: true,
+            expiresIn: null,
+            token: ret.data.token,
+            refreshToken: null,
+            error: null,
+            loading: null,
+            message: null,
+            roles: null,
+          };
+          return dispatch(sucessLogin(aux));
         }
       })
       .catch(err => {
@@ -57,6 +80,15 @@ export function saveUserData(data) {
     if (data != null) {
       dispatch(saveUserDataAction(data));
     }
+  };
+}
+
+function setStepTypeCode(phone) {
+  return {
+    type: 'SET_STEP_TYPE_CODE',
+    payload: {
+      phone: phone,
+    },
   };
 }
 
@@ -126,6 +158,8 @@ function sucessLogin(data) {
       isAuthenticated: data.isAuthenticated,
       expiresIn: data.expiresIn,
       error: data.error,
+      token: data.token,
+      refreshToken: data.refreshToken,
       loading: data.loading,
       message: data.message,
       roles: data.roles,

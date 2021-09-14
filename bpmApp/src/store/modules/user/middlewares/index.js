@@ -8,7 +8,7 @@ export async function sendCodeTel(tel) {
     null,
   )
     .then(ret => {
-      if (ret) return ret;
+      if (ret?.status == 200) return ret.data;
       return false;
     })
     .catch(err => {
@@ -43,7 +43,7 @@ export async function authenticateUserToken(tel, auth) {
     null,
   )
     .then(ret => {
-      if (ret) return ret;
+      if (ret?.status == 200) return ret;
       return false;
     })
     .catch(err => {

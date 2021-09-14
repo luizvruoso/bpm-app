@@ -22,6 +22,7 @@ export function Home(props) {
 
   useEffect(() => {
     let {getActualHeartBeatData, getActualStepsData} = props;
+    console.log(props.user);
     getActualHeartBeatData();
     getActualStepsData();
   }, []);
@@ -100,11 +101,10 @@ export function Home(props) {
   return (
     <View
       style={[
-        {backgroundColor: variables.primary, height: '100%',},
+        {backgroundColor: variables.primary, height: '100%'},
         styles.flex1,
         styles.fullSize,
         styles.m10,
-
       ]}>
       <Header navigation={props.navigation} />
       {!actualHeartBeatData.hasOwnProperty('status') &&
