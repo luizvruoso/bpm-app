@@ -36,6 +36,12 @@ export default function user(state = INIT_STATE, action) {
       return produce(state, draft => {
         draft.userInfo = action.payload.userInfo;
       });
+
+    case 'SET_USER_ROLE':
+      return produce(state, draft => {
+        draft.roles = action.payload.roles;
+        return draft;
+      });
     case 'SET_STEP_TYPE_CODE':
       return produce(state, draft => {
         draft.loginMethod = 'phone';
@@ -44,6 +50,7 @@ export default function user(state = INIT_STATE, action) {
       });
     case 'SET_LOGOUT':
       return INIT_STATE;
+
     default:
       return state;
   }

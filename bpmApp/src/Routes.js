@@ -43,6 +43,7 @@ import MedicalRecord from './containers/MedicalRecord';
 import EmergencyContacts from './containers/EmergencyContacts';
 import Login from './containers/Login';
 import TypeAuthCode from './containers/TypeAuthCode';
+import FirstRegister from './containers/FirstRegister';
 
 const navigationRef = React.createRef();
 
@@ -347,6 +348,27 @@ export default class Routes extends Component {
     return <Text style={{color: '#000', fontSize: 30}}> Pronto </Text>;
   }
 
+  routeFirstAccess() {
+    return (
+      <SafeAreaView style={[{flex: 1}, {backgroundColor: variables.primary}]}>
+        <NavigationContainer ref={navigationRef}>
+          <StatusBar
+            barStyle="dark-content"
+            backgroundColor={variables.primary}
+          />
+
+          <RootStack.Navigator>
+            <RootStack.Screen
+              options={{headerShown: false}}
+              name="FirstRegister"
+              component={FirstRegister}
+            />
+          </RootStack.Navigator>
+        </NavigationContainer>
+      </SafeAreaView>
+    );
+  }
+
   routeLogged() {
     // let {onLogout} = this.props;
     return (
@@ -386,6 +408,7 @@ export default class Routes extends Component {
       </SafeAreaView>
     );
   }
+
   routeNotLogged() {
     return (
       <SafeAreaView style={[{flex: 1}, {backgroundColor: '#FFF'}]}>
@@ -404,9 +427,11 @@ export default class Routes extends Component {
       </SafeAreaView>
     );
   }
+
   render() {
     let {user} = this.props;
-
+    if (user.isAuthenticated && user.roles == null)
+      return this.routeFirstAccess();
     if (user.isAuthenticated) return this.routeLogged();
     return this.routeNotLogged();
   }

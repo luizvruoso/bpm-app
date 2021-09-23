@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -14,9 +14,10 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AvoidKeyboard from '../components/AvoidKeyboard';
 import {formatCel} from '../assets/utils';
-export default function TypeAuthCode(props) {
-  const [auth, setAuth] = useState(null);
+import {navigate} from '../Routes';
 
+export default function TypeAuthCode(props) {
+  const [auth, setAuth] = useState('');
   return (
     <SafeAreaView style={[styles.flex1, {backgroundColor: variables.primary}]}>
       <View style={[styles.flex1, styles.centerXY]}>
@@ -37,10 +38,12 @@ export default function TypeAuthCode(props) {
         <View style={[styles.flex2, styles.p10]}>
           <View style={[styles.row, styles.mt20, styles.mb10]}>
             <TextInput
+              autoCapitalize="characters"
               placeholder="MKJ123"
               placeholderTextColor={'#898989'}
-              value={auth}
+              value={auth.toUpperCase()}
               onChangeText={setAuth}
+              maxLength={6}
               style={[
                 {
                   width: '100%',
@@ -71,7 +74,7 @@ export default function TypeAuthCode(props) {
                   width: '100%',
                   height: 60,
                   borderColor: '#FFF',
-                  backgroundColor: '#ff6a61',
+                  backgroundColor: variables.secondary,
                 },
               ]}>
               <Text style={[styles.textCenter, {fontSize: 18, color: '#FFF'}]}>
@@ -87,7 +90,7 @@ export default function TypeAuthCode(props) {
               style={[
                 {
                   fontSize: variables.fontNormal,
-                  color: '#6E2D2A',
+                  color: '#456f0a',
                   marginTop: 20,
                 },
                 styles.textCenter,

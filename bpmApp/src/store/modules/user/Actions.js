@@ -1,4 +1,10 @@
-import {sendCodeTel, logoutFetch, authenticateUserToken} from './middlewares';
+import {
+  sendCodeTel,
+  logoutFetch,
+  authenticateUserToken,
+  saveUserData,
+} from './middlewares';
+import {convertDate} from '../../../assets/utils';
 
 export function sendTokenTel(phone) {
   return dispatch => {
@@ -46,7 +52,7 @@ export function validateToken(phone, auth) {
             error: null,
             loading: null,
             message: null,
-            roles: null,
+            roles: ret.data.roles.length > 0 ? ret.data.roles : null,
           };
           return dispatch(sucessLogin(aux));
         }
@@ -75,11 +81,28 @@ export function logout(tel) {
   };
 }
 
-export function saveUserData(data) {
+export function registerUserData(data) {
   return dispatch => {
-    if (data != null) {
-      dispatch(saveUserDataAction(data));
-    }
+    const payload = {
+      //username: data.username,
+      //email: null,
+      //phone: data.phone,
+      //password: null,
+      birthDate: convertDate(data.birth, true),
+      completeName: data.name,
+      weight: data.weight,
+      height: 0,
+      sex: data.sex == 'male' ? true : false,
+      isWheelChairUser: data.wheelchairUser,
+      hasAlzheimer: data.alzheimer,
+    };
+    saveUserData(payload)
+      .then(ret => {
+        dispatch(saveUserRole(ret.data.roles));
+      })
+      .catch(err => {
+        return false;
+      });
   };
 }
 
@@ -88,6 +111,15 @@ function setStepTypeCode(phone) {
     type: 'SET_STEP_TYPE_CODE',
     payload: {
       phone: phone,
+    },
+  };
+}
+
+function saveUserRole(data) {
+  return {
+    type: 'SET_USER_ROLE',
+    payload: {
+      roles: data,
     },
   };
 }

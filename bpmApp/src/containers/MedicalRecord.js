@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import MedicalRecord from '../screens/MedicalRecord';
-import {saveUserData} from '../store/modules/user/Actions';
+import {registerUserData} from '../store/modules/user/Actions';
 const mapStateToProps = state => {
   return {user: state.user};
 };
@@ -11,7 +11,7 @@ const mapDispatchToProps = (dispatch, props) => {
       return;
     },
     saveData: data => {
-      return dispatch(saveUserData(data));
+      return dispatch(registerUserData(data));
     },
   };
 };

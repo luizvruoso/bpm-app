@@ -19,7 +19,7 @@ import DatePicker from 'react-native-date-picker';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-export function index(props) {
+export default function index(props) {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -27,7 +27,9 @@ export function index(props) {
       //behavior="position"
       style={{flex: 1}}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{flex: 1}}>{props.children}</View>
+        <ScrollView style={{flex: 1}}>
+          <View style={{flex: 1}}>{props.children}</View>
+        </ScrollView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
