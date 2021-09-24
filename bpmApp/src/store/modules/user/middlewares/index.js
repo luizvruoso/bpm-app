@@ -39,38 +39,61 @@ export async function sendCodeTel(tel) {
 }
 
 export async function authenticateUserToken(tel, auth) {
-  try {
-    const data = await fetchAPILogin(
-      'POST',
-      URL_API.AUTH.AUTH_CODE,
-      {code: auth, phone: '55' + tel},
-      null,
-    );
+  const data = await fetchAPILogin(
+    'POST',
+    URL_API.AUTH.AUTH_CODE,
+    {code: auth, phone: '55' + tel},
+    null,
+  );
 
-    if (data?.status == 200) {
-      const firstPair = ['@token', data.data.token];
-      const secondPair = ['@refreshToken', data.data.refreshToken];
-      await AsyncStorage.multiSet([firstPair, secondPair]);
-      console.log('setei', data.data.token, data.data.refreshToken);
+  if (data?.status == 200) {
+    const firstPair = ['@token', data.data.token];
+    const secondPair = ['@refreshToken', data.data.refreshToken];
+    await AsyncStorage.multiSet([firstPair, secondPair]);
+    console.log('setei', data.data.token, data.data.refreshToken);
 
-      return data;
-    }
-    return false;
-  } catch (e) {
-    return false;
+    return data;
   }
+  return false;
 }
 
 export async function saveUserData(payload) {
-  try {
-    const data = await fetchAPI('POST', URL_API.AUTH.REGISTER, null, payload);
-    if (data?.status == 200) {
-      return data;
-    }
-    return false;
+  //try {
+  const data = await fetchAPI('POST', URL_API.AUTH.REGISTER, null, payload);
+  if (data?.status == 200) {
+    return data;
+  }
+  return false;
+  /*
   } catch (e) {
     return false;
+  }*/
+}
+
+export async function addEmergencyContact(payload) {
+  //try {
+  const data = await fetchAPI('POST', '#', null, payload);
+  if (data?.status == 200) {
+    return data;
   }
+  return false;
+  /*
+  } catch (e) {
+    return false;
+  }*/
+}
+
+export async function getUserData() {
+  //try {
+  const data = await fetchAPI('GET', URL_API.AUTH.GET_DATA, null, null);
+  if (data?.status == 200) {
+    return data;
+  }
+  return false;
+  /*
+  } catch (e) {
+    return false;
+  }*/
 }
 
 export async function logoutFetch() {

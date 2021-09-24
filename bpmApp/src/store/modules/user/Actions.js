@@ -3,25 +3,21 @@ import {
   logoutFetch,
   authenticateUserToken,
   saveUserData,
+  addEmergencyContact,
+  getUserData,
 } from './middlewares';
 import {convertDate} from '../../../assets/utils';
 
 export function sendTokenTel(phone) {
-  return dispatch => {
+  return async dispatch => {
     //return dispatch(setStepTypeCode(phone));
-    sendCodeTel(phone)
-      .then(ret => {
-        if (ret != false) {
-          //return dispatch(setStepTypeCode(phone));
-        } else {
-          console.warn(ret);
-        }
-      })
-      .catch(err => {
-        console.error(err);
+    try {
+      const ret = await sendCodeTel(phone);
+    } catch (err) {
+      console.error(err);
 
-        return dispatch(failedLogin());
-      });
+      return dispatch(failedLogin());
+    }
   };
 }
 
@@ -82,27 +78,75 @@ export function logout(tel) {
 }
 
 export function registerUserData(data) {
-  return dispatch => {
+  return async dispatch => {
     const payload = {
       //username: data.username,
       //email: null,
       //phone: data.phone,
       //password: null,
-      birthDate: convertDate(data.birth, true),
+      birthDate: convertDate(data.birth, false),
       completeName: data.name,
-      weight: data.weight,
-      height: 0,
-      sex: data.sex == 'male' ? true : false,
+      weight: parseInt(data.weight),
+      height: parseInt(data.height),
+      sex: data.sex,
       isWheelChairUser: data.wheelchairUser,
       hasAlzheimer: data.alzheimer,
     };
-    saveUserData(payload)
-      .then(ret => {
-        dispatch(saveUserRole(ret.data.roles));
-      })
-      .catch(err => {
-        return false;
-      });
+    console.log(payload);
+    try {
+      const ret = await saveUserData(payload);
+      const actionPayload = {
+        userInfo: {
+          name: data.name,
+          phone: data.username,
+          birth: data.birth,
+          weight: data.weight,
+          height: data.height,
+          sex: data.sex,
+          alzheimer: data.alzheimer,
+          wheelchairUser: data.wheelchairUser,
+        },
+        roles: ret.data.roles,
+        uuid: ret.data.uuid,
+      };
+
+      dispatch(saveDataAction(actionPayload));
+    } catch (err) {
+      console.log(err);
+      return dispatch(logoutAction());
+    }
+  };
+}
+
+export function addUserEmergencyContact(data) {
+  return async dispatch => {
+    try {
+      //const ret = await addEmergencyContact(data);
+
+      const userData = await getUserData();
+
+      const actionPayload = {
+        userInfo: {
+          name: userData.data.completeName,
+          phone: userData.data.phone,
+          birth: userData.data.birthDate,
+          weight: userData.data.weight,
+          height: userData.data.height,
+          sex: userData.data.sex,
+          alzheimer: userData.data.hasAlzheimer,
+          isWheelchairUser: userData.data.isWheelchairUser,
+        },
+        roles: [userData.data.roles[0], 'ROLE_RESPONSIBLE'],
+        uuid: userData.data.uuid,
+      };
+      console.log('dsadas11', actionPayload);
+
+      dispatch(saveDataAction(actionPayload));
+    } catch (err) {
+      console.error(err);
+
+      //return dispatch(failedLogin());
+    }
   };
 }
 
@@ -115,11 +159,11 @@ function setStepTypeCode(phone) {
   };
 }
 
-function saveUserRole(data) {
+function saveDataAction(data) {
   return {
-    type: 'SET_USER_ROLE',
+    type: 'SET_USER_DATA',
     payload: {
-      roles: data,
+      data,
     },
   };
 }

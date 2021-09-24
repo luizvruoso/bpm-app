@@ -49,7 +49,7 @@ export default function FirstRegister(props) {
       name: props.user.userInfo.name,
       phone: props.user.userInfo.phone,
       birth: props.user.userInfo.birth,
-      heigth: props.user.userInfo.heigth,
+      height: props.user.userInfo.height,
       weight: props.user.userInfo.weight,
       sex: props.user.userInfo.sex,
       alzheimer: props.user.userInfo.alzheimer,
@@ -68,7 +68,7 @@ export default function FirstRegister(props) {
       name: control._formValues.name,
       phone: control._formValues.phone,
       birth: control._formValues.birth,
-      heigth: control._formValues.heigth,
+      height: control._formValues.height,
       weight: control._formValues.weight,
       sex: control._formValues.sex,
       alzheimer: control._formValues.alzheimer,
@@ -246,7 +246,7 @@ export default function FirstRegister(props) {
               />
             </View>
           )}
-          name="heigth"
+          name="height"
           //defaultValue=""
         />
         <Controller

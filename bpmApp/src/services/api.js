@@ -51,12 +51,9 @@ export async function fetchAPI(method, path, params = null, data = {}) {
       Authorization: 'Bearer ' + BearerToken,
     },
     //withCredentials: true,
-  })
-    .then(function (response) {
-      return response;
-    })
-    .catch(error => {
+  });
+  /* .catch(error => {
       console.error('FETCH API - ', error);
       return false;
-    });
+    });*/
 }

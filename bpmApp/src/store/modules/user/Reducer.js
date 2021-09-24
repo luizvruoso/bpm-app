@@ -23,6 +23,7 @@ const INIT_STATE = {
   loading: false,
   message: null,
   roles: null,
+  uuid: null,
 };
 
 export default function user(state = INIT_STATE, action) {
@@ -31,15 +32,18 @@ export default function user(state = INIT_STATE, action) {
       return action.payload;
 
     case 'SET_FAILED_LOGIN':
-      return action.payload;
+      return INIT_STATE;
     case 'SET_USER_INFO':
       return produce(state, draft => {
         draft.userInfo = action.payload.userInfo;
       });
 
-    case 'SET_USER_ROLE':
+    case 'SET_USER_DATA':
       return produce(state, draft => {
-        draft.roles = action.payload.roles;
+        draft.roles = action.payload.data.roles;
+        draft.uuid = action.payload.data.uuid;
+        draft.userInfo = action.payload.data.userInfo;
+
         return draft;
       });
     case 'SET_STEP_TYPE_CODE':

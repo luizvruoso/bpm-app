@@ -134,9 +134,10 @@ function StepsRoute(props) {
 
 function Root(props) {
   const onLogout = props.extra.onLogout;
+  const user = props.extra.user;
   return (
     <Drawer.Navigator
-      drawerContent={props => customDrawerContent(props, onLogout)}>
+      drawerContent={props => customDrawerContent(props, onLogout, user)}>
       <Drawer.Screen
         options={
           {
@@ -149,6 +150,7 @@ function Root(props) {
     </Drawer.Navigator>
   );
 }
+
 function EmergencyContactsRoute(props) {
   return (
     <RootStack.Navigator mode="modal">
@@ -167,6 +169,7 @@ function EmergencyContactsRoute(props) {
     </RootStack.Navigator>
   );
 }
+
 function MedicalRecordRoute(props) {
   return (
     <RootStack.Navigator mode="modal">
@@ -186,7 +189,9 @@ function MedicalRecordRoute(props) {
   );
 }
 
-const customDrawerContent = (props, onLogout) => {
+const customDrawerContent = (props, onLogout, user) => {
+  console.log('dadsadsa', user.userInfo);
+
   return (
     <View
       style={[
@@ -219,7 +224,7 @@ const customDrawerContent = (props, onLogout) => {
           styles.centerXY,
           styles.mr20,
           styles.mt10,
-          styles.mb40,
+          //styles.mb40,
         ]}>
         <Text
           style={[
@@ -229,7 +234,19 @@ const customDrawerContent = (props, onLogout) => {
               color: variables.darkGray2,
             },
           ]}>
-          Jorge Cerrote Manjano
+          {user.userInfo.name}
+        </Text>
+      </View>
+      <View
+        style={[
+          styles.row,
+          styles.centerXY,
+          styles.mr20,
+          styles.mt10,
+          styles.mb40,
+        ]}>
+        <Text style={[styles.bold, {fontSize: variables.fontSmall + 2}]}>
+          {user.uuid}
         </Text>
       </View>
 

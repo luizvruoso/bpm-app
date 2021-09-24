@@ -23,7 +23,7 @@ export default function EmergencyContacts(props) {
         {backgroundColor: variables.primary, height: '100%'},
         //styles.m10,
       ]}>
-      <ModalContact />
+      <ModalContact addUserEmergencyContact={props.addUserEmergencyContact} />
 
       <Contact />
     </View>
@@ -32,7 +32,7 @@ export default function EmergencyContacts(props) {
 
 export function ModalContact(props) {
   const [modalVisible, setModalVisible] = useState(false);
-
+  const addUserEmergencyContact = props.addUserEmergencyContact;
   /*const CustomContent = () => {
     return props.children;
   };*/
@@ -128,7 +128,8 @@ export function ModalContact(props) {
             <View style={[styles.p20]}>
               <TouchableOpacity
                 onPress={() => {
-                  setModalVisible(!modalVisible);
+                  //setModalVisible(!modalVisible);
+                  addUserEmergencyContact('');
                 }}
                 style={[
                   styles.fullWidth,
