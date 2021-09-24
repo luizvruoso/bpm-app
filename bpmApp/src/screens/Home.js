@@ -35,6 +35,7 @@ export function Home(props) {
       setActualHeartBeatData({
         status: 'loading',
       });
+      console.log('aquiiii1');
     } else if (props.heartBeatInstant != null) {
       let final = [];
 

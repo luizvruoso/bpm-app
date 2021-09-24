@@ -41,6 +41,8 @@ import MedicalRecord from './containers/MedicalRecord';
 import EmergencyContacts from './containers/EmergencyContacts';
 import Login from './containers/Login';
 
+import Devices from './screens/Devices';
+
 const navigationRef = React.createRef();
 
 const RootStack = createStackNavigator();
@@ -183,6 +185,7 @@ export default class Routes extends Component {
               <Ionicons name="watch" size={20} color={variables.darkGray3} />
             )}
             onPress={() => {
+              navigate('devices');
               //onLogout();
             }}
           />
@@ -314,6 +317,18 @@ export default class Routes extends Component {
             {props => (
               <MainTemplate {...props}>
                 <MedicalRecord />
+              </MainTemplate>
+            )}
+          </Drawer.Screen>
+          <Drawer.Screen
+            name="devices"
+            options={{
+              headerShown: false,
+              //title: 'Batimentos',
+            }}>
+            {props => (
+              <MainTemplate {...props}>
+                <Devices/>
               </MainTemplate>
             )}
           </Drawer.Screen>
