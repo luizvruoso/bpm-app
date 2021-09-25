@@ -1,4 +1,4 @@
-import React, {Component, useState, useEffect} from 'react';
+import React, {Component, useState, useEffect, useCallback} from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   Dimensions,
   Modal,
   TextInput,
+  FlatList,
 } from 'react-native';
 import DashMenu from '../components/DashMenu';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -17,21 +18,56 @@ import Contact from '../components/Contact';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function EmergencyContacts(props) {
+  const [listContacts, setListContacts] = useState([]);
+
+  useEffect(() => {
+    props.getEmergencyContacts();
+  }, []);
+
+  useEffect(() => {
+    const {emergencyContact} = props;
+
+    setListContacts(emergencyContact);
+    console.log(emergencyContact);
+  }, [props.emergencyContact]);
+
+  const renderItem = useCallback(({item}) => {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          //navigate('DetailsMonitor', {item});
+        }}>
+        <Contact name={item.completeName} phone={item.phone} />
+      </TouchableOpacity>
+    );
+  }, []);
+
   return (
     <View
       style={[
         {backgroundColor: variables.primary, height: '100%'},
+        styles.mx10,
         //styles.m10,
       ]}>
       <ModalContact addUserEmergencyContact={props.addUserEmergencyContact} />
 
-      <Contact />
+      <FlatList
+        /*ref={ref => {
+          this.flatListRef = ref;
+        }}*/
+        //windowSize={1}
+        //keyExtractor={keyExtractor}
+        style={[styles.mb20]}
+        data={listContacts}
+        renderItem={renderItem}
+      />
     </View>
   );
 }
 
 export function ModalContact(props) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [token, setToken] = useState('');
   const addUserEmergencyContact = props.addUserEmergencyContact;
   /*const CustomContent = () => {
     return props.children;
@@ -73,12 +109,12 @@ export function ModalContact(props) {
             //styles.spaceBetween,
             styles.overflowHidden,
             //styles.mx20,
-            styles.my30,
+            //styles.my30,
           ]}>
           <View
             style={[
               styles.mx20,
-              {width: '95%', height: '80%', backgroundColor: 'white'},
+              {width: '95%', height: '95%', backgroundColor: 'white'},
               {
                 borderWidth: 1,
                 borderColor: '#CCC',
@@ -110,6 +146,10 @@ export function ModalContact(props) {
             <View style={[styles.p20]}>
               <TextInput
                 placeholderTextColor={variables.gray3}
+                onChangeText={setToken}
+                value={token}
+                maxLength={6}
+                autoCapitalize="characters"
                 style={[
                   styles.input,
                   {
@@ -121,7 +161,7 @@ export function ModalContact(props) {
                     borderColor: '#CCC',
                   },
                 ]}
-                placeholder="55231"
+                placeholder="@MK209"
               />
             </View>
 
@@ -129,7 +169,7 @@ export function ModalContact(props) {
               <TouchableOpacity
                 onPress={() => {
                   //setModalVisible(!modalVisible);
-                  addUserEmergencyContact('');
+                  addUserEmergencyContact(token);
                 }}
                 style={[
                   styles.fullWidth,

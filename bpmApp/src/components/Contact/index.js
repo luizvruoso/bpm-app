@@ -4,13 +4,14 @@ import styles from '../../assets/globals';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {variables} from '../../assets/variables';
 import {navigate} from '../../Routes';
+import {formatCel} from '../../assets/utils';
 
 export default function Contact(props) {
   const items = props.items;
 
   return (
     <View>
-      <ContactCard name="Michael Jorge" />
+      <ContactCard name={props.name} phone={props.phone} />
     </View>
   );
 }
@@ -47,19 +48,40 @@ function ContactCard(props) {
           }}
           source={require('../../assets/img/profile/profile.png')}
         />
-        <View style={[styles.colorWhite, styles.row, styles.ml10]}>
-          <Text
-            style={[
-              {
-                fontSize: variables.fontLarge,
-                color: variables.black,
-                fontWeight: '300',
-              },
-              //styles.textLeft,
-              styles.textVerticalCenter,
-            ]}>
-            {props.name}
-          </Text>
+        <View
+          style={[styles.colorWhite, styles.ml10, {alignItems: 'flex-end'}]}>
+          <View style={[styles.row]}>
+            <Text
+              style={[
+                {
+                  textAlign: 'right',
+                  fontSize: variables.fontLarge,
+                  color: variables.black,
+                  fontWeight: 'bold',
+                },
+                //styles.textLeft,
+                styles.textVerticalCenter,
+              ]}>
+              {props.name}
+            </Text>
+          </View>
+          {props.phone != null && (
+            <View style={[styles.row]}>
+              <Text
+                style={[
+                  {
+                    textAlign: 'right',
+                    fontSize: variables.fontSmall + 4,
+                    color: variables.black,
+                    fontWeight: '300',
+                  },
+                  //styles.textLeft,
+                  styles.textVerticalCenter,
+                ]}>
+                {formatCel(props.phone.slice(3, props.phone.length))}
+              </Text>
+            </View>
+          )}
         </View>
       </View>
     </View>

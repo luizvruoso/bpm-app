@@ -34,7 +34,7 @@ export async function fetchAPILogin(method, path, params = null, data = {}) {
     });
 }
 
-export async function fetchAPI(method, path, params = null, data = {}) {
+export async function fetchAPI(method, path, params = null, data = null) {
   var BearerToken = null;
   try {
     BearerToken = await AsyncStorage.getItem('@token');
@@ -52,6 +52,7 @@ export async function fetchAPI(method, path, params = null, data = {}) {
     },
     //withCredentials: true,
   });
+
   /* .catch(error => {
       console.error('FETCH API - ', error);
       return false;

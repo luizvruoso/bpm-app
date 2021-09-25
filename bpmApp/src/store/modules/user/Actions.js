@@ -7,6 +7,7 @@ import {
   getUserData,
 } from './middlewares';
 import {convertDate} from '../../../assets/utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function sendTokenTel(phone) {
   return async dispatch => {
@@ -92,7 +93,6 @@ export function registerUserData(data) {
       isWheelChairUser: data.wheelchairUser,
       hasAlzheimer: data.alzheimer,
     };
-    console.log(payload);
     try {
       const ret = await saveUserData(payload);
       const actionPayload = {
@@ -109,6 +109,10 @@ export function registerUserData(data) {
         roles: ret.data.roles,
         uuid: ret.data.uuid,
       };
+      const firstPair = ['@token', ret.data.token];
+      const secondPair = ['@refreshToken', ret.data.refreshToken];
+
+      await AsyncStorage.multiSet([firstPair, secondPair]);
 
       dispatch(saveDataAction(actionPayload));
     } catch (err) {
@@ -139,7 +143,8 @@ export function addUserEmergencyContact(data) {
         roles: [userData.data.roles[0], 'ROLE_RESPONSIBLE'],
         uuid: userData.data.uuid,
       };
-      console.log('dsadas11', actionPayload);
+
+      console.log('dsadas11', userData);
 
       dispatch(saveDataAction(actionPayload));
     } catch (err) {

@@ -1,7 +1,6 @@
 import {fetchAPI, fetchAPILogin} from '../../../../services/api';
 import {URL_API} from '../../../../env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {catchClause} from '@babel/types';
 
 export async function sendCodeTel(tel) {
   return fetchAPILogin(

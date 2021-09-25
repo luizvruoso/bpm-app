@@ -1,4 +1,6 @@
 import moment from 'moment/min/moment-with-locales';
+import momentTz from 'moment-timezone';
+import Geolocation from '@react-native-community/geolocation';
 
 export function convertDate(date, ptBr = true) {
   if (ptBr) return moment(date).format('DD[/]MM[/]YYYY');
@@ -8,11 +10,18 @@ export function convertDate(date, ptBr = true) {
 }
 
 export function fromDateTimeGetTime(dateTime) {
-  return moment(dateTime).locale('pt-br').format('LT');
+  return momentTz
+    .tz(dateTime, 'America/Sao_Paulo')
+    .locale('pt-br')
+    .format('H:mm:ss');
+}
+
+export function fromDate(dateTime) {
+  return momentTz.tz(dateTime, 'America/Sao_Paulo').format();
 }
 
 export function now() {
-  return moment().locale('pt-br').format();
+  return momentTz().locale('pt-br').format();
 }
 
 export function formatCel(v) {
@@ -38,4 +47,33 @@ export function formatCel(v) {
     r = r.replace(/^(\d*)/, '(0$1');
   }
   return r;
+}
+
+export function getUserLocation() {
+  var options = {
+    enableHighAccuracy: true,
+    //timeout: 30000,
+    //maximumAge: 1000,
+  };
+  //console.log('Markers Constructor', this.MARKERS);
+  return new Promise((resolve, reject) => {
+    Geolocation.getCurrentPosition(
+      // SOLICITA A LOCALIZAÇÃO ATUAL DO USUARIO, BASEADA NA VARIAVEL OPTIONS ACIMA
+      info => {
+        resolve({
+          timeOfCapture: new Date().getTime(),
+          latitude: info.coords.latitude,
+          longitude: info.coords.longitude,
+        });
+      },
+      error => {
+        console.error(error, ' Erro ao obter localização');
+        reject({
+          latitude: null,
+          longitude: null,
+        });
+      },
+      options,
+    );
+  });
 }

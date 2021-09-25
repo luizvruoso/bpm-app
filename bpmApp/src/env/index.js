@@ -15,5 +15,12 @@ export const URL_API = {
     GET_USER: '/api/get/user',
     GET_RESPONSIBLE: '/api/get/responsible',
   },
-  USER: {},
+  MONITOR: {
+    GET_ALL: '/api/user/monitored',
+    ADD_MONITOR: '/api/user/addContacts',
+    ADD_DATA_MONITORED: '/api/user/status',
+  },
+  EMERGENCY_CONTACTS: {
+    GET_ALL: '/api/user/emergencyContacts',
+  },
 };

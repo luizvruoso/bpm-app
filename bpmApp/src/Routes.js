@@ -44,6 +44,8 @@ import EmergencyContacts from './containers/EmergencyContacts';
 import Login from './containers/Login';
 import TypeAuthCode from './containers/TypeAuthCode';
 import FirstRegister from './containers/FirstRegister';
+import Monitor from './containers/Monitor';
+import DetailsMonitor from './containers/DetailsMonitor';
 
 const navigationRef = React.createRef();
 
@@ -162,7 +164,7 @@ function EmergencyContactsRoute(props) {
         }}>
         {props => (
           <MainTemplate {...props}>
-            <EmergencyContacts />
+            <EmergencyContacts {...props} />
           </MainTemplate>
         )}
       </RootStack.Screen>
@@ -230,7 +232,6 @@ const customDrawerContent = (props, onLogout, user) => {
           style={[
             {
               fontSize: variables.fontNormal,
-              fontWeight: '100',
               color: variables.darkGray2,
             },
           ]}>
@@ -285,6 +286,29 @@ const customDrawerContent = (props, onLogout, user) => {
             //onLogout();
           }}
         />
+        {user.roles.findIndex(item => item == 'ROLE_RESPONSIBLE') != -1 && (
+          <DrawerItem
+            label={() => (
+              <Text
+                style={[
+                  styles.colorPrimary,
+                  {marginLeft: -20, fontSize: variables.fontNormal},
+                ]}>
+                Monitorar
+              </Text>
+            )}
+            icon={() => (
+              <Ionicons
+                name="color-filter-outline"
+                size={20}
+                color={variables.darkGray3}
+              />
+            )}
+            onPress={() => {
+              navigate('Monitor');
+            }}
+          />
+        )}
         <DrawerItem
           label={() => (
             <Text
@@ -395,7 +419,17 @@ export default class Routes extends Component {
             barStyle="dark-content"
             backgroundColor={variables.primary}
           />
-          <RootStack.Navigator>
+          <RootStack.Navigator
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: variables.primary,
+              },
+              headerTintColor: '#0A0A0A',
+              headerTitleStyle: {
+                fontSize: variables.fontLarger,
+                fontWeight: '100',
+              },
+            }}>
             <RootStack.Screen options={{headerShown: false}} name="Root">
               {props => <Root {...props} extra={this.props} />}
             </RootStack.Screen>
@@ -409,16 +443,24 @@ export default class Routes extends Component {
               {props => <HeartBeatRoute {...props} extra={this.props} />}
             </RootStack.Screen>
             <RootStack.Screen
-              options={{headerShown: false}}
+              options={{headerShown: true, title: 'Voltar'}}
               name="MedicalRecord">
-              {props => <MedicalRecordRoute {...props} extra={this.props} />}
+              {props => <MedicalRecord {...props} extra={this.props} />}
             </RootStack.Screen>
             <RootStack.Screen
-              options={{headerShown: false}}
+              options={{headerShown: true, title: 'Voltar'}}
               name="EmergencyContacts">
-              {props => (
-                <EmergencyContactsRoute {...props} extra={this.props} />
-              )}
+              {props => <EmergencyContacts {...props} extra={this.props} />}
+            </RootStack.Screen>
+            <RootStack.Screen
+              options={{headerShown: true, title: 'Voltar'}}
+              name="Monitor">
+              {props => <Monitor {...props} extra={this.props} />}
+            </RootStack.Screen>
+            <RootStack.Screen
+              options={{headerShown: true, title: 'Voltar'}}
+              name="DetailsMonitor">
+              {props => <DetailsMonitor {...props} extra={this.props} />}
             </RootStack.Screen>
           </RootStack.Navigator>
         </NavigationContainer>

@@ -98,6 +98,21 @@ export function Home(props) {
       ]);
     }
   }, [props.stepsInstant]);
+
+  useEffect(() => {
+    //console.log('alo', stepsData, actualHeartBeatData);
+    const {sendUserStatusData} = props;
+    if (
+      !stepsData.hasOwnProperty('status') &&
+      !actualHeartBeatData.hasOwnProperty('stauts')
+    ) {
+      sendUserStatusData({
+        heartBeat: actualHeartBeatData[0].average,
+        steps: stepsData[0].value,
+      });
+    }
+  }, [stepsData, actualHeartBeatData]);
+
   return (
     <View
       style={[
