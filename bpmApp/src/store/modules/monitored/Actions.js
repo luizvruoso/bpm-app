@@ -25,14 +25,14 @@ export function sendUserStatusData(data) {
       const payload = {
         heartBeat: data.heartBeat,
         status: 'not defined',
-        latitude: userLocation.latitute,
+        latitude: userLocation.latitude,
         longitude: userLocation.longitude,
         cardiacSteps: data.steps,
       };
-      //console.log('registro1u', payload);
+      console.log('registro1u', payload);
       const ret = await sendStatusData(payload);
 
-      //console.log('registrou', ret);
+      console.log('registrou', ret.data);
       //dispatch(saveContacts(data.data));
     } catch (err) {
       console.error(err);

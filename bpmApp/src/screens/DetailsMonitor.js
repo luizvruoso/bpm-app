@@ -79,7 +79,7 @@ export default function DetailsMonitor(props) {
                 fontWeight: 'bold',
                 marginLeft: 10,
               }}>
-              {item.hearthBeat}
+              {item.heartBeat}
               <Text
                 style={{fontSize: variables.fontNormal, fontWeight: 'normal'}}>
                 {'\n'}bpm

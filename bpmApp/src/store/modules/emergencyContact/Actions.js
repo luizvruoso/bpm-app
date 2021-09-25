@@ -9,8 +9,6 @@ export function addUserEmergencyContact(data) {
 
       const userData = await addContact(payload);
 
-      console.log(userData);
-
       const ret = await getContacts();
 
       dispatch(saveContacts(ret.data));

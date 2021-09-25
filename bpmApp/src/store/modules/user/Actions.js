@@ -144,8 +144,6 @@ export function addUserEmergencyContact(data) {
         uuid: userData.data.uuid,
       };
 
-      console.log('dsadas11', userData);
-
       dispatch(saveDataAction(actionPayload));
     } catch (err) {
       console.error(err);

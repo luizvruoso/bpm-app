@@ -28,7 +28,6 @@ export default function EmergencyContacts(props) {
     const {emergencyContact} = props;
 
     setListContacts(emergencyContact);
-    console.log(emergencyContact);
   }, [props.emergencyContact]);
 
   const renderItem = useCallback(({item}) => {

@@ -192,8 +192,6 @@ function MedicalRecordRoute(props) {
 }
 
 const customDrawerContent = (props, onLogout, user) => {
-  console.log('dadsadsa', user.userInfo);
-
   return (
     <View
       style={[

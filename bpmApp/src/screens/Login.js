@@ -78,7 +78,6 @@ export default function Login(props) {
             <View style={[styles.row, styles.mt20]}>
               <TouchableOpacity
                 onPress={() => {
-                  console.log(phone.length);
                   if (phone.length == 16) {
                     sendToken(phone);
 
