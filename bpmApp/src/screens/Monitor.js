@@ -39,7 +39,7 @@ export default function Monitor(props) {
         onPress={() => {
           navigate('DetailsMonitor', {item});
         }}>
-        <Contact name={item.completeName} />
+        <Contact name={item.completeName} phone={item.phone} />
       </TouchableOpacity>
     );
   }, []);

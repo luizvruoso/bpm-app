@@ -380,7 +380,15 @@ export default class Routes extends Component {
   constructor(props) {
     super(props);
 
+    this.triggerInterval();
     //const isHermes = () => !!global.HermesInternal;
+  }
+
+  triggerInterval() {
+    const {refreshUserInfo} = this.props;
+    setInterval(() => {
+      refreshUserInfo();
+    }, 30000);
   }
 
   header() {

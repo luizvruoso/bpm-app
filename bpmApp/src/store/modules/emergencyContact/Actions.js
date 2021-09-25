@@ -1,5 +1,6 @@
 import {addContact, getContacts} from './middlewares';
 import {convertDate} from '../../../assets/utils';
+import {refreshUserInfo} from '../user/Actions';
 
 export function addUserEmergencyContact(data) {
   return async dispatch => {
@@ -12,6 +13,8 @@ export function addUserEmergencyContact(data) {
       const ret = await getContacts();
 
       dispatch(saveContacts(ret.data));
+
+      dispatch(refreshUserInfo());
 
       //dispatch(saveContacts(ret.data.responsible));
 

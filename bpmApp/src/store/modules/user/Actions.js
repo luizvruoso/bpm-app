@@ -122,7 +122,7 @@ export function registerUserData(data) {
   };
 }
 
-export function addUserEmergencyContact(data) {
+export function refreshUserInfo(data = null) {
   return async dispatch => {
     try {
       //const ret = await addEmergencyContact(data);
@@ -140,11 +140,12 @@ export function addUserEmergencyContact(data) {
           alzheimer: userData.data.hasAlzheimer,
           isWheelchairUser: userData.data.isWheelchairUser,
         },
-        roles: [userData.data.roles[0], 'ROLE_RESPONSIBLE'],
+        roles: userData.data.roles,
         uuid: userData.data.uuid,
       };
 
       dispatch(saveDataAction(actionPayload));
+      console.log('hoi', actionPayload);
     } catch (err) {
       console.error(err);
 

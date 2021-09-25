@@ -6,6 +6,7 @@ export function getMonitoreds() {
     try {
       //const ret = await addEmergencyContact(data);
       const data = await getContacts();
+      console.log('TRAAAADASDASDASDSA', data.data);
 
       dispatch(saveContacts(data.data));
     } catch (err) {

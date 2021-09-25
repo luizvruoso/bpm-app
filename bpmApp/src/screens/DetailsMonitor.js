@@ -24,7 +24,7 @@ import moment from 'moment/min/moment-with-locales';
 
 export default function DetailsMonitor(props) {
   const {item} = props.route.params;
-
+  
   const calculateLastUpdate = date => {
     const actualDate = new Date();
     const serverTime = fromDateTimeGetTime(date);

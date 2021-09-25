@@ -107,7 +107,7 @@ export function Home(props) {
       !actualHeartBeatData.hasOwnProperty('stauts')
     ) {
       sendUserStatusData({
-        heartBeat: actualHeartBeatData[0].average,
+        heartBeat: actualHeartBeatData[0].avegare,
         steps: stepsData[0].value,
       });
     }
