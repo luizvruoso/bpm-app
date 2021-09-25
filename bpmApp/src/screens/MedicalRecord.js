@@ -21,6 +21,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import RNPickerSelect from 'react-native-picker-select';
 import DatePicker from 'react-native-date-picker';
 import {convertDate} from '../assets/utils';
@@ -347,8 +348,25 @@ function ImageUser(props) {
 }
 
 function BirthInput(props) {
-  const [date, setDate] = useState(props.value);
-  const [open, setOpen] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    setDate(currentDate);
+  };
+
+  const showMode = currentMode => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
   return (
     <View>
       <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>
@@ -374,7 +392,7 @@ function BirthInput(props) {
             styles.spaceBetween,
             styles.row,
           ]}
-          onPress={() => setOpen(true)}>
+          onPress={showDatepicker}>
           <Text style={[styles.mt5]}>
             {isNaN(new Date(date).getTime())
               ? 'Selecione uma data'
@@ -387,22 +405,15 @@ function BirthInput(props) {
           />
         </TouchableOpacity>
 
-        <DatePicker
-          locale={'pt-br'}
-          mode={'date'}
-          modal={true}
-          open={open}
-          date={new Date()}
-          onConfirm={date => {
-            setOpen(false);
-            //setDate(new Date(date));
-
-            props.handleChange(date);
-          }}
-          onCancel={() => {
-            setOpen(false);
-          }}
-        />
+        {show && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode={mode}
+            display="default"
+            onChange={onChange}
+          />
+        )}
       </View>
     </View>
   );
