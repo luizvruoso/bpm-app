@@ -1,6 +1,10 @@
 import {connect} from 'react-redux';
 import Login from '../screens/Login';
-import {sendTokenTel, validateToken} from '../store/modules/user/Actions'
+import {
+  sendTokenTel,
+  validateToken,
+  setPhoneAuth,
+} from '../store/modules/user/Actions';
 
 const mapStateToProps = state => {
   return {user: state.user};
@@ -8,13 +12,15 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    
-    sendToken: (tel) => {
+    sendToken: tel => {
       return dispatch(sendTokenTel(tel));
     },
-    validateToken: (tel, auth)=>{
+    validateToken: (tel, auth) => {
       return dispatch(validateToken(tel, auth));
-    }
+    },
+    setPhoneAuth: data => {
+      return dispatch(setPhoneAuth(data));
+    },
   };
 };
 

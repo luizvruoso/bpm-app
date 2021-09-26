@@ -2,6 +2,12 @@ import axios from 'axios';
 import {URL_API} from '../env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+function ServiceException(message, customMessage = null) {
+  this.message = message;
+  this.customMessage = customMessage;
+  this.name = 'ServiceException';
+}
+
 const LOGIN = axios.create({
   baseURL: URL_API.URL,
   headers: {
@@ -29,12 +35,11 @@ export async function fetchAPILogin(method, path, params = null, data = {}) {
       return response;
     })
     .catch(error => {
-      console.error('FETCH API - ', error);
-      return false;
+      throw new ServiceException(error.message, error.response.data.message);
     });
 }
 
-export async function fetchAPI(method, path, params = null, data = {}) {
+export async function fetchAPI(method, path, params = null, data = null) {
   var BearerToken = null;
   try {
     BearerToken = await AsyncStorage.getItem('@token');
@@ -51,9 +56,9 @@ export async function fetchAPI(method, path, params = null, data = {}) {
       Authorization: 'Bearer ' + BearerToken,
     },
     //withCredentials: true,
+  }).catch(error => {
+    console.error('FETCH API - ', error);
+
+    throw new ServiceException(error.message, error?.response?.data?.message);
   });
-  /* .catch(error => {
-      console.error('FETCH API - ', error);
-      return false;
-    });*/
 }

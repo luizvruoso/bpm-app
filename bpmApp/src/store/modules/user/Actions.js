@@ -7,6 +7,7 @@ import {
   getUserData,
 } from './middlewares';
 import {convertDate} from '../../../assets/utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function sendTokenTel(phone) {
   return async dispatch => {
@@ -14,8 +15,11 @@ export function sendTokenTel(phone) {
     try {
       const ret = await sendCodeTel(phone);
     } catch (err) {
-      console.error(err);
-
+      dispatch(
+        setErrorMessage(
+          'Erro ao enviar token, verifique seu telefone e tente novamente.',
+        ),
+      );
       return dispatch(failedLogin());
     }
   };
@@ -55,25 +59,26 @@ export function validateToken(phone, auth) {
       })
       .catch(err => {
         console.error(err);
-
-        return dispatch(failedLogin());
+        dispatch(
+          setErrorMessage('Erro ao validar token \n' + err.customMessage),
+        );
+        //return dispatch(failedLogin());
       });
   };
 }
 
 export function logout(tel) {
-  return dispatch => {
-    logoutFetch(tel)
-      .then(ret => {
-        if (ret != null) {
-          return dispatch(logoutAction());
-        }
-      })
-      .catch(err => {
-        console.error(err);
+  return async dispatch => {
+    try {
+      const firstPair = ['@token', null];
+      const secondPair = ['@refreshToken', null];
 
-        return dispatch(failedLogin());
-      });
+      await AsyncStorage.multiSet([firstPair, secondPair]);
+
+      return dispatch(logoutAction());
+    } catch (err) {
+      return dispatch(logoutAction());
+    }
   };
 }
 
@@ -89,10 +94,9 @@ export function registerUserData(data) {
       weight: parseInt(data.weight),
       height: parseInt(data.height),
       sex: data.sex,
-      isWheelChairUser: data.wheelchairUser,
+      isWheelchairUser: data.wheelchairUser,
       hasAlzheimer: data.alzheimer,
     };
-    console.log(payload);
     try {
       const ret = await saveUserData(payload);
       const actionPayload = {
@@ -109,16 +113,26 @@ export function registerUserData(data) {
         roles: ret.data.roles,
         uuid: ret.data.uuid,
       };
+      const firstPair = ['@token', ret.data.token];
+      const secondPair = ['@refreshToken', ret.data.refreshToken];
+
+      await AsyncStorage.multiSet([firstPair, secondPair]);
 
       dispatch(saveDataAction(actionPayload));
     } catch (err) {
       console.log(err);
+      dispatch(
+        setErrorMessage(
+          'Erro ao enviar cadastro, tente novamente mais tarde. \n' +
+            err.customMessage,
+        ),
+      );
       return dispatch(logoutAction());
     }
   };
 }
 
-export function addUserEmergencyContact(data) {
+export function refreshUserInfo(data = null) {
   return async dispatch => {
     try {
       //const ret = await addEmergencyContact(data);
@@ -136,10 +150,9 @@ export function addUserEmergencyContact(data) {
           alzheimer: userData.data.hasAlzheimer,
           isWheelchairUser: userData.data.isWheelchairUser,
         },
-        roles: [userData.data.roles[0], 'ROLE_RESPONSIBLE'],
+        roles: userData.data.roles,
         uuid: userData.data.uuid,
       };
-      console.log('dsadas11', actionPayload);
 
       dispatch(saveDataAction(actionPayload));
     } catch (err) {
@@ -147,6 +160,45 @@ export function addUserEmergencyContact(data) {
 
       //return dispatch(failedLogin());
     }
+  };
+}
+
+export function setErrorMessage(message) {
+  return {
+    type: 'SET_ERROR_MESSAGE',
+    payload: {
+      message,
+    },
+  };
+}
+
+export function setSuccessMessage(message) {
+  return {
+    type: 'SET_SUCCESS_MESSAGE',
+    payload: {
+      message,
+    },
+  };
+}
+
+export function setPhoneAuth(data) {
+  return {
+    type: 'SET_PHONE_AUTH',
+    payload: {
+      phone: data.phone,
+    },
+  };
+}
+
+export function setErrorToFalse() {
+  return {
+    type: 'ERROR_TO_FALSE',
+  };
+}
+
+export function setSuccessToFalse() {
+  return {
+    type: 'SUCCESS_TO_FALSE',
   };
 }
 
@@ -215,7 +267,7 @@ function logoutAction() {
 
 function sucessLogin(data) {
   return {
-    type: 'SET_SUCESS_LOGIN',
+    type: 'SET_SUCCESS_LOGIN',
     payload: {
       name: data.name,
       userInfo: {

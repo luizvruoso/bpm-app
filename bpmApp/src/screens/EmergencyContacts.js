@@ -1,4 +1,4 @@
-import React, {Component, useState, useEffect} from 'react';
+import React, {Component, useState, useEffect, useCallback} from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,8 @@ import {
   Dimensions,
   Modal,
   TextInput,
+  RefreshControl,
+  FlatList,
 } from 'react-native';
 import DashMenu from '../components/DashMenu';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -17,21 +19,78 @@ import Contact from '../components/Contact';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function EmergencyContacts(props) {
+  const [listContacts, setListContacts] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    props.getEmergencyContacts();
+  }, []);
+
+  useEffect(() => {
+    const {emergencyContact} = props;
+
+    setListContacts(emergencyContact);
+  }, [props.emergencyContact]);
+
+  const keyExtractor = useCallback((item, key) => {
+    return item.completeName + key;
+  }, []);
+
+  const renderItem = useCallback(({item}) => {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          //navigate('DetailsMonitor', {item});
+        }}>
+        <Contact name={item.completeName} phone={item.phone} />
+      </TouchableOpacity>
+    );
+  }, []);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    const {getEmergencyContacts} = props;
+
+    //('T3523279', '2021-07-22');
+    getEmergencyContacts();
+
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
+
   return (
     <View
       style={[
         {backgroundColor: variables.primary, height: '100%'},
+        styles.mx10,
         //styles.m10,
       ]}>
       <ModalContact addUserEmergencyContact={props.addUserEmergencyContact} />
 
-      <Contact />
+      <FlatList
+        /*ref={ref => {
+          this.flatListRef = ref;
+        }}*/
+        //windowSize={1}
+        keyExtractor={keyExtractor}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => onRefresh()}
+          />
+        }
+        style={[styles.mb20]}
+        data={listContacts}
+        renderItem={renderItem}
+      />
     </View>
   );
 }
 
 export function ModalContact(props) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [token, setToken] = useState('');
   const addUserEmergencyContact = props.addUserEmergencyContact;
   /*const CustomContent = () => {
     return props.children;
@@ -73,12 +132,12 @@ export function ModalContact(props) {
             //styles.spaceBetween,
             styles.overflowHidden,
             //styles.mx20,
-            styles.my30,
+            //styles.my30,
           ]}>
           <View
             style={[
               styles.mx20,
-              {width: '95%', height: '80%', backgroundColor: 'white'},
+              {width: '95%', height: '95%', backgroundColor: 'white'},
               {
                 borderWidth: 1,
                 borderColor: '#CCC',
@@ -110,6 +169,10 @@ export function ModalContact(props) {
             <View style={[styles.p20]}>
               <TextInput
                 placeholderTextColor={variables.gray3}
+                onChangeText={setToken}
+                value={token}
+                maxLength={6}
+                autoCapitalize="characters"
                 style={[
                   styles.input,
                   {
@@ -121,15 +184,16 @@ export function ModalContact(props) {
                     borderColor: '#CCC',
                   },
                 ]}
-                placeholder="55231"
+                placeholder="@MK209"
               />
             </View>
 
             <View style={[styles.p20]}>
               <TouchableOpacity
                 onPress={() => {
-                  //setModalVisible(!modalVisible);
-                  addUserEmergencyContact('');
+                  setModalVisible(!modalVisible);
+                  setToken('');
+                  addUserEmergencyContact(token);
                 }}
                 style={[
                   styles.fullWidth,

@@ -1,9 +1,12 @@
 import {connect} from 'react-redux';
 import EmergencyContacts from '../screens/EmergencyContacts';
-import {addUserEmergencyContact} from '../store/modules/user/Actions';
+import {
+  addUserEmergencyContact,
+  getEmergencyContacts,
+} from '../store/modules/emergencyContact/Actions';
 
 const mapStateToProps = state => {
-  return {user: state.user};
+  return {user: state.user, emergencyContact: state.emergencyContact};
 };
 
 const mapDispatchToProps = (dispatch, props) => {
@@ -13,6 +16,9 @@ const mapDispatchToProps = (dispatch, props) => {
     },
     addUserEmergencyContact: token => {
       return dispatch(addUserEmergencyContact(token));
+    },
+    getEmergencyContacts: () => {
+      return dispatch(getEmergencyContacts());
     },
   };
 };

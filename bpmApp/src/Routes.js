@@ -34,6 +34,7 @@ import {
 import {variables} from './assets/variables';
 import MainTemplate from './components/MainTemplate';
 import styles from './assets/globals';
+import AppMessageNotification from './components/AppMessageNotification';
 
 import Home from './containers/Home';
 import HeartBeat from './containers/HeartBeat';
@@ -44,6 +45,8 @@ import EmergencyContacts from './containers/EmergencyContacts';
 import Login from './containers/Login';
 import TypeAuthCode from './containers/TypeAuthCode';
 import FirstRegister from './containers/FirstRegister';
+import Monitor from './containers/Monitor';
+import DetailsMonitor from './containers/DetailsMonitor';
 
 const navigationRef = React.createRef();
 
@@ -162,7 +165,7 @@ function EmergencyContactsRoute(props) {
         }}>
         {props => (
           <MainTemplate {...props}>
-            <EmergencyContacts />
+            <EmergencyContacts {...props} />
           </MainTemplate>
         )}
       </RootStack.Screen>
@@ -190,8 +193,7 @@ function MedicalRecordRoute(props) {
 }
 
 const customDrawerContent = (props, onLogout, user) => {
-  console.log('dadsadsa', user.userInfo);
-
+  console.log(user);
   return (
     <View
       style={[
@@ -230,7 +232,6 @@ const customDrawerContent = (props, onLogout, user) => {
           style={[
             {
               fontSize: variables.fontNormal,
-              fontWeight: '100',
               color: variables.darkGray2,
             },
           ]}>
@@ -285,6 +286,29 @@ const customDrawerContent = (props, onLogout, user) => {
             //onLogout();
           }}
         />
+        {user.roles.findIndex(item => item == 'ROLE_RESPONSIBLE') != -1 && (
+          <DrawerItem
+            label={() => (
+              <Text
+                style={[
+                  styles.colorPrimary,
+                  {marginLeft: -20, fontSize: variables.fontNormal},
+                ]}>
+                Monitorar
+              </Text>
+            )}
+            icon={() => (
+              <Ionicons
+                name="color-filter-outline"
+                size={20}
+                color={variables.darkGray3}
+              />
+            )}
+            onPress={() => {
+              navigate('Monitor');
+            }}
+          />
+        )}
         <DrawerItem
           label={() => (
             <Text
@@ -358,7 +382,15 @@ export default class Routes extends Component {
   constructor(props) {
     super(props);
 
+    this.triggerInterval();
     //const isHermes = () => !!global.HermesInternal;
+  }
+
+  triggerInterval() {
+    setInterval(() => {
+      const {refreshUserInfo, user} = this.props;
+      if (user.isAuthenticated == true) refreshUserInfo();
+    }, 30000);
   }
 
   header() {
@@ -366,8 +398,15 @@ export default class Routes extends Component {
   }
 
   routeFirstAccess() {
+    const {user, setErrorToFalse, setSuccessToFalse} = this.props;
+
     return (
       <SafeAreaView style={[{flex: 1}, {backgroundColor: variables.primary}]}>
+        <AppMessageNotification
+          user={user}
+          setErrorToFalse={setErrorToFalse}
+          setSuccessToFalse={setSuccessToFalse}
+        />
         <NavigationContainer ref={navigationRef}>
           <StatusBar
             barStyle="dark-content"
@@ -386,16 +425,60 @@ export default class Routes extends Component {
     );
   }
 
-  routeLogged() {
-    // let {onLogout} = this.props;
+  routePhoneAuth() {
+    const {user, setErrorToFalse, setSuccessToFalse} = this.props;
+
     return (
       <SafeAreaView style={[{flex: 1}, {backgroundColor: variables.primary}]}>
+        <AppMessageNotification
+          user={user}
+          setErrorToFalse={setErrorToFalse}
+          setSuccessToFalse={setSuccessToFalse}
+        />
         <NavigationContainer ref={navigationRef}>
           <StatusBar
             barStyle="dark-content"
             backgroundColor={variables.primary}
           />
-          <RootStack.Navigator>
+
+          <RootStack.Navigator
+            screenOptions={{
+              headerShown: false,
+            }}>
+            <RootStack.Screen name="TypeAuthCode" component={TypeAuthCode} />
+          </RootStack.Navigator>
+        </NavigationContainer>
+      </SafeAreaView>
+    );
+  }
+
+  routeLogged() {
+    // let {onLogout} = this.props;
+    const {user, setErrorToFalse, setSuccessToFalse} = this.props;
+
+    return (
+      <SafeAreaView style={[{flex: 1}, {backgroundColor: variables.primary}]}>
+        <AppMessageNotification
+          user={user}
+          setErrorToFalse={setErrorToFalse}
+          setSuccessToFalse={setSuccessToFalse}
+        />
+        <NavigationContainer ref={navigationRef}>
+          <StatusBar
+            barStyle="dark-content"
+            backgroundColor={variables.primary}
+          />
+          <RootStack.Navigator
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: variables.primary,
+              },
+              headerTintColor: '#0A0A0A',
+              headerTitleStyle: {
+                fontSize: variables.fontLarger,
+                fontWeight: '100',
+              },
+            }}>
             <RootStack.Screen options={{headerShown: false}} name="Root">
               {props => <Root {...props} extra={this.props} />}
             </RootStack.Screen>
@@ -409,16 +492,24 @@ export default class Routes extends Component {
               {props => <HeartBeatRoute {...props} extra={this.props} />}
             </RootStack.Screen>
             <RootStack.Screen
-              options={{headerShown: false}}
+              options={{headerShown: true, title: 'Voltar'}}
               name="MedicalRecord">
-              {props => <MedicalRecordRoute {...props} extra={this.props} />}
+              {props => <MedicalRecord {...props} extra={this.props} />}
             </RootStack.Screen>
             <RootStack.Screen
-              options={{headerShown: false}}
+              options={{headerShown: true, title: 'Voltar'}}
               name="EmergencyContacts">
-              {props => (
-                <EmergencyContactsRoute {...props} extra={this.props} />
-              )}
+              {props => <EmergencyContacts {...props} extra={this.props} />}
+            </RootStack.Screen>
+            <RootStack.Screen
+              options={{headerShown: true, title: 'Voltar'}}
+              name="Monitor">
+              {props => <Monitor {...props} extra={this.props} />}
+            </RootStack.Screen>
+            <RootStack.Screen
+              options={{headerShown: true, title: 'Voltar'}}
+              name="DetailsMonitor">
+              {props => <DetailsMonitor {...props} extra={this.props} />}
             </RootStack.Screen>
           </RootStack.Navigator>
         </NavigationContainer>
@@ -427,8 +518,15 @@ export default class Routes extends Component {
   }
 
   routeNotLogged() {
+    const {user, setErrorToFalse, setSuccessToFalse} = this.props;
+
     return (
       <SafeAreaView style={[{flex: 1}, {backgroundColor: '#FFF'}]}>
+        <AppMessageNotification
+          user={user}
+          setErrorToFalse={setErrorToFalse}
+          setSuccessToFalse={setSuccessToFalse}
+        />
         <NavigationContainer ref={navigationRef}>
           <StatusBar barStyle="dark-content" backgroundColor="#FFF" />
 
@@ -438,7 +536,6 @@ export default class Routes extends Component {
             }}
             initialRouteName="Login">
             <RootStack.Screen name="Login" component={Login} />
-            <RootStack.Screen name="TypeAuthCode" component={TypeAuthCode} />
           </RootStack.Navigator>
         </NavigationContainer>
       </SafeAreaView>
@@ -446,10 +543,11 @@ export default class Routes extends Component {
   }
 
   render() {
-    let {user} = this.props;
+    const {user} = this.props;
     if (user.isAuthenticated && user.roles == null)
       return this.routeFirstAccess();
     if (user.isAuthenticated) return this.routeLogged();
+    if (user.loginMethod === 'phone') return this.routePhoneAuth();
     return this.routeNotLogged();
   }
 }
