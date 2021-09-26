@@ -105,11 +105,7 @@ export default function Login(props) {
                 </Text>
               </TouchableOpacity>
             </View>
-<<<<<<< HEAD
-           {/* <TouchableOpacity
-=======
             {/*<TouchableOpacity
->>>>>>> 711026d819d7735c18d7e3b74301c549a746dcee
               style={[
                 styles.row,
                 //styles.bgWhite,
