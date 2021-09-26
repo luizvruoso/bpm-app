@@ -105,7 +105,7 @@ export default function Login(props) {
                 </Text>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity
+           {/* <TouchableOpacity
               style={[
                 styles.row,
                 //styles.bgWhite,
@@ -123,7 +123,7 @@ export default function Login(props) {
                 //Heartbeat.startService()
               }}>
               <Text>Start</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>*/}
           </View>
         </View>
       </ImageBackground>

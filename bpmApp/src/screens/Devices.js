@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
-import {
-  View,
-
-} from 'react-native';
+import {View} from 'react-native';
 
 import {variables} from '../assets/variables';
 import styles from '../assets/globals';
@@ -13,10 +10,9 @@ export default function Devices(props) {
     <View
       style={[
         {backgroundColor: variables.primary, height: '100%'},
-
         styles.m10,
       ]}>
-        <Perifericos />
+      <Perifericos />
     </View>
   );
 }

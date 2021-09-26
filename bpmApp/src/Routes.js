@@ -48,7 +48,7 @@ import FirstRegister from './containers/FirstRegister';
 import Monitor from './containers/Monitor';
 import DetailsMonitor from './containers/DetailsMonitor';
 
-import Devices from './screens/Devices';
+import Devices from './containers/Devices';
 
 const navigationRef = React.createRef();
 
@@ -286,6 +286,7 @@ const customDrawerContent = (props, onLogout, user) => {
           )}
           onPress={() => {
             //onLogout();
+            navigate('Devices');
           }}
         />
         {user.roles.findIndex(item => item == 'ROLE_RESPONSIBLE') != -1 && (
@@ -512,6 +513,11 @@ export default class Routes extends Component {
               options={{headerShown: true, title: 'Voltar'}}
               name="DetailsMonitor">
               {props => <DetailsMonitor {...props} extra={this.props} />}
+            </RootStack.Screen>
+            <RootStack.Screen
+              options={{headerShown: true, title: 'Voltar'}}
+              name="Devices">
+              {props => <Devices {...props} extra={this.props} />}
             </RootStack.Screen>
           </RootStack.Navigator>
         </NavigationContainer>

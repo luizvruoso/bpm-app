@@ -5,160 +5,149 @@
  * @flow strict-local
  */
 
- import React, {
-    useState,
-    useEffect,
-  } from 'react';
-  import {
-    SafeAreaView,
-    StyleSheet,
-    ScrollView,
-    View,
-    Text,
-    StatusBar,
-    NativeModules,
-    NativeEventEmitter,
-    Button,
-    Platform,
-    PermissionsAndroid,
-    FlatList,
-    TouchableHighlight,
-  } from 'react-native';
-  
-  import {
-    Colors,
-  } from 'react-native/Libraries/NewAppScreen';
-  
-  import BleManager from 'react-native-ble-manager';
-  const BleManagerModule = NativeModules.BleManager;
-  const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
-  
-  const Perifericos = () => {
-    const [steps,_setsteps] = useState(0);
-    const [batimentos,_setbatimentos] = useState(0);
+import React, {useState, useEffect} from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  View,
+  Text,
+  StatusBar,
+  NativeModules,
+  NativeEventEmitter,
+  Button,
+  Platform,
+  PermissionsAndroid,
+  FlatList,
+  TouchableHighlight,
+} from 'react-native';
 
-    const stepsRef = React.useRef(steps);
-    const batimentosRef = React.useRef(batimentos);
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-    const setsteps = data => {
-      stepsRef.current = data;
-      _setsteps(data);
-    }
-    const setbatimentos = data => {
-      batimentosRef.current = data;
-      _setbatimentos(data);
-    }
+import BleManager from 'react-native-ble-manager';
+const BleManagerModule = NativeModules.BleManager;
+const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
-    
-    const peripherals = new Map();
-    const [list, setList] = useState([]);
-  
+const Perifericos = () => {
+  const [steps, _setsteps] = useState(0);
+  const [batimentos, _setbatimentos] = useState(0);
 
-    const handleStopScan = () => {
-      console.log('Scan is stopped');
-      setIsScanning(false);
-    }
-  
-    const handleDisconnectedPeripheral = (data) => {
-      let peripheral = peripherals.get(data.peripheral);
-      if (peripheral) {
-        peripheral.connected = false;
-        peripherals.set(peripheral.id, peripheral);
-        setList(Array.from(peripherals.values()));
-      }
-      console.log('Disconnected from ' + data.peripheral);
-    }
-  
-    const handleUpdateValueForCharacteristic = (data) => {
-      //console.log('Received data from ' + data.peripheral + ' characteristic ' + data.characteristic, data.value);
-      if(data.characteristic=='00002a37-0000-1000-8000-00805f9b34fb'){
-        setbatimentos(data.value[1]);
-       console.log('batimentos '+ batimentosRef.current);
-      }
-      if(data.characteristic == '00000007-0000-3512-2118-0009af100700'){
-       // console.log(data.value);
+  const stepsRef = React.useRef(steps);
+  //const batimentosRef = React.useRef(batimentos);
 
-        setsteps(data.value[2]*256+data.value[1]);
-        console.log('passos '+stepsRef.current);
-      }
-    }
-  
-    const RetrieveConnected = () => {
-      BleManager.getConnectedPeripherals([]).then((results) => {
-        if (results.length == 0) {
-          console.log('No connected peripherals')
-        }
-        for (var i = 0; i < results.length; i++) {
-          var peripheral = results[i];
-          
-          peripherals.set(peripheral.id, peripheral);
-          setList(Array.from(peripherals.values()));
-        }
-      });
-      return (null)
-    }
-    
-    const handleDiscoverPeripheral = (peripheral) => {
-      console.log('Got ble peripheral', peripheral);
-      if (!peripheral.name) {
-        peripheral.name = 'NO NAME';
-      }
+  const setsteps = data => {
+    stepsRef.current = data;
+    _setsteps(data);
+  };
+  const setbatimentos = data => {
+    //batimentosRef.current = data;
+    _setbatimentos(data);
+  };
+
+  const peripherals = new Map();
+  const [list, setList] = useState([]);
+
+  const handleStopScan = () => {
+    console.log('Scan is stopped');
+    setIsScanning(false);
+  };
+
+  const handleDisconnectedPeripheral = data => {
+    let peripheral = peripherals.get(data.peripheral);
+    if (peripheral) {
+      peripheral.connected = false;
       peripherals.set(peripheral.id, peripheral);
       setList(Array.from(peripherals.values()));
     }
-    /// passos uuid = fee0 e char = 7 -> 00000007-0000-3512-2118-0009af100700
-    const testPeripheral = (peripheral) => {
-      if (peripheral){
-        if (peripheral.connected){
-          console.log("vai1");
-          BleManager.disconnect(peripheral.id);
-        }else{
-          console.log("vai222");
-          BleManager.connect(peripheral.id).then(() => {
+    console.log('Disconnected from ' + data.peripheral);
+  };
+
+  const handleUpdateValueForCharacteristic = data => {
+    //console.log('Received data from ' + data.peripheral + ' characteristic ' + data.characteristic, data.value);
+    if (data.characteristic == '00002a37-0000-1000-8000-00805f9b34fb') {
+      setbatimentos(data.value[1]);
+      //console.log('batimentos ' + batimentosRef.current);
+    }
+    if (data.characteristic == '00000007-0000-3512-2118-0009af100700') {
+      // console.log(data.value);
+
+      setsteps(data.value[2] * 256 + data.value[1]);
+      console.log('passos ' + stepsRef.current);
+    }
+  };
+
+  const RetrieveConnected = () => {
+    BleManager.getConnectedPeripherals([]).then(results => {
+      if (results.length == 0) {
+        console.log('No connected peripherals');
+      }
+      for (var i = 0; i < results.length; i++) {
+        var peripheral = results[i];
+
+        peripherals.set(peripheral.id, peripheral);
+        setList(Array.from(peripherals.values()));
+      }
+    });
+    return null;
+  };
+
+  const handleDiscoverPeripheral = peripheral => {
+    console.log('Got ble peripheral', peripheral);
+    if (!peripheral.name) {
+      peripheral.name = 'NO NAME';
+    }
+    peripherals.set(peripheral.id, peripheral);
+    setList(Array.from(peripherals.values()));
+  };
+  /// passos uuid = fee0 e char = 7 -> 00000007-0000-3512-2118-0009af100700
+  const testPeripheral = peripheral => {
+    if (peripheral) {
+      if (peripheral.connected) {
+        console.log('vai1');
+        BleManager.disconnect(peripheral.id);
+      } else {
+        console.log('vai222');
+        BleManager.connect(peripheral.id)
+          .then(() => {
             let p = peripherals.get(peripheral.id);
             if (p) {
-             // p.connected = true;
+              // p.connected = true;
               peripherals.set(peripheral.id, p);
               setList(Array.from(peripherals.values()));
             }
             console.log('Connected to ' + peripheral.id);
-  
-  
+
             setTimeout(() => {
-  
               /* Test read current RSSI value */
-              BleManager.retrieveServices(peripheral.id).then((peripheralData) => {
-                console.log('Retrieved peripheral services', peripheralData);
-                BleManager.startNotification(
-                  peripheral.id,
-                  "180d",
-                  "2a37"
-                )
-                  .then((readData) => {
-                    // Success code
-                    console.log("Read: " + readData);
-              
-                  })
-                  .catch((error) => {
-                    // Failure code
-                    console.log(error);
-                  });
-                
+              BleManager.retrieveServices(peripheral.id).then(
+                peripheralData => {
+                  console.log('Retrieved peripheral services', peripheralData);
+                  BleManager.startNotification(peripheral.id, '180d', '2a37')
+                    .then(readData => {
+                      // Success code
+                      console.log('Read: ' + readData);
+                    })
+                    .catch(error => {
+                      // Failure code
+                      console.log(error);
+                    });
+
                   BleManager.startNotification(
                     peripheral.id,
-                    "fee0",
-                    "00000007-0000-3512-2118-0009af100700"
-                  ).then(() => {
-                    // Success code
-                    console.log("Notification started");
-                  })
-                  .catch((error) => {
-                    // Failure code
-                    console.log(error);
-                  });
-              });
+                    'fee0',
+                    '00000007-0000-3512-2118-0009af100700',
+                  )
+                    .then(() => {
+                      // Success code
+                      console.log('Notification started');
+                    })
+                    .catch(error => {
+                      // Failure code
+                      console.log(error);
+                    });
+                },
+              );
 
-              
               // Test using bleno's pizza example
               // https://github.com/sandeepmistry/bleno/tree/master/examples/pizza
               /*
@@ -193,140 +182,176 @@
                   });
                 }, 200);
               });*/
-  
-              
-  
             }, 1000);
-          }).catch((error) => {
+          })
+          .catch(error => {
             console.log('Connection error', error);
           });
-        }
       }
-      
     }
-  
-    useEffect(() => {
-      BleManager.start({showAlert: false});
-  
-      bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', handleDiscoverPeripheral);
-      bleManagerEmitter.addListener('BleManagerStopScan', handleStopScan );
-      bleManagerEmitter.addListener('BleManagerDisconnectPeripheral', handleDisconnectedPeripheral );
-      bleManagerEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', handleUpdateValueForCharacteristic );
-      
-      if (Platform.OS === 'android' && Platform.Version >= 23) {
-        PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION).then((result) => {
+  };
+
+  useEffect(() => {
+    BleManager.start({showAlert: false});
+
+    bleManagerEmitter.addListener(
+      'BleManagerDiscoverPeripheral',
+      handleDiscoverPeripheral,
+    );
+    bleManagerEmitter.addListener('BleManagerStopScan', handleStopScan);
+    bleManagerEmitter.addListener(
+      'BleManagerDisconnectPeripheral',
+      handleDisconnectedPeripheral,
+    );
+    bleManagerEmitter.addListener(
+      'BleManagerDidUpdateValueForCharacteristic',
+      handleUpdateValueForCharacteristic,
+    );
+
+    if (Platform.OS === 'android' && Platform.Version >= 23) {
+      PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      ).then(result => {
+        if (result) {
+          console.log('Permission is OK');
+        } else {
+          PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          ).then(result => {
             if (result) {
-              console.log("Permission is OK");
+              console.log('User accept');
             } else {
-              PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION).then((result) => {
-                if (result) {
-                  console.log("User accept");
-                } else {
-                  console.log("User refuse");
-                }
-              });
+              console.log('User refuse');
             }
-        });
-      }  
-      
-      return (() => {
-        console.log('unmount');
-        bleManagerEmitter.removeListener('BleManagerDiscoverPeripheral', handleDiscoverPeripheral);
-        bleManagerEmitter.removeListener('BleManagerStopScan', handleStopScan );
-        bleManagerEmitter.removeListener('BleManagerDisconnectPeripheral', handleDisconnectedPeripheral );
-        bleManagerEmitter.removeListener('BleManagerDidUpdateValueForCharacteristic', handleUpdateValueForCharacteristic );
-      })
-    }, []);
-  
-    const renderItem = (item) => {
-      const color = item.connected ? 'green' : '#fff';
-      return (
-        <TouchableHighlight onPress={() => testPeripheral(item) }>
-          <View style={[styles.row, {backgroundColor: color}]}>
-            <Text style={{fontSize: 12, textAlign: 'center', color: '#333333', padding: 10}}>{item.name}</Text>
-            <Text style={{fontSize: 10, textAlign: 'center', color: '#333333', padding: 2}}>RSSI: {item.rssi}</Text>
-            <Text style={{fontSize: 8, textAlign: 'center', color: '#333333', padding: 2, paddingBottom: 20}}>{item.id}</Text>
-          </View>
-        </TouchableHighlight>
-      );
+          });
+        }
+      });
     }
-    
-    return {batimentosRef}( 
-      <>
-     
-        <RetrieveConnected/>
-        <StatusBar barStyle="dark-content" />
-        <SafeAreaView>
-          <ScrollView
-            contentInsetAdjustmentBehavior="automatic"
-            style={styles.scrollView}>
-            {global.HermesInternal == null ? null : (
-              <View style={styles.engine}>
-                <Text style={styles.footer}>Engine: Hermes</Text>
-              </View>
-            )}
-            <View style={styles.body}>
-              
-              
-              
-  
-              {(list.length == 0) &&
-                <View style={{flex:1, margin: 20}}>
-                  <Text style={{textAlign: 'center'}}>No peripherals</Text>
-                </View>
-              }
-            
-            </View>              
-          </ScrollView>
-          <FlatList
-              data={list}
-              renderItem={({ item }) => renderItem(item) }
-              keyExtractor={item => item.id}
-            />              
-        </SafeAreaView>
-      </>
+
+    return () => {
+      console.log('unmount');
+      bleManagerEmitter.removeListener(
+        'BleManagerDiscoverPeripheral',
+        handleDiscoverPeripheral,
+      );
+      bleManagerEmitter.removeListener('BleManagerStopScan', handleStopScan);
+      bleManagerEmitter.removeListener(
+        'BleManagerDisconnectPeripheral',
+        handleDisconnectedPeripheral,
+      );
+      bleManagerEmitter.removeListener(
+        'BleManagerDidUpdateValueForCharacteristic',
+        handleUpdateValueForCharacteristic,
+      );
+    };
+  }, []);
+
+  const renderItem = item => {
+    const color = item.connected ? 'green' : '#fff';
+    return (
+      <TouchableHighlight onPress={() => testPeripheral(item)}>
+        <View style={[styles.row, {backgroundColor: color}]}>
+          <Text
+            style={{
+              fontSize: 12,
+              textAlign: 'center',
+              color: '#333333',
+              padding: 10,
+            }}>
+            {item.name}
+          </Text>
+          <Text
+            style={{
+              fontSize: 10,
+              textAlign: 'center',
+              color: '#333333',
+              padding: 2,
+            }}>
+            RSSI: {item.rssi}
+          </Text>
+          <Text
+            style={{
+              fontSize: 8,
+              textAlign: 'center',
+              color: '#333333',
+              padding: 2,
+              paddingBottom: 20,
+            }}>
+            {item.id}
+          </Text>
+        </View>
+      </TouchableHighlight>
     );
   };
-  
-  const styles = StyleSheet.create({
-    scrollView: {
-      backgroundColor: Colors.lighter,
-    },
-    engine: {
-      position: 'absolute',
-      right: 0,
-    },
-    body: {
-      backgroundColor: Colors.white,
-    },
-    sectionContainer: {
-      marginTop: 32,
-      paddingHorizontal: 24,
-    },
-    sectionTitle: {
-      fontSize: 24,
-      fontWeight: '600',
-      color: Colors.black,
-    },
-    sectionDescription: {
-      marginTop: 8,
-      fontSize: 18,
-      fontWeight: '400',
-      color: Colors.dark,
-    },
-    highlight: {
-      fontWeight: '700',
-    },
-    footer: {
-      color: Colors.dark,
-      fontSize: 12,
-      fontWeight: '600',
-      padding: 4,
-      paddingRight: 12,
-      textAlign: 'right',
-    },
-  });
-  
-  export default Perifericos;
 
-  
+  return (
+    <>
+      <RetrieveConnected />
+      <StatusBar barStyle="dark-content" />
+      <SafeAreaView>
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          style={styles.scrollView}>
+          {global.HermesInternal == null ? null : (
+            <View style={styles.engine}>
+              <Text style={styles.footer}>Engine: Hermes</Text>
+            </View>
+          )}
+          <View style={styles.body}>
+            {list.length == 0 && (
+              <View style={{flex: 1, margin: 20}}>
+                <Text style={{textAlign: 'center'}}>No peripherals</Text>
+              </View>
+            )}
+          </View>
+        </ScrollView>
+        <FlatList
+          data={list}
+          renderItem={({item}) => renderItem(item)}
+          keyExtractor={item => item.id}
+        />
+      </SafeAreaView>
+    </>
+  );
+};
+
+const styles = StyleSheet.create({
+  scrollView: {
+    backgroundColor: Colors.lighter,
+  },
+  engine: {
+    position: 'absolute',
+    right: 0,
+  },
+  body: {
+    backgroundColor: Colors.white,
+  },
+  sectionContainer: {
+    marginTop: 32,
+    paddingHorizontal: 24,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: '600',
+    color: Colors.black,
+  },
+  sectionDescription: {
+    marginTop: 8,
+    fontSize: 18,
+    fontWeight: '400',
+    color: Colors.dark,
+  },
+  highlight: {
+    fontWeight: '700',
+  },
+  footer: {
+    color: Colors.dark,
+    fontSize: 12,
+    fontWeight: '600',
+    padding: 4,
+    paddingRight: 12,
+    textAlign: 'right',
+  },
+});
+
+export default Perifericos;
