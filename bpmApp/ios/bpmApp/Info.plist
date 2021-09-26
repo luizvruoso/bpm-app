@@ -55,6 +55,18 @@
 				<true/>
 			</dict>
 		</dict>
+		<key>177.194.52.168:8082</key>
+		<dict>
+			<!--Include to allow subdomains-->
+			<key>NSIncludesSubdomains</key>
+			<true/>
+			<!--Include to allow HTTP requests-->
+			<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+			<true/>
+			<!--Include to specify minimum TLS version-->
+			<key>NSTemporaryExceptionMinimumTLSVersion</key>
+			<string>TLSv1.1</string>
+		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string/>
