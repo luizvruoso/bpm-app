@@ -3,7 +3,7 @@ import produce from 'immer';
 export default function heartBeat(state = [], action) {
   switch (action.type) {
     case 'SET_HEART_BEAT':
-      return action.payload;
+      return [...state, action.payload];
     case 'SET_LOADING_DATA':
       return {
         status: 'loading',

@@ -1,5 +1,7 @@
 import {collectActualHeartBeatInfomation} from './middlewares';
 import {now} from '../../../assets/utils';
+import {setHeartBeat} from '../heartBeat/Actions';
+
 export function getActualHeartBeatData() {
   return dispatch => {
     /*dispatch(setLoadingData());
@@ -24,13 +26,13 @@ export function setActualHeartBeat(value) {
       value: value,
       date: now(),
     };
-    console.log('foi', payload);
 
-    dispatch(setHeartBeat(payload));
+    setHeartBeat(payload);
+    dispatch(setHeartBeatInstant(payload));
   };
 }
 
-function setHeartBeat(data) {
+function setHeartBeatInstant(data) {
   return {
     type: 'SET_HEART_BEAT_INSTANT',
     payload: data,

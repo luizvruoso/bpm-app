@@ -17,7 +17,7 @@ export default function HeartMeasure(props) {
 
   return (
     <View style={[styles.flex1]}>
-      <HeartBeatFocus {...instantData[0]} />
+      <HeartBeatFocus {...instantData} />
       <View style={[styles.flex1, {paddingBottom: 90}]}>
         <FlatList
           data={heartBeatData}
@@ -78,7 +78,7 @@ function HeartBeatFocus(props) {
               //styles.textLeft,
               styles.textVerticalCenter,
             ]}>
-            {parseInt(props.avegare)}
+            {parseInt(props.value)}
             <Text style={[{fontSize: 20, color: variables.white}]}>
               &nbsp; bpm
             </Text>
@@ -138,7 +138,7 @@ function HeartBeat(props) {
               styles.textLeft,
               styles.textVerticalCenter,
             ]}>
-            {parseInt(props.avegare)}
+            {parseInt(props.value)}
             <Text
               style={[
                 {fontSize: 20, color: variables.darkGray3},
@@ -178,7 +178,7 @@ function HeartBeat(props) {
             min &nbsp;
           </Text>
           <Text style={[{fontSize: variables.fontLarger}, styles.bold]}>
-            {parseInt(props.min)}
+            {parseInt(props?.min)}
           </Text>
         </View>
 
@@ -191,7 +191,7 @@ function HeartBeat(props) {
             máx &nbsp;
           </Text>
           <Text style={[{fontSize: variables.fontLarger}, styles.bold]}>
-            {parseInt(props.max)}
+            {parseInt(props?.max)}
           </Text>
         </View>
       </View>

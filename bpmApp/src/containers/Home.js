@@ -3,7 +3,7 @@ import Home from '../screens/Home';
 import {getActualHeartBeatData} from '../store/modules/heartBeatInstant/Actions';
 import {getActualSteps} from '../store/modules/stepsInstant/Actions';
 import {sendUserStatusData} from '../store/modules/monitored/Actions';
-
+import {refreshUserInfo} from '../store/modules/user/Actions';
 const mapStateToProps = state => {
   return {
     user: state.user,
@@ -16,6 +16,9 @@ const mapDispatchToProps = (dispatch, props) => {
   return {
     onInit: () => {
       return;
+    },
+    refreshUserInfo: () => {
+      return dispatch(refreshUserInfo());
     },
     getActualHeartBeatData: () => {
       return dispatch(getActualHeartBeatData());

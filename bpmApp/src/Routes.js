@@ -93,15 +93,9 @@ function HeartBeatRoute(props) {
       <RootStack.Screen
         options={{headerShown: false}}
         name="HeartBeat"
-        //component={HeartBeat}
+        component={HeartBeat}
         //options={{title: 'Batimentos'}}
-      >
-        {props => (
-          <MainTemplate {...props}>
-            <HeartBeat />
-          </MainTemplate>
-        )}
-      </RootStack.Screen>
+      />
     </RootStack.Navigator>
   );
 }
@@ -125,15 +119,9 @@ function StepsRoute(props) {
       <RootStack.Screen
         options={{headerShown: false}}
         name="Steps"
-        //component={Steps}
+        component={Steps}
         //options={{title: 'Passos'}}
-      >
-        {props => (
-          <MainTemplate {...props}>
-            <Steps />
-          </MainTemplate>
-        )}
-      </RootStack.Screen>
+      />
     </RootStack.Navigator>
   );
 }
@@ -487,13 +475,19 @@ export default class Routes extends Component {
             <RootStack.Screen options={{headerShown: false}} name="Root">
               {props => <Root {...props} extra={this.props} />}
             </RootStack.Screen>
-            <RootStack.Screen options={{headerShown: false}} name="Steps">
+            <RootStack.Screen
+              options={{headerShown: true, title: 'Voltar'}}
+              name="Steps">
               {props => <StepsRoute {...props} extra={this.props} />}
             </RootStack.Screen>
-            <RootStack.Screen options={{headerShown: false}} name="Alert">
+            <RootStack.Screen
+              options={{headerShown: true, title: 'Voltar'}}
+              name="Alert">
               {props => <AlertRoute {...props} extra={this.props} />}
             </RootStack.Screen>
-            <RootStack.Screen options={{headerShown: false}} name="HeartBeat">
+            <RootStack.Screen
+              options={{headerShown: true, title: 'Voltar'}}
+              name="HeartBeat">
               {props => <HeartBeatRoute {...props} extra={this.props} />}
             </RootStack.Screen>
             <RootStack.Screen

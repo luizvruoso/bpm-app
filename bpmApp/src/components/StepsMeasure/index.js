@@ -15,7 +15,7 @@ export default function index(props) {
   }, []);
   return (
     <View style={[styles.flex1]}>
-      <StepsMeasureFocus instantStepsData={instantStepsData[0]} />
+      <StepsMeasureFocus instantStepsData={instantStepsData} />
       <View style={[styles.flex1, {paddingBottom: 90}]}>
         <FlatList
           data={stepsData}
@@ -58,7 +58,7 @@ function StepsMeasureFocus(props) {
           },
         ]}>
         <Text style={[{color: variables.darkGray3}]}>
-          {fromDateTimeGetTime(instantStepsData?.time)}
+          {fromDateTimeGetTime(instantStepsData?.date)}
         </Text>
       </View>
 
@@ -116,7 +116,7 @@ function StepsMeasure(props) {
           },
         ]}>
         <Text style={[{color: variables.darkGray4}]}>
-          {convertDate(props.time)}
+          {convertDate(props.date)}
         </Text>
       </View>
       <View

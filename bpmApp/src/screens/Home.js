@@ -22,7 +22,10 @@ export function Home(props) {
   });
 
   useEffect(() => {
-    let {getActualHeartBeatData, getActualStepsData} = props;
+    const {getActualHeartBeatData, getActualStepsData, refreshUserInfo} = props;
+
+    refreshUserInfo();
+
     //console.log(props.user);
     //getActualHeartBeatData();
     //getActualStepsData();

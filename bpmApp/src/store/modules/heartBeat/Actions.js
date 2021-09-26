@@ -2,7 +2,7 @@ import {collectHeartBeatInfomation} from './middlewares';
 
 export function getHeartBeatData() {
   return dispatch => {
-    dispatch(setLoadingData());
+    /* dispatch(setLoadingData());
     collectHeartBeatInfomation()
       .then(ret => {
         if (ret) {
@@ -13,10 +13,11 @@ export function getHeartBeatData() {
         dispatch(setError(err));
         console.error('Error while colleting heart beat data', err);
       });
+  };*/
   };
 }
 
-function setHeartBeat(data) {
+export function setHeartBeat(data) {
   return {
     type: 'SET_HEART_BEAT',
     payload: data,
