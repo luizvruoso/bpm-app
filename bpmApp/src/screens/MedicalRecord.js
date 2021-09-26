@@ -410,7 +410,7 @@ function BirthInput(props) {
             testID="dateTimePicker"
             value={date}
             mode={mode}
-            display="default"
+            display="spinner"
             onChange={onChange}
           />
         )}
