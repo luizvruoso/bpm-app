@@ -1,28 +1,32 @@
-import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-} from 'react-native';
+import {connect} from 'react-redux';
+import Home from '../screens/Home';
+import {getActualHeartBeatData} from '../store/modules/heartBeatInstant/Actions';
+import {getActualSteps} from '../store/modules/stepsInstant/Actions';
+import {sendUserStatusData} from '../store/modules/monitored/Actions';
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
-   
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    heartBeatInstant: state.heartBeatInstant,
+    stepsInstant: state.stepsInstant,
+  };
+};
 
-   
-  }
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    onInit: () => {
+      return;
+    },
+    getActualHeartBeatData: () => {
+      return dispatch(getActualHeartBeatData());
+    },
+    getActualStepsData: () => {
+      return dispatch(getActualSteps());
+    },
+    sendUserStatusData: data => {
+      return dispatch(sendUserStatusData(data));
+    },
+  };
+};
 
-  render() {
-    return <View> <Text> Hello</Text></View>;
-  }
-}
-
-export default Home;
-
-const styles = StyleSheet.create({
-  
-});
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

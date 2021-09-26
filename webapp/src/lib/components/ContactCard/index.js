@@ -13,7 +13,7 @@ function Contact(props) {
     >
       <div className="photo">
         <img src="./assets/img/idoso.png" />
-        <span id="contactName">Clebinho Dinamite v2</span>
+        <span id="contactName">Victor Soldera Xhu</span>
       </div>
     </div>
   );
