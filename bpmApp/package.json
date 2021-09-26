@@ -29,10 +29,6 @@
     "react-native": "0.65.1",
     "react-native-ble-manager": "^7.6.1",
     "react-native-date-picker": "^4.0.0",
-<<<<<<< HEAD
-    "react-native-ble-manager": "^7.6.1",
-=======
->>>>>>> 711026d819d7735c18d7e3b74301c549a746dcee
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-linear-gradient": "^2.5.6",
