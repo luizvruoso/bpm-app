@@ -448,8 +448,8 @@ function AlzheimerInput(props) {
         <RNPickerSelect
           onClose={props.handleBlurInput}
           placeholder={{
-            label: convertToString(props.value),
-            value: props.value,
+            label: 'Selecione uma opção',
+            value: null,
           }}
           Icon={() => {
             return (
@@ -496,11 +496,8 @@ function SexInput(props) {
         <RNPickerSelect
           onClose={props.handleBlurInput}
           placeholder={{
-            label:
-              props.value != null
-                ? convertToString(props.value)
-                : 'Selecione uma opção',
-            value: props.value,
+            label: 'Selecione uma opção',
+            value: null,
           }}
           Icon={() => {
             return (
@@ -551,8 +548,8 @@ function WheelchairInput(props) {
         <RNPickerSelect
           onClose={props.handleBlurInput}
           placeholder={{
-            label: convertToString(props.value),
-            value: props.value,
+            label: 'Selecione uma opção',
+            value: null,
           }}
           Icon={() => {
             return (
