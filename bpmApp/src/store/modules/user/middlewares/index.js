@@ -3,19 +3,13 @@ import {URL_API} from '../../../../env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export async function sendCodeTel(tel) {
-  return fetchAPILogin(
+  const ret = await fetchAPILogin(
     'POST',
     URL_API.AUTH.SEND_CODE,
     {phoneNumber: '55' + tel},
     null,
-  )
-    .then(ret => {
-      if (ret?.status == 200) return ret.data;
-      return false;
-    })
-    .catch(err => {
-      return false;
-    });
+  );
+  return ret.data;
 
   /* return new Promise((resolve, reject) => {
     let aux = {
@@ -93,16 +87,4 @@ export async function getUserData() {
   } catch (e) {
     return false;
   }*/
-}
-
-export async function logoutFetch() {
-  return new Promise((resolve, reject) => {
-    let aux = {
-      status: 200,
-    };
-
-    return setTimeout(() => {
-      return resolve(aux);
-    }, 500);
-  });
 }

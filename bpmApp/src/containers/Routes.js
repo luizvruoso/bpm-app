@@ -4,6 +4,9 @@ import {
   loginTelUser,
   logout,
   refreshUserInfo,
+  setErrorMessage,
+  setErrorToFalse,
+  setSuccessToFalse,
 } from '../store/modules/user/Actions';
 
 const mapStateToProps = state => {
@@ -22,6 +25,12 @@ const mapDispatchToProps = (dispatch, props) => {
     },
     refreshUserInfo: () => {
       return dispatch(refreshUserInfo());
+    },
+    setErrorToFalse: () => {
+      return dispatch(setErrorToFalse());
+    },
+    setSuccessToFalse: () => {
+      return dispatch(setSuccessToFalse());
     },
   };
 };

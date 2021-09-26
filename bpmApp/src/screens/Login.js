@@ -19,7 +19,7 @@ export default function Login(props) {
   const [phone, setPhone] = useState('');
   const [showCodView, setCodView] = useState(false);
 
-  const {sendToken, validateToken} = props;
+  const {sendToken, validateToken, setPhoneAuth} = props;
 
   return (
     <SafeAreaView style={[styles.flex1, styles.bgWhite]}>
@@ -80,8 +80,8 @@ export default function Login(props) {
                 onPress={() => {
                   if (phone.length == 16) {
                     sendToken(phone);
-
-                    navigate('TypeAuthCode', {phone: phone});
+                    setPhoneAuth({phone});
+                    //navigate('TypeAuthCode', {phone: phone});
                   }
                 }}
                 style={[

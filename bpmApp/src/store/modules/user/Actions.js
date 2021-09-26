@@ -15,8 +15,11 @@ export function sendTokenTel(phone) {
     try {
       const ret = await sendCodeTel(phone);
     } catch (err) {
-      console.error(err);
-
+      dispatch(
+        setErrorMessage(
+          'Erro ao enviar token, verifique seu telefone e tente novamente.',
+        ),
+      );
       return dispatch(failedLogin());
     }
   };
@@ -56,25 +59,26 @@ export function validateToken(phone, auth) {
       })
       .catch(err => {
         console.error(err);
-
-        return dispatch(failedLogin());
+        dispatch(
+          setErrorMessage('Erro ao validar token \n' + err.customMessage),
+        );
+        //return dispatch(failedLogin());
       });
   };
 }
 
 export function logout(tel) {
-  return dispatch => {
-    logoutFetch(tel)
-      .then(ret => {
-        if (ret != null) {
-          return dispatch(logoutAction());
-        }
-      })
-      .catch(err => {
-        console.error(err);
+  return async dispatch => {
+    try {
+      const firstPair = ['@token', null];
+      const secondPair = ['@refreshToken', null];
 
-        return dispatch(failedLogin());
-      });
+      await AsyncStorage.multiSet([firstPair, secondPair]);
+
+      return dispatch(logoutAction());
+    } catch (err) {
+      return dispatch(logoutAction());
+    }
   };
 }
 
@@ -90,7 +94,7 @@ export function registerUserData(data) {
       weight: parseInt(data.weight),
       height: parseInt(data.height),
       sex: data.sex,
-      isWheelChairUser: data.wheelchairUser,
+      isWheelchairUser: data.wheelchairUser,
       hasAlzheimer: data.alzheimer,
     };
     try {
@@ -117,6 +121,12 @@ export function registerUserData(data) {
       dispatch(saveDataAction(actionPayload));
     } catch (err) {
       console.log(err);
+      dispatch(
+        setErrorMessage(
+          'Erro ao enviar cadastro, tente novamente mais tarde. \n' +
+            err.customMessage,
+        ),
+      );
       return dispatch(logoutAction());
     }
   };
@@ -145,12 +155,50 @@ export function refreshUserInfo(data = null) {
       };
 
       dispatch(saveDataAction(actionPayload));
-      console.log('hoi', actionPayload);
     } catch (err) {
       console.error(err);
 
       //return dispatch(failedLogin());
     }
+  };
+}
+
+export function setErrorMessage(message) {
+  return {
+    type: 'SET_ERROR_MESSAGE',
+    payload: {
+      message,
+    },
+  };
+}
+
+export function setSuccessMessage(message) {
+  return {
+    type: 'SET_SUCCESS_MESSAGE',
+    payload: {
+      message,
+    },
+  };
+}
+
+export function setPhoneAuth(data) {
+  return {
+    type: 'SET_PHONE_AUTH',
+    payload: {
+      phone: data.phone,
+    },
+  };
+}
+
+export function setErrorToFalse() {
+  return {
+    type: 'ERROR_TO_FALSE',
+  };
+}
+
+export function setSuccessToFalse() {
+  return {
+    type: 'SUCCESS_TO_FALSE',
   };
 }
 

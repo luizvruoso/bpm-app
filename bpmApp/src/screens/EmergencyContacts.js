@@ -167,7 +167,8 @@ export function ModalContact(props) {
             <View style={[styles.p20]}>
               <TouchableOpacity
                 onPress={() => {
-                  //setModalVisible(!modalVisible);
+                  setModalVisible(!modalVisible);
+                  setToken('');
                   addUserEmergencyContact(token);
                 }}
                 style={[

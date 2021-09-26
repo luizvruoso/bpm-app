@@ -24,7 +24,7 @@ export default function TypeAuthCode(props) {
         <View style={[styles.centerXY, styles.mt50, styles.flex1]}>
           <Text
             style={[{fontSize: variables.titulo1, color: variables.secondary}]}>
-            +55 {formatCel(props.route.params.phone)}
+            +55 {formatCel(props.user.userInfo.phone)}
           </Text>
           <Text
             style={[
@@ -63,7 +63,7 @@ export default function TypeAuthCode(props) {
           <View style={[styles.row, styles.mt20]}>
             <TouchableOpacity
               onPress={() => {
-                props.validateToken(props.route.params.phone, auth);
+                props.validateToken(props.user.userInfo.phone, auth);
               }}
               style={[
                 styles.row,

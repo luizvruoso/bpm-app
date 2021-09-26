@@ -34,6 +34,7 @@ import {
 import {variables} from './assets/variables';
 import MainTemplate from './components/MainTemplate';
 import styles from './assets/globals';
+import AppMessageNotification from './components/AppMessageNotification';
 
 import Home from './containers/Home';
 import HeartBeat from './containers/HeartBeat';
@@ -385,9 +386,9 @@ export default class Routes extends Component {
   }
 
   triggerInterval() {
-    const {refreshUserInfo} = this.props;
+    const {refreshUserInfo, user} = this.props;
     setInterval(() => {
-      refreshUserInfo();
+      if (user.isAuthenticated == true) refreshUserInfo();
     }, 30000);
   }
 
@@ -396,8 +397,15 @@ export default class Routes extends Component {
   }
 
   routeFirstAccess() {
+    const {user, setErrorToFalse, setSuccessToFalse} = this.props;
+
     return (
       <SafeAreaView style={[{flex: 1}, {backgroundColor: variables.primary}]}>
+        <AppMessageNotification
+          user={user}
+          setErrorToFalse={setErrorToFalse}
+          setSuccessToFalse={setSuccessToFalse}
+        />
         <NavigationContainer ref={navigationRef}>
           <StatusBar
             barStyle="dark-content"
@@ -416,10 +424,44 @@ export default class Routes extends Component {
     );
   }
 
-  routeLogged() {
-    // let {onLogout} = this.props;
+  routePhoneAuth() {
+    const {user, setErrorToFalse, setSuccessToFalse} = this.props;
+
     return (
       <SafeAreaView style={[{flex: 1}, {backgroundColor: variables.primary}]}>
+        <AppMessageNotification
+          user={user}
+          setErrorToFalse={setErrorToFalse}
+          setSuccessToFalse={setSuccessToFalse}
+        />
+        <NavigationContainer ref={navigationRef}>
+          <StatusBar
+            barStyle="dark-content"
+            backgroundColor={variables.primary}
+          />
+
+          <RootStack.Navigator
+            screenOptions={{
+              headerShown: false,
+            }}>
+            <RootStack.Screen name="TypeAuthCode" component={TypeAuthCode} />
+          </RootStack.Navigator>
+        </NavigationContainer>
+      </SafeAreaView>
+    );
+  }
+
+  routeLogged() {
+    // let {onLogout} = this.props;
+    const {user, setErrorToFalse, setSuccessToFalse} = this.props;
+
+    return (
+      <SafeAreaView style={[{flex: 1}, {backgroundColor: variables.primary}]}>
+        <AppMessageNotification
+          user={user}
+          setErrorToFalse={setErrorToFalse}
+          setSuccessToFalse={setSuccessToFalse}
+        />
         <NavigationContainer ref={navigationRef}>
           <StatusBar
             barStyle="dark-content"
@@ -475,8 +517,15 @@ export default class Routes extends Component {
   }
 
   routeNotLogged() {
+    const {user, setErrorToFalse, setSuccessToFalse} = this.props;
+
     return (
       <SafeAreaView style={[{flex: 1}, {backgroundColor: '#FFF'}]}>
+        <AppMessageNotification
+          user={user}
+          setErrorToFalse={setErrorToFalse}
+          setSuccessToFalse={setSuccessToFalse}
+        />
         <NavigationContainer ref={navigationRef}>
           <StatusBar barStyle="dark-content" backgroundColor="#FFF" />
 
@@ -486,7 +535,6 @@ export default class Routes extends Component {
             }}
             initialRouteName="Login">
             <RootStack.Screen name="Login" component={Login} />
-            <RootStack.Screen name="TypeAuthCode" component={TypeAuthCode} />
           </RootStack.Navigator>
         </NavigationContainer>
       </SafeAreaView>
@@ -494,10 +542,11 @@ export default class Routes extends Component {
   }
 
   render() {
-    let {user} = this.props;
+    const {user} = this.props;
     if (user.isAuthenticated && user.roles == null)
       return this.routeFirstAccess();
     if (user.isAuthenticated) return this.routeLogged();
+    if (user.loginMethod === 'phone') return this.routePhoneAuth();
     return this.routeNotLogged();
   }
 }
