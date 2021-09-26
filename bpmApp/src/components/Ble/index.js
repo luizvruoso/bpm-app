@@ -34,11 +34,26 @@
   const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
   
   const Perifericos = () => {
+    const [steps,_setsteps] = useState(0);
+    const [batimentos,_setbatimentos] = useState(0);
+
+    const stepsRef = React.useRef(steps);
+    const batimentosRef = React.useRef(batimentos);
+
+    const setsteps = data => {
+      stepsRef.current = data;
+      _setsteps(data);
+    }
+    const setbatimentos = data => {
+      batimentosRef.current = data;
+      _setbatimentos(data);
+    }
+
     
     const peripherals = new Map();
     const [list, setList] = useState([]);
   
-  
+
     const handleStopScan = () => {
       console.log('Scan is stopped');
       setIsScanning(false);
@@ -55,7 +70,17 @@
     }
   
     const handleUpdateValueForCharacteristic = (data) => {
-      console.log('Received data from ' + data.peripheral + ' characteristic ' + data.characteristic, data.value);
+      //console.log('Received data from ' + data.peripheral + ' characteristic ' + data.characteristic, data.value);
+      if(data.characteristic=='00002a37-0000-1000-8000-00805f9b34fb'){
+        setbatimentos(data.value[1]);
+       console.log('batimentos '+ batimentosRef.current);
+      }
+      if(data.characteristic == '00000007-0000-3512-2118-0009af100700'){
+       // console.log(data.value);
+
+        setsteps(data.value[2]*256+data.value[1]);
+        console.log('passos '+stepsRef.current);
+      }
     }
   
     const RetrieveConnected = () => {
@@ -104,37 +129,36 @@
               /* Test read current RSSI value */
               BleManager.retrieveServices(peripheral.id).then((peripheralData) => {
                 console.log('Retrieved peripheral services', peripheralData);
-  
                 BleManager.startNotification(
                   peripheral.id,
                   "180d",
                   "2a37"
                 )
-                  .then(() => {
+                  .then((readData) => {
+                    // Success code
+                    console.log("Read: " + readData);
+              
+                  })
+                  .catch((error) => {
+                    // Failure code
+                    console.log(error);
+                  });
+                
+                  BleManager.startNotification(
+                    peripheral.id,
+                    "fee0",
+                    "00000007-0000-3512-2118-0009af100700"
+                  ).then(() => {
                     // Success code
                     console.log("Notification started");
                   })
                   .catch((error) => {
                     // Failure code
                     console.log(error);
-                  });                                        
-              });
-              BleManager.retrieveServices(peripheral.id).then((peripheralData) => {
-                console.log('Retrieved peripheral services', peripheralData);
-                BleManager.startNotification(
-                  peripheral.id,
-                  "fee0",
-                  "00000007-0000-3512-2118-0009af100700"
-                ).then(() => {
-                  // Success code
-                  console.log("Notification started");
-                })
-                .catch((error) => {
-                  // Failure code
-                  console.log(error);
-                });
+                  });
               });
 
+              
               // Test using bleno's pizza example
               // https://github.com/sandeepmistry/bleno/tree/master/examples/pizza
               /*
@@ -172,7 +196,7 @@
   
               
   
-            }, 900);
+            }, 1000);
           }).catch((error) => {
             console.log('Connection error', error);
           });
@@ -188,7 +212,7 @@
       bleManagerEmitter.addListener('BleManagerStopScan', handleStopScan );
       bleManagerEmitter.addListener('BleManagerDisconnectPeripheral', handleDisconnectedPeripheral );
       bleManagerEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', handleUpdateValueForCharacteristic );
-  
+      
       if (Platform.OS === 'android' && Platform.Version >= 23) {
         PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION).then((result) => {
             if (result) {
@@ -226,9 +250,10 @@
         </TouchableHighlight>
       );
     }
-  
-    return (
+    
+    return {batimentosRef}( 
       <>
+     
         <RetrieveConnected/>
         <StatusBar barStyle="dark-content" />
         <SafeAreaView>
@@ -303,3 +328,5 @@
   });
   
   export default Perifericos;
+
+  
