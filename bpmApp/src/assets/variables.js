@@ -5,7 +5,7 @@ export const variables = {
   primary: '#FAF5EC', //ex.: CTA principais, header, pontos de foco
 
   //Cor secundária
-  secondary: '#00a1b9', // CTA secundários, pontos auxiliares
+  secondary: '#88b648', // CTA secundários, pontos auxiliares
 
   //Cores de ação
   success: '#28a745', //ex.: salvar, status ativo,

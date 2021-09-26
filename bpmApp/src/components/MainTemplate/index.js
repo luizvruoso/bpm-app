@@ -21,7 +21,7 @@ export default function index(props) {
         <TouchableOpacity
           style={[styles.row]}
           onPress={() => {
-            props.navigation.goBack();
+            props.navigation.pop();
           }}>
           <Icon
             name="arrow-back-ios"
@@ -35,7 +35,7 @@ export default function index(props) {
         </TouchableOpacity>
       </View>
 
-      <CustomContent />
+      <CustomContent navigation={props.navigation} />
     </View>
   );
 }

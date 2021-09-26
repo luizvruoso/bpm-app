@@ -10,7 +10,6 @@ export default function index(props) {
   const items = props.items;
   const stepsData = props.stepsData;
   const instantStepsData = props.instantStepsData;
-  console.log(instantStepsData);
   const Component = useCallback(({item}) => {
     return <StepsMeasure {...item} />;
   }, []);

@@ -13,6 +13,7 @@ import {variables} from '../assets/variables';
 import Header from '../components/Header';
 import {convertDate} from '../assets/utils';
 export function Home(props) {
+  const {user} = props;
   const [actualHeartBeatData, setActualHeartBeatData] = useState({
     status: 'loading',
   });
@@ -22,6 +23,7 @@ export function Home(props) {
 
   useEffect(() => {
     let {getActualHeartBeatData, getActualStepsData} = props;
+    console.log(props.user);
     getActualHeartBeatData();
     getActualStepsData();
   }, []);
@@ -74,6 +76,7 @@ export function Home(props) {
   }, [props.heartBeatInstant]);
 
   useEffect(() => {
+    //console.log(props.stepsInstant)
     if (
       props.stepsInstant.hasOwnProperty('status') &&
       (props.stepsInstant.status == 'loading' ||
@@ -82,7 +85,7 @@ export function Home(props) {
       setStepsData({
         status: 'loading',
       });
-    } else if (props.stepsInstant != null) {
+    } else if (props.stepsInstant != null && props.stepsInstant.length > 0) {
       let final = [];
       let sum = 0;
       props.stepsInstant.map((item, index) => {
@@ -97,6 +100,21 @@ export function Home(props) {
       ]);
     }
   }, [props.stepsInstant]);
+
+  useEffect(() => {
+    //console.log('alo', stepsData, actualHeartBeatData);
+    const {sendUserStatusData} = props;
+    if (
+      !stepsData.hasOwnProperty('status') &&
+      !actualHeartBeatData.hasOwnProperty('stauts')
+    ) {
+      sendUserStatusData({
+        heartBeat: actualHeartBeatData[0].avegare,
+        steps: stepsData[0].value,
+      });
+    }
+  }, [stepsData, actualHeartBeatData]);
+
   return (
     <View
       style={[
@@ -105,7 +123,7 @@ export function Home(props) {
         styles.fullSize,
         styles.m10,
       ]}>
-      <Header navigation={props.navigation} />
+      <Header navigation={props.navigation} name={user.userInfo.name} />
       {!actualHeartBeatData.hasOwnProperty('status') &&
         !stepsData.hasOwnProperty('status') && (
           <DashMenu

@@ -1,6 +1,13 @@
 import {connect} from 'react-redux';
 import Routes from '../Routes';
-import {loginTelUser} from '../store/modules/user/Actions'
+import {
+  loginTelUser,
+  logout,
+  refreshUserInfo,
+  setErrorMessage,
+  setErrorToFalse,
+  setSuccessToFalse,
+} from '../store/modules/user/Actions';
 
 const mapStateToProps = state => {
   return {
@@ -10,9 +17,20 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    
     telAuth: () => {
       return dispatch(loginTelUser());
+    },
+    onLogout: () => {
+      return dispatch(logout());
+    },
+    refreshUserInfo: () => {
+      return dispatch(refreshUserInfo());
+    },
+    setErrorToFalse: () => {
+      return dispatch(setErrorToFalse());
+    },
+    setSuccessToFalse: () => {
+      return dispatch(setSuccessToFalse());
     },
   };
 };
