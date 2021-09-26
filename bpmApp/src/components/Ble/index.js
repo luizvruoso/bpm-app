@@ -25,10 +25,11 @@ import {
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import BleManager from 'react-native-ble-manager';
+
 const BleManagerModule = NativeModules.BleManager;
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
-const Perifericos = () => {
+const Perifericos = props => {
   const [steps, _setsteps] = useState(0);
   const [batimentos, _setbatimentos] = useState(0);
 
@@ -63,16 +64,26 @@ const Perifericos = () => {
   };
 
   const handleUpdateValueForCharacteristic = data => {
-    //console.log('Received data from ' + data.peripheral + ' characteristic ' + data.characteristic, data.value);
+    const {setActualSteps, setActualHeartBeat} = props;
+    /*console.log(
+      'Received data from ' +
+        data.peripheral +
+        ' characteristic ' +
+        data.characteristic,
+      data.value,
+    );*/
+    //console.log('carac', data.characteristic);
     if (data.characteristic == '00002a37-0000-1000-8000-00805f9b34fb') {
-      setbatimentos(data.value[1]);
-      //console.log('batimentos ' + batimentosRef.current);
+      //setbatimentos(data.value[1]);
+      setActualHeartBeat(data.value[1]);
+      console.log('batimentos ' + data.value[1]);
     }
     if (data.characteristic == '00000007-0000-3512-2118-0009af100700') {
-      // console.log(data.value);
-
-      setsteps(data.value[2] * 256 + data.value[1]);
-      console.log('passos ' + stepsRef.current);
+      //console.log(data.value);
+      const value = data.value[2] * 256 + data.value[1];
+      setActualSteps(value);
+      //setsteps();
+      console.log('passos ' + value);
     }
   };
 
@@ -103,10 +114,8 @@ const Perifericos = () => {
   const testPeripheral = peripheral => {
     if (peripheral) {
       if (peripheral.connected) {
-        console.log('vai1');
         BleManager.disconnect(peripheral.id);
       } else {
-        console.log('vai222');
         BleManager.connect(peripheral.id)
           .then(() => {
             let p = peripherals.get(peripheral.id);
@@ -121,7 +130,8 @@ const Perifericos = () => {
               /* Test read current RSSI value */
               BleManager.retrieveServices(peripheral.id).then(
                 peripheralData => {
-                  console.log('Retrieved peripheral services', peripheralData);
+                  //console.log('Retrieved peripheral services', peripheralData);
+
                   BleManager.startNotification(peripheral.id, '180d', '2a37')
                     .then(readData => {
                       // Success code
@@ -197,8 +207,10 @@ const Perifericos = () => {
     bleManagerEmitter.addListener(
       'BleManagerDiscoverPeripheral',
       handleDiscoverPeripheral,
-    );
+    ); // verificar a existencia de novo dispositivo
+
     bleManagerEmitter.addListener('BleManagerStopScan', handleStopScan);
+
     bleManagerEmitter.addListener(
       'BleManagerDisconnectPeripheral',
       handleDisconnectedPeripheral,
@@ -206,7 +218,7 @@ const Perifericos = () => {
     bleManagerEmitter.addListener(
       'BleManagerDidUpdateValueForCharacteristic',
       handleUpdateValueForCharacteristic,
-    );
+    ); // Coletor
 
     if (Platform.OS === 'android' && Platform.Version >= 23) {
       PermissionsAndroid.check(
@@ -226,15 +238,20 @@ const Perifericos = () => {
           });
         }
       });
+
+      RetrieveConnected();
     }
 
     return () => {
       console.log('unmount');
+
       bleManagerEmitter.removeListener(
         'BleManagerDiscoverPeripheral',
         handleDiscoverPeripheral,
       );
+
       bleManagerEmitter.removeListener('BleManagerStopScan', handleStopScan);
+
       bleManagerEmitter.removeListener(
         'BleManagerDisconnectPeripheral',
         handleDisconnectedPeripheral,
@@ -245,6 +262,13 @@ const Perifericos = () => {
       );
     };
   }, []);
+
+  useEffect(() => {
+    console.log(list);
+    if (list.length > 0) {
+      testPeripheral(list[0]);
+    }
+  }, [list]);
 
   const renderItem = item => {
     const color = item.connected ? 'green' : '#fff';
@@ -284,6 +308,7 @@ const Perifericos = () => {
     );
   };
 
+  return <View></View>;
   return (
     <>
       <RetrieveConnected />

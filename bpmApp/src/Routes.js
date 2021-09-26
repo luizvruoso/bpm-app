@@ -47,6 +47,7 @@ import TypeAuthCode from './containers/TypeAuthCode';
 import FirstRegister from './containers/FirstRegister';
 import Monitor from './containers/Monitor';
 import DetailsMonitor from './containers/DetailsMonitor';
+import Ble from './containers/Ble';
 
 import Devices from './containers/Devices';
 
@@ -385,7 +386,7 @@ export default class Routes extends Component {
   constructor(props) {
     super(props);
 
-    this.triggerInterval();
+    //this.triggerInterval();
     //const isHermes = () => !!global.HermesInternal;
   }
 
@@ -461,6 +462,7 @@ export default class Routes extends Component {
 
     return (
       <SafeAreaView style={[{flex: 1}, {backgroundColor: variables.primary}]}>
+        <Ble />
         <AppMessageNotification
           user={user}
           setErrorToFalse={setErrorToFalse}

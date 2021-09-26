@@ -3,7 +3,8 @@ import produce from 'immer';
 export default function heartBeatInstant(state = [], action) {
   switch (action.type) {
     case 'SET_HEART_BEAT_INSTANT':
-      return [...action.payload];
+      console.log('alooo', action.payload);
+      return action.payload;
     case 'SET_LOADING_DATA_INSTANT':
       return {
         status: 'loading',

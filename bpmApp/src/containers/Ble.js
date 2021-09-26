@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import Devices from '../screens/Devices';
+import Ble from '../components/Ble';
 import {setActualHeartBeat} from '../store/modules/heartBeatInstant/Actions';
 import {setActualSteps} from '../store/modules/stepsInstant/Actions';
 
@@ -25,4 +25,4 @@ const mapDispatchToProps = (dispatch, props) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Devices);
+export default connect(mapStateToProps, mapDispatchToProps)(Ble);

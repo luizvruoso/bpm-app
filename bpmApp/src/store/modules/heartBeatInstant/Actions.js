@@ -1,8 +1,8 @@
 import {collectActualHeartBeatInfomation} from './middlewares';
-
+import {now} from '../../../assets/utils';
 export function getActualHeartBeatData() {
   return dispatch => {
-    dispatch(setLoadingData());
+    /*dispatch(setLoadingData());
     collectActualHeartBeatInfomation()
       .then(ret => {
         if (ret) {
@@ -13,6 +13,20 @@ export function getActualHeartBeatData() {
         dispatch(setError(err));
         console.error('Error while colleting instant heart beat data', err);
       });
+  };*/
+  };
+}
+
+export function setActualHeartBeat(value) {
+  return dispatch => {
+    //dispatch(setLoadingData());
+    const payload = {
+      value: value,
+      date: now(),
+    };
+    console.log('foi', payload);
+
+    dispatch(setHeartBeat(payload));
   };
 }
 

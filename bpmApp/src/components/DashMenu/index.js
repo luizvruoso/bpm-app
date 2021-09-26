@@ -15,15 +15,13 @@ export default function DashMenu(props) {
     return items.map((item, index) => {
       if (item == 'steps') {
         //return <View></View>;
-        return <Steps key={index} instantStepsData={instantStepsData[0]} />;
+        return <Steps key={index} instantStepsData={instantStepsData} />;
       }
 
       if (item == 'heartBeat') {
+        //console.log('Aloooo', instantHeartBeatData);
         return (
-          <HeartBeat
-            key={index}
-            instantHeartBeatData={instantHeartBeatData[0]}
-          />
+          <HeartBeat key={index} instantHeartBeatData={instantHeartBeatData} />
         );
       }
 
@@ -128,7 +126,7 @@ function HeartBeat(props) {
               styles.bold,
               styles.textLeft,
             ]}>
-            {parseInt(instantHeartBeatData.avegare)}
+            {parseInt(instantHeartBeatData.value)}
           </Text>
           <Text
             style={[
