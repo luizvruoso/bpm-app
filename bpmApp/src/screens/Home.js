@@ -13,6 +13,7 @@ import {variables} from '../assets/variables';
 import Header from '../components/Header';
 import {convertDate} from '../assets/utils';
 export function Home(props) {
+  const {user} = props;
   const [actualHeartBeatData, setActualHeartBeatData] = useState({
     status: 'loading',
   });
@@ -121,7 +122,7 @@ export function Home(props) {
         styles.fullSize,
         styles.m10,
       ]}>
-      <Header navigation={props.navigation} />
+      <Header navigation={props.navigation} name={user.userInfo.name} />
       {!actualHeartBeatData.hasOwnProperty('status') &&
         !stepsData.hasOwnProperty('status') && (
           <DashMenu

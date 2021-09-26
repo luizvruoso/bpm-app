@@ -2,9 +2,14 @@ import {connect} from 'react-redux';
 import DetailsMonitor from '../screens/DetailsMonitor';
 import {} from '../store/modules/user/Actions';
 import {addUserEmergencyContact} from '../store/modules/emergencyContact/Actions';
+import {getMonitoreds} from '../store/modules/monitored/Actions';
 
 const mapStateToProps = state => {
-  return {user: state.user, emergencyContact: state.emergencyContact};
+  return {
+    user: state.user,
+    emergencyContact: state.emergencyContact,
+    monitored: state.monitored,
+  };
 };
 
 const mapDispatchToProps = (dispatch, props) => {
@@ -14,6 +19,9 @@ const mapDispatchToProps = (dispatch, props) => {
     },
     addUserEmergencyContact: token => {
       return dispatch(addUserEmergencyContact(token));
+    },
+    getMonitoreds: () => {
+      return dispatch(getMonitoreds());
     },
   };
 };

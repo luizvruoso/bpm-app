@@ -6,8 +6,23 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {variables} from '../../assets/variables';
 
 export default function Header(props) {
-  const name = props.name == null ? 'Jorge' : props.name;
   const navigation = props.navigation;
+
+  const getFirstName = name => {
+    const index = name.search(' ');
+
+    return name.slice(0, index);
+  };
+  const getGreetings = () => {
+    const date = new Date();
+
+    const hour = date.getUTCHours();
+
+    if (hour >= 6 && hour <= 12) return 'Bom dia,';
+    else if (hour >= 13 && hour <= 18) return 'Boa tarde,';
+    return 'Boa noite,';
+  };
+  const name = props.name == null ? 'Jorge' : getFirstName(props.name);
 
   return (
     <View style={[styles.row, styles.mx20, styles.my10]}>
@@ -29,7 +44,7 @@ export default function Header(props) {
 
       <View style={[styles.row, styles.centerXY]}>
         <Text style={[{fontSize: variables.fontLarger, color: '#053245'}]}>
-          Bom dia,&nbsp;
+          {getGreetings()}&nbsp;
         </Text>
         <Text
           style={[

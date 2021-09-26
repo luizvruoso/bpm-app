@@ -8,6 +8,7 @@ import {
   Dimensions,
   Modal,
   FlatList,
+  RefreshControl,
   TextInput,
 } from 'react-native';
 import DashMenu from '../components/DashMenu';
@@ -22,7 +23,7 @@ import {navigate} from '../Routes';
 
 export default function Monitor(props) {
   const [listMonitor, setListMonitor] = useState([]);
-
+  const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
     props.getMonitoreds();
   }, []);
@@ -34,10 +35,14 @@ export default function Monitor(props) {
   }, [props.monitored]);
 
   const renderItem = useCallback(({item}) => {
+    const {getMonitoreds} = props;
+
     return (
       <TouchableOpacity
         onPress={() => {
-          navigate('DetailsMonitor', {item});
+          navigate('DetailsMonitor', {
+            item,
+          });
         }}>
         <Contact name={item.completeName} phone={item.phone} />
       </TouchableOpacity>
@@ -45,7 +50,19 @@ export default function Monitor(props) {
   }, []);
 
   const keyExtractor = useCallback((item, key) => {
-    return item.name;
+    return item.completeName + key;
+  }, []);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    const {getMonitoreds} = props;
+
+    //('T3523279', '2021-07-22');
+    getMonitoreds();
+
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
   }, []);
 
   return (
@@ -60,6 +77,12 @@ export default function Monitor(props) {
           this.flatListRef = ref;
         }}*/
         //windowSize={1}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => onRefresh()}
+          />
+        }
         keyExtractor={keyExtractor}
         style={[styles.mb20]}
         data={listMonitor}

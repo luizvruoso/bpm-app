@@ -24,7 +24,19 @@ import moment from 'moment/min/moment-with-locales';
 
 export default function DetailsMonitor(props) {
   const {item} = props.route.params;
-  
+
+  const [selectedMonitor, setSelectedMonitor] = useState(item);
+
+  useEffect(() => {
+    const {item, getMonitoreds} = props.route.params;
+    const {monitored} = props;
+
+    const index = monitored.findIndex(item => {
+      return item.uuid == item.uuid;
+    });
+    setSelectedMonitor(monitored[index]);
+  }, [props.monitored]);
+
   const calculateLastUpdate = date => {
     const actualDate = new Date();
     const serverTime = fromDateTimeGetTime(date);
@@ -51,12 +63,24 @@ export default function DetailsMonitor(props) {
         //styles.m10,
       ]}>
       <View style={[styles.flex2]}>
-        <View style={[styles.row, styles.mx10, styles.mt10]}>
-          <Text style={[styles.h3]}>{item.completeName}</Text>
+        <View
+          style={[styles.row, styles.mx10, styles.mt10, styles.spaceBetween]}>
+          <View>
+            <Text style={[styles.h3]}>{selectedMonitor.completeName}</Text>
+          </View>
+          <TouchableOpacity
+            onPress={() => {
+              const {getMonitoreds} = props;
+
+              getMonitoreds();
+            }}>
+            <MaterialIcons name={'refresh'} size={30} color={'#B32134'} />
+          </TouchableOpacity>
         </View>
         <View style={[styles.mx10, styles.mb20]}>
           <Text style={[{fontSize: 13}]}>
-            Última atualização foi há {calculateLastUpdate(item.date)}
+            Última atualização foi há{' '}
+            {calculateLastUpdate(selectedMonitor.date)}
           </Text>
         </View>
         <View
@@ -67,7 +91,7 @@ export default function DetailsMonitor(props) {
             {backgroundColor: '#008000', borderRadius: 10, padding: 10},
           ]}>
           <Text style={{fontSize: variables.fontNormal, color: '#fff'}}>
-            {item.status}
+            {selectedMonitor.status}
           </Text>
         </View>
         <View style={[styles.row, styles.spaceBetween, styles.mx10]}>
@@ -79,7 +103,7 @@ export default function DetailsMonitor(props) {
                 fontWeight: 'bold',
                 marginLeft: 10,
               }}>
-              {item.heartBeat}
+              {selectedMonitor.heartBeat}
               <Text
                 style={{fontSize: variables.fontNormal, fontWeight: 'normal'}}>
                 {'\n'}bpm
@@ -96,7 +120,7 @@ export default function DetailsMonitor(props) {
                   fontWeight: 'bold',
                 },
               ]}>
-              {item.cardiacSteps}
+              {selectedMonitor.cardiacSteps}
               <Text
                 style={{fontSize: variables.fontNormal, fontWeight: 'normal'}}>
                 {'\n'}passos

@@ -8,6 +8,7 @@ import {
   Dimensions,
   Modal,
   TextInput,
+  RefreshControl,
   FlatList,
 } from 'react-native';
 import DashMenu from '../components/DashMenu';
@@ -19,6 +20,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function EmergencyContacts(props) {
   const [listContacts, setListContacts] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     props.getEmergencyContacts();
@@ -30,6 +32,10 @@ export default function EmergencyContacts(props) {
     setListContacts(emergencyContact);
   }, [props.emergencyContact]);
 
+  const keyExtractor = useCallback((item, key) => {
+    return item.completeName + key;
+  }, []);
+
   const renderItem = useCallback(({item}) => {
     return (
       <TouchableOpacity
@@ -39,6 +45,18 @@ export default function EmergencyContacts(props) {
         <Contact name={item.completeName} phone={item.phone} />
       </TouchableOpacity>
     );
+  }, []);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    const {getEmergencyContacts} = props;
+
+    //('T3523279', '2021-07-22');
+    getEmergencyContacts();
+
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
   }, []);
 
   return (
@@ -55,7 +73,13 @@ export default function EmergencyContacts(props) {
           this.flatListRef = ref;
         }}*/
         //windowSize={1}
-        //keyExtractor={keyExtractor}
+        keyExtractor={keyExtractor}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => onRefresh()}
+          />
+        }
         style={[styles.mb20]}
         data={listContacts}
         renderItem={renderItem}

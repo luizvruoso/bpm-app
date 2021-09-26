@@ -390,7 +390,7 @@ export default class Routes extends Component {
     setInterval(() => {
       const {refreshUserInfo, user} = this.props;
       if (user.isAuthenticated == true) refreshUserInfo();
-    }, 3000);
+    }, 30000);
   }
 
   header() {
