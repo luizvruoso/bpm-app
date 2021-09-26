@@ -48,6 +48,8 @@ import FirstRegister from './containers/FirstRegister';
 import Monitor from './containers/Monitor';
 import DetailsMonitor from './containers/DetailsMonitor';
 
+import Devices from './screens/Devices';
+
 const navigationRef = React.createRef();
 
 const RootStack = createStackNavigator();
