@@ -267,7 +267,7 @@ function logoutAction() {
 
 function sucessLogin(data) {
   return {
-    type: 'SET_SUCESS_LOGIN',
+    type: 'SET_SUCCESS_LOGIN',
     payload: {
       name: data.name,
       userInfo: {

@@ -193,6 +193,7 @@ function MedicalRecordRoute(props) {
 }
 
 const customDrawerContent = (props, onLogout, user) => {
+  console.log(user);
   return (
     <View
       style={[
@@ -386,10 +387,10 @@ export default class Routes extends Component {
   }
 
   triggerInterval() {
-    const {refreshUserInfo, user} = this.props;
     setInterval(() => {
+      const {refreshUserInfo, user} = this.props;
       if (user.isAuthenticated == true) refreshUserInfo();
-    }, 30000);
+    }, 3000);
   }
 
   header() {

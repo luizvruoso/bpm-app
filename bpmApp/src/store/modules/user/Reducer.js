@@ -29,7 +29,7 @@ const INIT_STATE = {
 
 export default function user(state = INIT_STATE, action) {
   switch (action.type) {
-    case 'SET_SUCESS_LOGIN':
+    case 'SET_SUCCESS_LOGIN':
       return action.payload;
     case 'SET_PHONE_AUTH':
       return produce(state, draft => {
