@@ -21,7 +21,7 @@ function index(props) {
       setTimeout(() => {
         setShowMessage(false);
         setErrorToFalse();
-      }, 10000);
+      }, 5000);
     }
   }, [props.user.error]);
 
