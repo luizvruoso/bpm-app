@@ -4,7 +4,9 @@ export default function steps(state = [], action) {
   switch (action.type) {
     case 'SET_STEPS':
       return produce(state, draft => {
-        const index = state?.findIndex(item => {
+        draft.reverse();
+
+        const index = draft?.findIndex(item => {
           return item.date === convertDate(action.payload.date, false);
         });
 
