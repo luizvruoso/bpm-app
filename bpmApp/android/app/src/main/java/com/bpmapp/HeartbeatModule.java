@@ -12,19 +12,28 @@ import javax.annotation.Nonnull;
 import android.util.Log;
 
 public class HeartbeatModule extends ReactContextBaseJavaModule  {
+    public static final String REACT_CLASS = "Heartbeat";
+    private static ReactApplicationContext reactContext;
 
     public HeartbeatModule(@Nonnull ReactApplicationContext reactContext) {
         super(reactContext);
+        this.reactContext = reactContext;
     }
 
+    @Nonnull
     @Override
     public String getName() {
-        return "Heartbeat";
+        return REACT_CLASS;
     }
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public String aobaService() {
-        Log.d("CalendarModule", "aooooooooooooooooooba");
-        return "AOOOOBa";
+
+    @ReactMethod
+    public void startService() {
+        this.reactContext.startService(new Intent(this.reactContext, ServiceBluetooth.class));
+    }
+
+    @ReactMethod
+    public void stopService() {
+        this.reactContext.stopService(new Intent(this.reactContext, ServiceBluetooth.class));
     }
 
 }
