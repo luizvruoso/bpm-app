@@ -20,13 +20,30 @@ export default function HeartBeat(props) {
   const [actualHeartBeatData, setActualHeartBeatData] = useState({
     status: 'loading',
   });
+  console.log('adsds');
+
   useEffect(() => {
-    let {getHeartBeatData, getActualHeartBeatData} = props;
+    const {
+      heartBeat,
+      heartBeatInstant,
+      getHeartBeatData,
+      getActualHeartBeatData,
+    } = props;
+    //console.log('dadsa', heartBeat[0]);
+    if (heartBeat.length > 0) {
+      //var aux = heartBeat;
+      //console.log(heartBeat);
+      setHeartBeatData(heartBeat);
+    }
 
-    getHeartBeatData();
-    getActualHeartBeatData();
+    if (heartBeatInstant != null) {
+      setActualHeartBeatData(heartBeatInstant);
+    }
+
+    //getHeartBeatData();
+    //getActualHeartBeatData();
   }, []);
-
+  /*
   useEffect(() => {
     if (
       props.heartBeat.hasOwnProperty('status') &&
@@ -117,7 +134,7 @@ export default function HeartBeat(props) {
       setActualHeartBeatData(final);
     }
   }, [props.heartBeatInstant]);
-
+*/
   return (
     <View
       style={[

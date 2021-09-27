@@ -19,6 +19,17 @@ const appReducer = combineReducers({
 });
 
 const rootReducer = (state, action) => {
+  if (action.type == 'SET_LOGOUT') {
+    state.user = [];
+    //state.heartBeat = [];
+    //state.heartBeatInstant = [];
+    //state.steps = [];
+    //state.stepsInstant = [];
+    state.emergencyContact = [];
+    state.monitored = [];
+    return appReducer(state, action);
+  }
+
   return appReducer(state, action);
 };
 

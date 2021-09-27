@@ -17,7 +17,7 @@ export function getSteps() {
   };
 }
 
-function setSteps(data) {
+export function setSteps(data) {
   return {
     type: 'SET_STEPS',
     payload: data,

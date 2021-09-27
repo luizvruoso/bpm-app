@@ -49,7 +49,7 @@ function MedicalRecord(props) {
       name: props.user.userInfo.name,
       phone: props.user.userInfo.phone,
       birth: props.user.userInfo.birth,
-      heigth: props.user.userInfo.heigth,
+      height: props.user.userInfo.height,
       weight: props.user.userInfo.weight,
       sex: props.user.userInfo.sex,
       alzheimer: props.user.userInfo.alzheimer,
@@ -67,7 +67,7 @@ function MedicalRecord(props) {
       name: control._formValues.name,
       phone: control._formValues.phone,
       birth: control._formValues.birth,
-      heigth: control._formValues.heigth,
+      height: control._formValues.height,
       weight: control._formValues.weight,
       sex: control._formValues.sex,
       alzheimer: control._formValues.alzheimer,
@@ -104,20 +104,26 @@ function MedicalRecord(props) {
     <View
       style={[
         {backgroundColor: variables.primary, height: '100%'},
-        styles.mt10,
-        styles.mb10,
+        //styles.mt10,
+        //styles.mb10,
+        styles.p10,
+        styles.px20,
       ]}>
-      <View style={[styles.row, {position: 'absolute', top: -55, right: 0}]}>
-        <TouchableOpacity
-          onPress={handleSubmit(onSubmit)}
-          style={[{padding: 10, backgroundColor: '#1D00AB', borderRadius: 10}]}>
-          <Text style={[styles.textRight, {color: 'white'}]}>Salvar</Text>
-        </TouchableOpacity>
-      </View>
       <AvoidKeyboard>
-        <ScrollView
-          refreshControl={false}
-          style={[styles.flex1, {marginBottom: 80}]}>
+        <ScrollView refreshControl={false} style={[styles.flex1]}>
+          <View style={[styles.row]}>
+            <TouchableOpacity
+              onPress={handleSubmit(onSubmit)}
+              style={[
+                {
+                  padding: 10,
+                  backgroundColor: variables.secondary,
+                  borderRadius: 10,
+                },
+              ]}>
+              <Text style={[styles.textRight, {color: 'white'}]}>Salvar</Text>
+            </TouchableOpacity>
+          </View>
           <View style={[styles.row, styles.centerXY]}>
             <ImageUser />
             <View
@@ -158,7 +164,10 @@ function MedicalRecord(props) {
                   autoCorrect={false}
                   value={value}
                   onChangeText={onChange}
-                  style={[styles.input, {borderWidth: 1, borderColor: '#CCC'}]}
+                  style={[
+                    styles.input,
+                    {borderWidth: 1, borderColor: '#CCC', color: '#000'},
+                  ]}
                   placeholderTextColor={variables.gray3}
                   placeholder="Antonio Roberto"
                 />
@@ -168,7 +177,7 @@ function MedicalRecord(props) {
             //defaultValue={props.user.userInfo.name}
           />
 
-          <Controller
+          {/*<Controller
             control={control}
             rules={{
               required: false,
@@ -185,14 +194,17 @@ function MedicalRecord(props) {
                   value={formatCel(value)}
                   keyboardType="numeric"
                   placeholderTextColor={variables.gray3}
-                  style={[styles.input, {borderWidth: 1, borderColor: '#CCC'}]}
+                  style={[
+                    styles.input,
+                    {borderWidth: 1, borderColor: '#CCC', color: '#000'},
+                  ]}
                   placeholder="11 21345-8891"
                 />
               </View>
             )}
             name="phone"
             //defaultValue=""
-          />
+          />*/}
 
           <Controller
             control={control}
@@ -226,7 +238,10 @@ function MedicalRecord(props) {
                   onChangeText={onChange}
                   value={value}
                   placeholderTextColor={variables.gray3}
-                  style={[styles.input, {borderWidth: 1, borderColor: '#CCC'}]}
+                  style={[
+                    styles.input,
+                    {borderWidth: 1, borderColor: '#CCC', color: '#000'},
+                  ]}
                   placeholder="90 Kg"
                 />
               </View>
@@ -252,12 +267,15 @@ function MedicalRecord(props) {
                   onChangeText={onChange}
                   value={value}
                   placeholderTextColor={variables.gray3}
-                  style={[styles.input, {borderWidth: 1, borderColor: '#CCC'}]}
+                  style={[
+                    styles.input,
+                    {borderWidth: 1, borderColor: '#CCC', color: '#000'},
+                  ]}
                   placeholder="193"
                 />
               </View>
             )}
-            name="heigth"
+            name="height"
             //defaultValue=""
           />
 
@@ -308,7 +326,6 @@ function MedicalRecord(props) {
             name="wheelchair"
             //defaultValue=""
           />
-          <View style={{marginBottom: 30}}></View>
         </ScrollView>
       </AvoidKeyboard>
     </View>
@@ -383,6 +400,7 @@ function BirthInput(props) {
             padding: 10,
             height: 50,
             backgroundColor: '#fcfcfc',
+            color: '#000',
           },
           styles.centerY,
         ]}>
@@ -410,7 +428,7 @@ function BirthInput(props) {
             testID="dateTimePicker"
             value={date}
             mode={mode}
-            display="default"
+            display="spinner"
             onChange={onChange}
           />
         )}
@@ -426,6 +444,7 @@ function AlzheimerInput(props) {
 
     return 'Selecione uma Opção';
   };
+
   return (
     <View>
       <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>
@@ -442,21 +461,22 @@ function AlzheimerInput(props) {
             height: 50,
             backgroundColor: '#fcfcfc',
             borderRadius: 5,
+            color: '#000',
           },
           styles.centerXY,
         ]}>
         <RNPickerSelect
           onClose={props.handleBlurInput}
           placeholder={{
-            label: convertToString(props.value),
-            value: props.value,
+            label: 'Selecione uma opção',
+            value: props.value == null ? null : props.value,
           }}
           Icon={() => {
             return (
               <Icon
                 name="keyboard-arrow-down"
                 size={variables.icon}
-                style={{marginTop: -5}}
+                style={{marginTop: 10}}
               />
             );
           }}
@@ -490,24 +510,22 @@ function SexInput(props) {
             padding: 10,
             height: 50,
             backgroundColor: '#fcfcfc',
+            color: '#000',
           },
           styles.centerXY,
         ]}>
         <RNPickerSelect
           onClose={props.handleBlurInput}
           placeholder={{
-            label:
-              props.value != null
-                ? convertToString(props.value)
-                : 'Selecione uma opção',
-            value: props.value,
+            label: 'Selecione uma opção',
+            value: null,
           }}
           Icon={() => {
             return (
               <Icon
                 name="keyboard-arrow-down"
                 size={variables.icon}
-                style={{marginTop: -5}}
+                style={{marginTop: 10}}
               />
             );
           }}
@@ -544,6 +562,7 @@ function WheelchairInput(props) {
             borderWidth: 1,
             padding: 10,
             height: 50,
+            color: '#000',
             backgroundColor: '#fcfcfc',
           },
           styles.centerXY,
@@ -551,15 +570,15 @@ function WheelchairInput(props) {
         <RNPickerSelect
           onClose={props.handleBlurInput}
           placeholder={{
-            label: convertToString(props.value),
-            value: props.value,
+            label: 'Selecione uma opção',
+            value: null,
           }}
           Icon={() => {
             return (
               <Icon
                 name="keyboard-arrow-down"
                 size={variables.icon}
-                style={{marginTop: -5}}
+                style={{marginTop: 10}}
               />
             );
           }}
@@ -578,7 +597,7 @@ function AvoidKeyboard(props) {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={40}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
       enabled
       //behavior="position"
       style={{flex: 1}}>

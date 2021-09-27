@@ -182,6 +182,7 @@ export function ModalContact(props) {
                     padding: 0,
                     borderWidth: 1,
                     borderColor: '#CCC',
+                    color: '#000',
                   },
                 ]}
                 placeholder="@MK209"

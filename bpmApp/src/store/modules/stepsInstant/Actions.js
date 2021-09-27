@@ -1,8 +1,9 @@
+import {now} from '../../../assets/utils';
 import {collectActualSteps} from './middlewares';
-
+import {setSteps} from '../steps/Actions';
 export function getActualSteps() {
   return dispatch => {
-    dispatch(setLoadingData());
+    /*dispatch(setLoadingData());
     collectActualSteps()
       .then(ret => {
         if (ret) {
@@ -13,11 +14,24 @@ export function getActualSteps() {
         dispatch(setError(err));
         console.error('error while colleting instant steps information', err);
         return false;
-      });
+      });*/
   };
 }
 
-function setSteps(data) {
+export function setActualSteps(step) {
+  return dispatch => {
+    //dispatch(setLoadingData());
+    const payload = {
+      value: step,
+      date: now(),
+    };
+
+    dispatch(setSteps(payload));
+    dispatch(setInstantSteps(payload));
+  };
+}
+
+function setInstantSteps(data) {
   return {
     type: 'SET_INSTANT_STEPS',
     payload: data,

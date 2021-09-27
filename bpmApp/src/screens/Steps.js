@@ -22,72 +22,18 @@ export default function Steps(props) {
   });
 
   useEffect(() => {
-    let {getActualStepsData, getSteps} = props;
-    getActualStepsData();
-    getSteps();
+    const {stepsInstant, steps, getActualStepsData, getSteps} = props;
+    if (steps.length > 0) {
+      setStepsData(steps);
+    }
+
+    if (stepsInstant != null) {
+      setInstantStepsData(stepsInstant);
+    }
+    //getActualStepsData();
+    //getSteps();
   }, []);
 
-  useEffect(() => {
-    if (
-      props.steps.hasOwnProperty('status') &&
-      (props.steps.status == 'loading' || props.steps.status == 'error')
-    ) {
-      setStepsData({
-        status: 'loading',
-      });
-    } else if (props.steps != null) {
-      let final = [];
-
-      props.steps.map((item, index) => {
-        let indexCtrl = final.findIndex((element, index) => {
-          return (
-            convertDate(element.date, false) == convertDate(item.time, false)
-          );
-        });
-        if (indexCtrl == -1) {
-          let sum = 0;
-          props.steps.map((element, index2) => {
-            if (
-              convertDate(element.time, false) == convertDate(item.time, false)
-            ) {
-              sum += parseFloat(element.value);
-            }
-          });
-
-          final.push({
-            date: convertDate(item.time, false),
-            time: item.time,
-            value: sum,
-          });
-        }
-      });
-      setStepsData(final);
-    }
-  }, [props.steps]);
-  useEffect(() => {
-    if (
-      props.stepsInstant.hasOwnProperty('status') &&
-      (props.stepsInstant.status == 'loading' ||
-        props.stepsInstant.status == 'error')
-    ) {
-      setInstantStepsData({
-        status: 'loading',
-      });
-    } else if (props.stepsInstant != null) {
-      let final = [];
-      let sum = 0;
-      props.stepsInstant.map((item, index) => {
-        sum += parseFloat(item.value);
-      });
-
-      setInstantStepsData([
-        {
-          time: props.stepsInstant[0].time,
-          value: sum,
-        },
-      ]);
-    }
-  }, [props.stepsInstant]);
   return (
     <View
       style={[

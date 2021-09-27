@@ -6,7 +6,7 @@ import {
   addEmergencyContact,
   getUserData,
 } from './middlewares';
-import {convertDate} from '../../../assets/utils';
+import {convertDate, now} from '../../../assets/utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function sendTokenTel(phone) {
@@ -84,12 +84,14 @@ export function logout(tel) {
 
 export function registerUserData(data) {
   return async dispatch => {
+    console.log('enviou', data);
     const payload = {
       //username: data.username,
       //email: null,
       //phone: data.phone,
       //password: null,
-      birthDate: convertDate(data.birth, false),
+      //birthDate: convertDate(data.birth, false),
+      birthDate: convertDate(now(), false),
       completeName: data.name,
       weight: parseInt(data.weight),
       height: parseInt(data.height),
@@ -229,7 +231,7 @@ function saveUserDataAction(data) {
   };
 }
 
-function failedLogin() {
+export function failedLogin() {
   return {
     type: 'SET_FAILED_LOGIN',
     payload: {

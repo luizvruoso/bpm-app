@@ -34,8 +34,9 @@ import {
 import {variables} from './assets/variables';
 import MainTemplate from './components/MainTemplate';
 import styles from './assets/globals';
-import AppMessageNotification from './components/AppMessageNotification';
+import {watchPosition} from '../src/assets/utils';
 
+import AppMessageNotification from './components/AppMessageNotification';
 import Home from './containers/Home';
 import HeartBeat from './containers/HeartBeat';
 import Steps from './containers/Steps';
@@ -47,6 +48,8 @@ import TypeAuthCode from './containers/TypeAuthCode';
 import FirstRegister from './containers/FirstRegister';
 import Monitor from './containers/Monitor';
 import DetailsMonitor from './containers/DetailsMonitor';
+import Ble from './containers/Ble';
+import Devices from './containers/Devices';
 
 const navigationRef = React.createRef();
 
@@ -90,15 +93,9 @@ function HeartBeatRoute(props) {
       <RootStack.Screen
         options={{headerShown: false}}
         name="HeartBeat"
-        //component={HeartBeat}
+        component={HeartBeat}
         //options={{title: 'Batimentos'}}
-      >
-        {props => (
-          <MainTemplate {...props}>
-            <HeartBeat />
-          </MainTemplate>
-        )}
-      </RootStack.Screen>
+      />
     </RootStack.Navigator>
   );
 }
@@ -122,15 +119,9 @@ function StepsRoute(props) {
       <RootStack.Screen
         options={{headerShown: false}}
         name="Steps"
-        //component={Steps}
+        component={Steps}
         //options={{title: 'Passos'}}
-      >
-        {props => (
-          <MainTemplate {...props}>
-            <Steps />
-          </MainTemplate>
-        )}
-      </RootStack.Screen>
+      />
     </RootStack.Navigator>
   );
 }
@@ -193,7 +184,7 @@ function MedicalRecordRoute(props) {
 }
 
 const customDrawerContent = (props, onLogout, user) => {
-  console.log(user);
+  //console.log(user);
   return (
     <View
       style={[
@@ -284,6 +275,7 @@ const customDrawerContent = (props, onLogout, user) => {
           )}
           onPress={() => {
             //onLogout();
+            navigate('Devices');
           }}
         />
         {user.roles.findIndex(item => item == 'ROLE_RESPONSIBLE') != -1 && (
@@ -382,7 +374,8 @@ export default class Routes extends Component {
   constructor(props) {
     super(props);
 
-    this.triggerInterval();
+    // watchPosition();
+    //this.triggerInterval();
     //const isHermes = () => !!global.HermesInternal;
   }
 
@@ -458,6 +451,7 @@ export default class Routes extends Component {
 
     return (
       <SafeAreaView style={[{flex: 1}, {backgroundColor: variables.primary}]}>
+        <Ble />
         <AppMessageNotification
           user={user}
           setErrorToFalse={setErrorToFalse}
@@ -482,13 +476,19 @@ export default class Routes extends Component {
             <RootStack.Screen options={{headerShown: false}} name="Root">
               {props => <Root {...props} extra={this.props} />}
             </RootStack.Screen>
-            <RootStack.Screen options={{headerShown: false}} name="Steps">
+            <RootStack.Screen
+              options={{headerShown: true, title: 'Voltar'}}
+              name="Steps">
               {props => <StepsRoute {...props} extra={this.props} />}
             </RootStack.Screen>
-            <RootStack.Screen options={{headerShown: false}} name="Alert">
+            <RootStack.Screen
+              options={{headerShown: true, title: 'Voltar'}}
+              name="Alert">
               {props => <AlertRoute {...props} extra={this.props} />}
             </RootStack.Screen>
-            <RootStack.Screen options={{headerShown: false}} name="HeartBeat">
+            <RootStack.Screen
+              options={{headerShown: true, title: 'Voltar'}}
+              name="HeartBeat">
               {props => <HeartBeatRoute {...props} extra={this.props} />}
             </RootStack.Screen>
             <RootStack.Screen
@@ -510,6 +510,11 @@ export default class Routes extends Component {
               options={{headerShown: true, title: 'Voltar'}}
               name="DetailsMonitor">
               {props => <DetailsMonitor {...props} extra={this.props} />}
+            </RootStack.Screen>
+            <RootStack.Screen
+              options={{headerShown: true, title: 'Voltar'}}
+              name="Devices">
+              {props => <Devices {...props} extra={this.props} />}
             </RootStack.Screen>
           </RootStack.Navigator>
         </NavigationContainer>

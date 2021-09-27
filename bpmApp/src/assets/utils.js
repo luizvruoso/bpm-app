@@ -49,14 +49,14 @@ export function formatCel(v) {
   return r;
 }
 
-export function getUserLocation() {
+export function watchPosition() {
   var options = {
     enableHighAccuracy: true,
-    //timeout: 30000,
-    //maximumAge: 1000,
+    //timeout: 2000,
+    maximumAge: 10000,
   };
   //console.log('Markers Constructor', this.MARKERS);
-  return new Promise((resolve, reject) => {
+  /*  return new Promise((resolve, reject) => {
     Geolocation.getCurrentPosition(
       // SOLICITA A LOCALIZAÇÃO ATUAL DO USUARIO, BASEADA NA VARIAVEL OPTIONS ACIMA
       info => {
@@ -75,5 +75,62 @@ export function getUserLocation() {
       },
       options,
     );
+  });
+*/
+
+  return new Promise((resolve, reject) => {
+    //Geolocation.requestAuthorization();
+    Geolocation.watchPosition(
+      // SOLICITA A LOCALIZAÇÃO ATUAL DO USUARIO, BASEADA NA VARIAVEL OPTIONS ACIMA
+      info => {
+        resolve({
+          timeOfCapture: new Date().getTime(),
+          latitude: info.coords.latitude,
+          longitude: info.coords.longitude,
+        });
+      },
+      error => {
+        console.error(error, ' Erro ao obter localização');
+        reject({
+          latitude: null,
+          longitude: null,
+        });
+      },
+      options,
+    );
+  });
+}
+
+export function getUserLocation() {
+  var options = {
+    enableHighAccuracy: true,
+    //timeout: 10000,
+    maximumAge: 1000,
+  };
+
+  return new Promise((resolve, reject) => {
+    //Geolocation.requestAuthorization();
+
+    try {
+      Geolocation.getCurrentPosition(
+        // SOLICITA A LOCALIZAÇÃO ATUAL DO USUARIO, BASEADA NA VARIAVEL OPTIONS ACIMA
+        info => {
+          resolve({
+            timeOfCapture: new Date().getTime(),
+            latitude: info.coords.latitude,
+            longitude: info.coords.longitude,
+          });
+        },
+        error => {
+          reject({
+            latitude: null,
+            longitude: null,
+          });
+        },
+        options,
+      );
+    } catch (err) {
+      console.error(error, ' Erro ao obter localização');
+    }
   });
 }

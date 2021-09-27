@@ -20,6 +20,18 @@ export default function TypeAuthCode(props) {
   const [auth, setAuth] = useState('');
   return (
     <SafeAreaView style={[styles.flex1, {backgroundColor: variables.primary}]}>
+      <View style={[styles.mx20, styles.my10]}>
+        <TouchableOpacity
+          onPress={() => {
+            props.failedLogin();
+          }}
+          style={[styles.row]}>
+          <Ionicons size={23} name={'ios-arrow-back'} />
+          <Text style={[{fontSize: 18, textAlignVertical: 'center'}]}>
+            Voltar
+          </Text>
+        </TouchableOpacity>
+      </View>
       <View style={[styles.flex1, styles.centerXY]}>
         <View style={[styles.centerXY, styles.mt50, styles.flex1]}>
           <Text

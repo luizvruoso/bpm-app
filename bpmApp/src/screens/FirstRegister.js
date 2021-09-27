@@ -161,7 +161,7 @@ export default function FirstRegister(props) {
           name="name"
           //defaultValue={props.user.userInfo.name}
         />
-        <Controller
+        {/*<Controller
           control={control}
           rules={{
             required: false,
@@ -185,7 +185,7 @@ export default function FirstRegister(props) {
           )}
           name="phone"
           //defaultValue=""
-        />
+          />*/}
         <Controller
           control={control}
           rules={{
@@ -448,15 +448,15 @@ function AlzheimerInput(props) {
         <RNPickerSelect
           onClose={props.handleBlurInput}
           placeholder={{
-            label: convertToString(props.value),
-            value: props.value,
+            label: 'Selecione uma opção',
+            value: null,
           }}
           Icon={() => {
             return (
               <Icon
                 name="keyboard-arrow-down"
                 size={variables.icon}
-                style={{marginTop: -5}}
+                style={{marginTop: 10}}
               />
             );
           }}
@@ -496,18 +496,15 @@ function SexInput(props) {
         <RNPickerSelect
           onClose={props.handleBlurInput}
           placeholder={{
-            label:
-              props.value != null
-                ? convertToString(props.value)
-                : 'Selecione uma opção',
-            value: props.value,
+            label: 'Selecione uma opção',
+            value: null,
           }}
           Icon={() => {
             return (
               <Icon
                 name="keyboard-arrow-down"
                 size={variables.icon}
-                style={{marginTop: -5}}
+                style={{marginTop: 10}}
               />
             );
           }}
@@ -551,15 +548,15 @@ function WheelchairInput(props) {
         <RNPickerSelect
           onClose={props.handleBlurInput}
           placeholder={{
-            label: convertToString(props.value),
-            value: props.value,
+            label: 'Selecione uma opção',
+            value: null,
           }}
           Icon={() => {
             return (
               <Icon
                 name="keyboard-arrow-down"
                 size={variables.icon}
-                style={{marginTop: -5}}
+                style={{marginTop: 10}}
               />
             );
           }}

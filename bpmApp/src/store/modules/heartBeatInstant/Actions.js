@@ -1,8 +1,10 @@
 import {collectActualHeartBeatInfomation} from './middlewares';
+import {now} from '../../../assets/utils';
+import {setHeartBeat} from '../heartBeat/Actions';
 
 export function getActualHeartBeatData() {
   return dispatch => {
-    dispatch(setLoadingData());
+    /*dispatch(setLoadingData());
     collectActualHeartBeatInfomation()
       .then(ret => {
         if (ret) {
@@ -13,10 +15,24 @@ export function getActualHeartBeatData() {
         dispatch(setError(err));
         console.error('Error while colleting instant heart beat data', err);
       });
+  };*/
   };
 }
 
-function setHeartBeat(data) {
+export function setActualHeartBeat(value) {
+  return dispatch => {
+    //dispatch(setLoadingData());
+    const payload = {
+      value: value,
+      date: now(),
+    };
+
+    dispatch(setHeartBeat(payload));
+    dispatch(setHeartBeatInstant(payload));
+  };
+}
+
+function setHeartBeatInstant(data) {
   return {
     type: 'SET_HEART_BEAT_INSTANT',
     payload: data,
