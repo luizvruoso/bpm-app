@@ -1,0 +1,51 @@
+#iframeDiv > iframe {
+  display: block;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  margin: 0 auto;
+  border: 1px solid #cccccc !important;
+  border-radius: 15px;
+}
+
+.detailedInfoUserInfo {
+  padding-top: 30px;
+  margin-left: -30px;
+}
+@media (max-width: 720px) {
+  .detailedInfoUserInfo {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-left: 0px !important;
+    text-align: center;
+  }
+  #iframeDiv {
+    height: 50px;
+  }
+  .iconHeart {
+    margin-left: 10px;
+  }
+}
+
+#patientNameUserInfo {
+  font-size: 20px;
+  font-weight: 700;
+  color: #053245;
+}
+#patientTitleUserInfo,
+#bdaySpanUserInfo {
+  font-size: 15px;
+}
+.photoUserInfo img {
+  width: 100px;
+  height: auto;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+.photoUserInfo {
+  padding-top: 20px;
+  padding-left: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}

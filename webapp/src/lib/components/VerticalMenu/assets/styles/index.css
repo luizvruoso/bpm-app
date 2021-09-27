@@ -1,0 +1,35 @@
+.menu {
+  background-color: #e5e5e5;
+  height: 100vh;
+  cursor: pointer;
+}
+.iconMenu {
+  display: inline-flex;
+  margin-top: 30px;
+}
+.menu svg {
+  width: 30px;
+  margin-right: 5px;
+}
+#iconMenuMenu {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+#iconMenuMenu > svg {
+  width: 40px;
+  height: 40px;
+}
+a.nav-link {
+  padding-left: 0.5em !important;
+  padding-top: 0.2em !important;
+}
+.iconMenu > svg {
+  height: 30px;
+  width: 30px;
+}
+.iconMenu > a {
+  color: #053245 !important;
+}
+.spanMenu {
+  font-size: 15px;
+}
