@@ -126,65 +126,14 @@ const Perifericos = props => {
             }
             console.log('Connected to ' + peripheral.id);
 
-            setTimeout(() => {
-              /* Test read current RSSI value */
-              BleManager.retrieveServices(peripheral.id).then(
-                peripheralData => {
-                  //console.log('Retrieved peripheral services', peripheralData);
+            /* Test read current RSSI value */
+            BleManager.retrieveServices(peripheral.id).then(peripheralData => {
+              //console.log('Retrieved peripheral services', peripheralData);
 
-                  BleManager.startNotification(peripheral.id, '180d', '2a37')
-                    .then(readData => {
-                      // Success code
-                      console.log('Read: ' + readData);
-                    })
-                    .catch(error => {
-                      // Failure code
-                      console.log(error);
-                    });
-                },
-              );
-
-              // Test using bleno's pizza example
-              // https://github.com/sandeepmistry/bleno/tree/master/examples/pizza
-              /*
-              BleManager.retrieveServices(peripheral.id).then((peripheralInfo) => {
-                console.log(peripheralInfo);
-                var service = '13333333-3333-3333-3333-333333333337';
-                var bakeCharacteristic = '13333333-3333-3333-3333-333333330003';
-                var crustCharacteristic = '13333333-3333-3333-3333-333333330001';
-  
-                setTimeout(() => {
-                  BleManager.startNotification(peripheral.id, service, bakeCharacteristic).then(() => {
-                    console.log('Started notification on ' + peripheral.id);
-                    setTimeout(() => {
-                      BleManager.write(peripheral.id, service, crustCharacteristic, [0]).then(() => {
-                        console.log('Writed NORMAL crust');
-                        BleManager.write(peripheral.id, service, bakeCharacteristic, [1,95]).then(() => {
-                          console.log('Writed 351 temperature, the pizza should be BAKED');
-                          
-                          //var PizzaBakeResult = {
-                          //  HALF_BAKED: 0,
-                          //  BAKED:      1,
-                          //  CRISPY:     2,
-                          //  BURNT:      3,
-                          //  ON_FIRE:    4
-                          //};
-                        });
-                      });
-  
-                    }, 500);
-                  }).catch((error) => {
-                    console.log('Notification error', error);
-                  });
-                }, 200);
-              });*/
-            }, 1000);
-
-            setTimeout(() => {
-              /* Test read current RSSI value */
-              BleManager.retrieveServices(peripheral.id).then(
-                peripheralData => {
-                  //console.log('Retrieved peripheral services', peripheralData);
+              BleManager.startNotification(peripheral.id, '180d', '2a37')
+                .then(readData => {
+                  // Success code
+                  console.log('Read: ' + readData);
 
                   BleManager.startNotification(
                     peripheral.id,
@@ -199,12 +148,16 @@ const Perifericos = props => {
                       // Failure code
                       console.log(error);
                     });
-                },
-              );
+                })
+                .catch(error => {
+                  // Failure code
+                  console.log(error);
+                });
+            });
 
-              // Test using bleno's pizza example
-              // https://github.com/sandeepmistry/bleno/tree/master/examples/pizza
-              /*
+            // Test using bleno's pizza example
+            // https://github.com/sandeepmistry/bleno/tree/master/examples/pizza
+            /*
               BleManager.retrieveServices(peripheral.id).then((peripheralInfo) => {
                 console.log(peripheralInfo);
                 var service = '13333333-3333-3333-3333-333333333337';
@@ -236,7 +189,43 @@ const Perifericos = props => {
                   });
                 }, 200);
               });*/
-            }, 1000);
+
+            /* Test read current RSSI value */
+
+            // Test using bleno's pizza example
+            // https://github.com/sandeepmistry/bleno/tree/master/examples/pizza
+            /*
+              BleManager.retrieveServices(peripheral.id).then((peripheralInfo) => {
+                console.log(peripheralInfo);
+                var service = '13333333-3333-3333-3333-333333333337';
+                var bakeCharacteristic = '13333333-3333-3333-3333-333333330003';
+                var crustCharacteristic = '13333333-3333-3333-3333-333333330001';
+  
+                setTimeout(() => {
+                  BleManager.startNotification(peripheral.id, service, bakeCharacteristic).then(() => {
+                    console.log('Started notification on ' + peripheral.id);
+                    setTimeout(() => {
+                      BleManager.write(peripheral.id, service, crustCharacteristic, [0]).then(() => {
+                        console.log('Writed NORMAL crust');
+                        BleManager.write(peripheral.id, service, bakeCharacteristic, [1,95]).then(() => {
+                          console.log('Writed 351 temperature, the pizza should be BAKED');
+                          
+                          //var PizzaBakeResult = {
+                          //  HALF_BAKED: 0,
+                          //  BAKED:      1,
+                          //  CRISPY:     2,
+                          //  BURNT:      3,
+                          //  ON_FIRE:    4
+                          //};
+                        });
+                      });
+  
+                    }, 500);
+                  }).catch((error) => {
+                    console.log('Notification error', error);
+                  });
+                }, 200);
+              });*/
           })
           .catch(error => {
             console.log('Connection error', error);
