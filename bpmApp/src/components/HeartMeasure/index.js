@@ -40,6 +40,7 @@ export default function HeartMeasure(props) {
       <HeartBeatFocus {...instantData} />
       <View style={[styles.flex1, {paddingBottom: 90}]}>
         <FlatList
+          //inverted
           data={heartBeatData}
           keyExtractor={(item, index) => index}
           renderItem={Component}

@@ -49,7 +49,7 @@ function MedicalRecord(props) {
       name: props.user.userInfo.name,
       phone: props.user.userInfo.phone,
       birth: props.user.userInfo.birth,
-      heigth: props.user.userInfo.heigth,
+      height: props.user.userInfo.height,
       weight: props.user.userInfo.weight,
       sex: props.user.userInfo.sex,
       alzheimer: props.user.userInfo.alzheimer,
@@ -67,7 +67,7 @@ function MedicalRecord(props) {
       name: control._formValues.name,
       phone: control._formValues.phone,
       birth: control._formValues.birth,
-      heigth: control._formValues.heigth,
+      height: control._formValues.height,
       weight: control._formValues.weight,
       sex: control._formValues.sex,
       alzheimer: control._formValues.alzheimer,
@@ -177,7 +177,7 @@ function MedicalRecord(props) {
             //defaultValue={props.user.userInfo.name}
           />
 
-          <Controller
+          {/*<Controller
             control={control}
             rules={{
               required: false,
@@ -204,7 +204,7 @@ function MedicalRecord(props) {
             )}
             name="phone"
             //defaultValue=""
-          />
+          />*/}
 
           <Controller
             control={control}
@@ -275,7 +275,7 @@ function MedicalRecord(props) {
                 />
               </View>
             )}
-            name="heigth"
+            name="height"
             //defaultValue=""
           />
 
@@ -444,6 +444,7 @@ function AlzheimerInput(props) {
 
     return 'Selecione uma Opção';
   };
+
   return (
     <View>
       <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>
@@ -468,14 +469,14 @@ function AlzheimerInput(props) {
           onClose={props.handleBlurInput}
           placeholder={{
             label: 'Selecione uma opção',
-            value: null,
+            value: props.value == null ? null : props.value,
           }}
           Icon={() => {
             return (
               <Icon
                 name="keyboard-arrow-down"
                 size={variables.icon}
-                style={{marginTop: -5}}
+                style={{marginTop: 10}}
               />
             );
           }}
@@ -524,7 +525,7 @@ function SexInput(props) {
               <Icon
                 name="keyboard-arrow-down"
                 size={variables.icon}
-                style={{marginTop: -5}}
+                style={{marginTop: 10}}
               />
             );
           }}
@@ -577,7 +578,7 @@ function WheelchairInput(props) {
               <Icon
                 name="keyboard-arrow-down"
                 size={variables.icon}
-                style={{marginTop: -5}}
+                style={{marginTop: 10}}
               />
             );
           }}

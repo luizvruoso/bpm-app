@@ -6,7 +6,8 @@ export default function heartBeat(state = [], action) {
   switch (action.type) {
     case 'SET_HEART_BEAT':
       return produce(state, draft => {
-        const index = state.findIndex(item => {
+        draft.reverse();
+        const index = draft.findIndex(item => {
           return item.date === convertDate(action.payload.date, false);
         });
 
@@ -24,7 +25,7 @@ export default function heartBeat(state = [], action) {
           draft[index].content.push(data);
         }
 
-        return draft;
+        return draft.reverse();
       });
     case 'SET_LOADING_DATA':
       return {

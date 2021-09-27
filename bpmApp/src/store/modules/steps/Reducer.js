@@ -24,7 +24,7 @@ export default function steps(state = [], action) {
           draft[index].content = data;
         }
 
-        return draft;
+        return draft.reverse();
       });
     case 'SET_LOADING_DATA_STEPS':
       return {
