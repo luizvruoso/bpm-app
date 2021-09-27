@@ -91,7 +91,7 @@ export function registerUserData(data) {
       //phone: data.phone,
       //password: null,
       //birthDate: convertDate(data.birth, false),
-      birthDate: convertDate(data.birth, false),
+      birthDate: convertDate(now(), false),
       completeName: data.name,
       weight: parseInt(data.weight),
       height: parseInt(data.height),
