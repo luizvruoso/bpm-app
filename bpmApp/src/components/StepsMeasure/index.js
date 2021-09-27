@@ -11,7 +11,13 @@ export default function index(props) {
   const stepsData = props.stepsData;
   const instantStepsData = props.instantStepsData;
   const Component = useCallback(({item}) => {
-    return <StepsMeasure {...item} />;
+    //console.log('dadsadsa', item.content[item.content.length - 1]);
+    const data = {
+      sum: item.content[item.content.length - 1].value,
+      date: item.content[item.content.length - 1].time,
+    };
+
+    return <StepsMeasure data={data} />;
   }, []);
   return (
     <View style={[styles.flex1]}>
@@ -90,7 +96,7 @@ function StepsMeasure(props) {
   return (
     <View
       style={[
-        {height: 120},
+        {height: 140},
         styles.borderContainers,
         styles.mt10,
         styles.centerXY,
@@ -116,16 +122,22 @@ function StepsMeasure(props) {
           },
         ]}>
         <Text style={[{color: variables.darkGray4}]}>
-          {convertDate(props.date)}
+          {convertDate(props.data.date)}
         </Text>
       </View>
       <View
-        style={[styles.row, styles.my5, {flex: 1, alignSelf: 'flex-start'}]}>
+        style={[
+          styles.row,
+          styles.my5,
+          {flex: 1, alignSelf: 'flex-start'},
+          styles.centerXY,
+        ]}>
         <Image
-          style={{height: 50, width: 50}}
+          style={{height: 60, width: 60}}
           source={require('../../assets/img/icon/littleSalsaWalk.png')}
         />
-        <View style={[styles.colorWhite, styles.row, styles.ml10]}>
+        <View
+          style={[styles.colorWhite, styles.row, styles.ml10, styles.centerXY]}>
           <Text
             style={[
               {fontSize: 40, color: variables.darkGray4},
@@ -133,7 +145,7 @@ function StepsMeasure(props) {
               styles.textLeft,
               styles.textVerticalCenter,
             ]}>
-            {parseInt(props.value)}
+            {parseInt(props.data.sum)}
             <Text
               style={[
                 {fontSize: 20, color: variables.darkGray3},

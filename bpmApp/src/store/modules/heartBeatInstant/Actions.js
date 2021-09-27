@@ -27,7 +27,7 @@ export function setActualHeartBeat(value) {
       date: now(),
     };
 
-    setHeartBeat(payload);
+    dispatch(setHeartBeat(payload));
     dispatch(setHeartBeatInstant(payload));
   };
 }

@@ -104,20 +104,26 @@ function MedicalRecord(props) {
     <View
       style={[
         {backgroundColor: variables.primary, height: '100%'},
-        styles.mt10,
-        styles.mb10,
+        //styles.mt10,
+        //styles.mb10,
+        styles.p10,
+        styles.px20,
       ]}>
-      <View style={[styles.row, {position: 'absolute', top: -55, right: 0}]}>
-        <TouchableOpacity
-          onPress={handleSubmit(onSubmit)}
-          style={[{padding: 10, backgroundColor: '#1D00AB', borderRadius: 10}]}>
-          <Text style={[styles.textRight, {color: 'white'}]}>Salvar</Text>
-        </TouchableOpacity>
-      </View>
       <AvoidKeyboard>
-        <ScrollView
-          refreshControl={false}
-          style={[styles.flex1, {marginBottom: 80}]}>
+        <ScrollView refreshControl={false} style={[styles.flex1]}>
+          <View style={[styles.row]}>
+            <TouchableOpacity
+              onPress={handleSubmit(onSubmit)}
+              style={[
+                {
+                  padding: 10,
+                  backgroundColor: variables.secondary,
+                  borderRadius: 10,
+                },
+              ]}>
+              <Text style={[styles.textRight, {color: 'white'}]}>Salvar</Text>
+            </TouchableOpacity>
+          </View>
           <View style={[styles.row, styles.centerXY]}>
             <ImageUser />
             <View
@@ -158,7 +164,10 @@ function MedicalRecord(props) {
                   autoCorrect={false}
                   value={value}
                   onChangeText={onChange}
-                  style={[styles.input, {borderWidth: 1, borderColor: '#CCC'}]}
+                  style={[
+                    styles.input,
+                    {borderWidth: 1, borderColor: '#CCC', color: '#000'},
+                  ]}
                   placeholderTextColor={variables.gray3}
                   placeholder="Antonio Roberto"
                 />
@@ -185,7 +194,10 @@ function MedicalRecord(props) {
                   value={formatCel(value)}
                   keyboardType="numeric"
                   placeholderTextColor={variables.gray3}
-                  style={[styles.input, {borderWidth: 1, borderColor: '#CCC'}]}
+                  style={[
+                    styles.input,
+                    {borderWidth: 1, borderColor: '#CCC', color: '#000'},
+                  ]}
                   placeholder="11 21345-8891"
                 />
               </View>
@@ -226,7 +238,10 @@ function MedicalRecord(props) {
                   onChangeText={onChange}
                   value={value}
                   placeholderTextColor={variables.gray3}
-                  style={[styles.input, {borderWidth: 1, borderColor: '#CCC'}]}
+                  style={[
+                    styles.input,
+                    {borderWidth: 1, borderColor: '#CCC', color: '#000'},
+                  ]}
                   placeholder="90 Kg"
                 />
               </View>
@@ -252,7 +267,10 @@ function MedicalRecord(props) {
                   onChangeText={onChange}
                   value={value}
                   placeholderTextColor={variables.gray3}
-                  style={[styles.input, {borderWidth: 1, borderColor: '#CCC'}]}
+                  style={[
+                    styles.input,
+                    {borderWidth: 1, borderColor: '#CCC', color: '#000'},
+                  ]}
                   placeholder="193"
                 />
               </View>
@@ -308,7 +326,6 @@ function MedicalRecord(props) {
             name="wheelchair"
             //defaultValue=""
           />
-          <View style={{marginBottom: 30}}></View>
         </ScrollView>
       </AvoidKeyboard>
     </View>
@@ -383,6 +400,7 @@ function BirthInput(props) {
             padding: 10,
             height: 50,
             backgroundColor: '#fcfcfc',
+            color: '#000',
           },
           styles.centerY,
         ]}>
@@ -442,6 +460,7 @@ function AlzheimerInput(props) {
             height: 50,
             backgroundColor: '#fcfcfc',
             borderRadius: 5,
+            color: '#000',
           },
           styles.centerXY,
         ]}>
@@ -490,6 +509,7 @@ function SexInput(props) {
             padding: 10,
             height: 50,
             backgroundColor: '#fcfcfc',
+            color: '#000',
           },
           styles.centerXY,
         ]}>
@@ -541,6 +561,7 @@ function WheelchairInput(props) {
             borderWidth: 1,
             padding: 10,
             height: 50,
+            color: '#000',
             backgroundColor: '#fcfcfc',
           },
           styles.centerXY,

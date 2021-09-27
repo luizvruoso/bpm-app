@@ -1,6 +1,6 @@
 import {now} from '../../../assets/utils';
 import {collectActualSteps} from './middlewares';
-
+import {setSteps} from '../steps/Actions';
 export function getActualSteps() {
   return dispatch => {
     /*dispatch(setLoadingData());
@@ -27,10 +27,11 @@ export function setActualSteps(step) {
     };
 
     dispatch(setSteps(payload));
+    dispatch(setInstantSteps(payload));
   };
 }
 
-function setSteps(data) {
+function setInstantSteps(data) {
   return {
     type: 'SET_INSTANT_STEPS',
     payload: data,

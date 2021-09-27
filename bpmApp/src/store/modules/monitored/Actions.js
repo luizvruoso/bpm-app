@@ -23,6 +23,8 @@ export function sendUserStatusData(data) {
   return async dispatch => {
     try {
       //const ret = await addEmergencyContact(data);
+      //console.log('gali antes');
+
       const userLocation = await getUserLocation();
 
       const payload = {
@@ -32,10 +34,9 @@ export function sendUserStatusData(data) {
         longitude: userLocation.longitude,
         cardiacSteps: data.steps,
       };
-      console.log('registro1u', payload);
+
       const ret = await sendStatusData(payload);
 
-      console.log('registrou', ret.data);
       //dispatch(saveContacts(data.data));
     } catch (err) {
       console.error(err);

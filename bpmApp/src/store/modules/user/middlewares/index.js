@@ -43,7 +43,6 @@ export async function authenticateUserToken(tel, auth) {
     const firstPair = ['@token', data.data.token];
     const secondPair = ['@refreshToken', data.data.refreshToken];
     await AsyncStorage.multiSet([firstPair, secondPair]);
-    console.log('setei', data.data.token, data.data.refreshToken);
 
     return data;
   }

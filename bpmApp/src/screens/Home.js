@@ -51,10 +51,7 @@ export function Home(props) {
   useEffect(() => {
     //console.log('alo', stepsData, actualHeartBeatData);
     const {sendUserStatusData} = props;
-    if (
-      !stepsData.hasOwnProperty('status') &&
-      !actualHeartBeatData.hasOwnProperty('stauts')
-    ) {
+    if (stepsData != null && actualHeartBeatData != null) {
       sendUserStatusData({
         heartBeat: actualHeartBeatData.value,
         steps: stepsData.value,

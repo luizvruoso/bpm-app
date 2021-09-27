@@ -12,7 +12,27 @@ export default function HeartMeasure(props) {
   const heartBeatData = props.data;
   const instantData = props.instantData;
   const Component = useCallback(({item}) => {
-    return <HeartBeat {...item} />;
+    var max = item.content[0].value;
+    var min = item.content[0].value;
+    var average = 0;
+    item.content.map(item2 => {
+      if (max <= item2.value) max = item2.value;
+      else if (min >= item2.value) min = item2.value;
+
+      average += item2.value;
+    });
+
+    average = average / item.content.length;
+
+    //console.log('dadsadsa', item.content[item.content.length - 1]);
+    const data = {
+      max,
+      min,
+      average,
+      date: item.content[item.content.length - 1].time,
+    };
+
+    return <HeartBeat data={data} />;
   }, []);
 
   return (
@@ -94,7 +114,7 @@ function HeartBeat(props) {
   return (
     <View
       style={[
-        {height: 155},
+        {height: 160},
         styles.borderContainers,
         styles.mt10,
         styles.centerXY,
@@ -120,7 +140,7 @@ function HeartBeat(props) {
           },
         ]}>
         <Text style={[{color: variables.darkGray4}]}>
-          {convertDate(props.date)}
+          {convertDate(props.data.date)}
         </Text>
       </View>
       <View style={[styles.row, styles.my5, {flex: 1}]}>
@@ -138,7 +158,7 @@ function HeartBeat(props) {
               styles.textLeft,
               styles.textVerticalCenter,
             ]}>
-            {parseInt(props.value)}
+            {parseInt(props.data.average)}
             <Text
               style={[
                 {fontSize: 20, color: variables.darkGray3},
@@ -163,7 +183,7 @@ function HeartBeat(props) {
             //styles.fullWidth,
           ]}>
           <Text style={[{color: variables.darkGray4, textAlign: 'right'}]}>
-            {fromDateTimeGetTime(props.date)}
+            {fromDateTimeGetTime(props.data.date)}
           </Text>
         </View>
       </View>
@@ -178,7 +198,7 @@ function HeartBeat(props) {
             min &nbsp;
           </Text>
           <Text style={[{fontSize: variables.fontLarger}, styles.bold]}>
-            {parseInt(props?.min)}
+            {parseInt(props?.data.min)}
           </Text>
         </View>
 
@@ -191,7 +211,7 @@ function HeartBeat(props) {
             máx &nbsp;
           </Text>
           <Text style={[{fontSize: variables.fontLarger}, styles.bold]}>
-            {parseInt(props?.max)}
+            {parseInt(props?.data.max)}
           </Text>
         </View>
       </View>

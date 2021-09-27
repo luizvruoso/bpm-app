@@ -27,7 +27,7 @@ export default function HeartBeat(props) {
       getHeartBeatData,
       getActualHeartBeatData,
     } = props;
-
+    //console.log('dadsa', heartBeat[0]);
     if (heartBeat.length > 0) {
       setHeartBeatData(heartBeat);
     }

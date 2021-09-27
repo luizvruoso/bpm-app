@@ -34,8 +34,9 @@ import {
 import {variables} from './assets/variables';
 import MainTemplate from './components/MainTemplate';
 import styles from './assets/globals';
-import AppMessageNotification from './components/AppMessageNotification';
+import {watchPosition} from '../src/assets/utils';
 
+import AppMessageNotification from './components/AppMessageNotification';
 import Home from './containers/Home';
 import HeartBeat from './containers/HeartBeat';
 import Steps from './containers/Steps';
@@ -48,7 +49,6 @@ import FirstRegister from './containers/FirstRegister';
 import Monitor from './containers/Monitor';
 import DetailsMonitor from './containers/DetailsMonitor';
 import Ble from './containers/Ble';
-
 import Devices from './containers/Devices';
 
 const navigationRef = React.createRef();
@@ -184,7 +184,7 @@ function MedicalRecordRoute(props) {
 }
 
 const customDrawerContent = (props, onLogout, user) => {
-  console.log(user);
+  //console.log(user);
   return (
     <View
       style={[
@@ -374,6 +374,7 @@ export default class Routes extends Component {
   constructor(props) {
     super(props);
 
+    // watchPosition();
     //this.triggerInterval();
     //const isHermes = () => !!global.HermesInternal;
   }
