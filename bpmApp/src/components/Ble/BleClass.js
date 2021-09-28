@@ -61,9 +61,7 @@ class Ble {
 
   handleUpdateValueForCharacteristic(data) {
     const {setActualSteps, setActualHeartBeat} = this.props;
-    console.log(this.props);
 
-    console.log('aloooo');
     //console.log('carac', data.characteristic);
     if (data.characteristic == '00002a37-0000-1000-8000-00805f9b34fb') {
       //setbatimentos(data.value[1]);
@@ -90,6 +88,7 @@ class Ble {
         this.peripherals.set(peripheral.id, peripheral);
         //setList(Array.from(this.peripherals.values()));
         this.list = Array.from(this.peripherals.values());
+
         return this.list;
       }
     });

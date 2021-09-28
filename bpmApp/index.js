@@ -17,7 +17,7 @@ const MyHeadlessTask = async () => {
       store.dispatch(setActualHeartBeat(data));
     },
     setActualSteps: data => {
-      store.dispatch(setActualHeartBeat(data));
+      store.dispatch(setActualSteps(data));
     },
   });
 
@@ -27,6 +27,10 @@ const MyHeadlessTask = async () => {
   const peripheral = Ble.getPeripheral();
 
   Ble.testPeripheral(peripheral[0]);
+
+  return () => {
+    Ble.clean();
+  };
 };
 
 AppRegistry.registerHeadlessTask('Heartbeat', () => MyHeadlessTask);
