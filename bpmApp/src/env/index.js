@@ -1,5 +1,5 @@
 export const URL_API = {
-  URL: 'http://177.194.52.168:8082',
+  URL: 'http://192.168.0.234:8082',
   CREDENTIALS: {
     BASIC_AUTH: 'bG91c2xpeG86cGFzc3dvcmQ=',
     BEARER_TOKEN: '',
