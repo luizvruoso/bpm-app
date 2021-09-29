@@ -452,7 +452,7 @@ export default class Routes extends Component {
 
     return (
       <SafeAreaView style={[{flex: 1}, {backgroundColor: variables.primary}]}>
-        <Ble />
+        {/*<Ble />*/}
         <AppMessageNotification
           user={user}
           setErrorToFalse={setErrorToFalse}

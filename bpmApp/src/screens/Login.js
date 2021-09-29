@@ -16,7 +16,7 @@ import AvoidKeyboard from '../components/AvoidKeyboard';
 import {navigate} from '../Routes';
 import {formatCel} from '../assets/utils';
 
-import Heartbeat from '../components/HeartBeat';
+
 
 export default function Login(props) {
   const [phone, setPhone] = useState('');
@@ -107,25 +107,6 @@ export default function Login(props) {
                   </Text>
                 </TouchableOpacity>
               </View>
-              {/*<TouchableOpacity
-              style={[
-                styles.row,
-                //styles.bgWhite,
-                styles.btnBorderRadius,
-                styles.centerXY,
-                {
-                  width: '100%',
-                  height: 60,
-                  borderColor: '#FFF',
-                  backgroundColor: '#88b648',
-                },
-              ]}
-              onPress={() => {
-                console.log(Heartbeat.aobaService());
-                //Heartbeat.startService()
-              }}>
-              <Text>Start</Text>
-            </TouchableOpacity>*/}
             </View>
           </AvoidKeyboard>
         </View>

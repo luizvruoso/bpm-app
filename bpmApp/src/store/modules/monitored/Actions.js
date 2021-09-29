@@ -37,6 +37,8 @@ export function sendUserStatusData(data) {
 
       const ret = await sendStatusData(payload);
 
+      //console.log('ret', ret.data);
+
       //dispatch(saveContacts(data.data));
     } catch (err) {
       console.error(err);
