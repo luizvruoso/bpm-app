@@ -1,5 +1,8 @@
-package com.bpmapp;
+package com.bpmapp.services;
 
+import com.bpmapp.MainActivity;
+import com.bpmapp.R;
+import com.bpmapp.eventService.BluetoothEventService;
 import com.facebook.react.HeadlessJsTaskService;
 
 import android.app.Notification;
@@ -10,18 +13,10 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 
-import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
-
-import com.facebook.react.HeadlessJsTaskService;
-import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.CatalystInstance;
-import com.facebook.react.jstasks.HeadlessJsTaskConfig;
-import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 
 public class ServiceBluetooth extends Service {
@@ -33,7 +28,7 @@ public class ServiceBluetooth extends Service {
         @Override
         public void run() {
             Context context = getApplicationContext();
-            Intent myIntent = new Intent(context, HeartbeatEventService.class);
+            Intent myIntent = new Intent(context, BluetoothEventService.class);
             context.startService(myIntent);
             HeadlessJsTaskService.acquireWakeLockNow(context);
             //handler.postDelayed(this, 2000);

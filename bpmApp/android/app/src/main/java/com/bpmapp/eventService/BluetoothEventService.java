@@ -1,4 +1,4 @@
-package com.bpmapp;
+package com.bpmapp.eventService;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import com.facebook.react.HeadlessJsTaskService;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.jstasks.HeadlessJsTaskConfig;
 
-public class HeartbeatEventService extends HeadlessJsTaskService {
+public class BluetoothEventService extends HeadlessJsTaskService {
     @Nullable
     protected HeadlessJsTaskConfig getTaskConfig(Intent intent) {
         Bundle extras = intent.getExtras();

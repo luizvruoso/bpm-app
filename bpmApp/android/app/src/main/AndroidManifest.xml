@@ -27,12 +27,12 @@
       android:allowBackup="false"
       android:theme="@style/AppTheme">
         <service
-            android:name="com.bpmapp.ServiceBluetooth"
+            android:name="com.bpmapp.services.ServiceBluetooth"
             android:enabled="true"
             android:exported="false" >
         </service>
         <service
-            android:name="com.bpmapp.HeartbeatEventService">
+            android:name="com.bpmapp.eventService.BluetoothEventService">
         </service>
         <receiver
             android:name="com.bpmapp.BootUpReceiver"
