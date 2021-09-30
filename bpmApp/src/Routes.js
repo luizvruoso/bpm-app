@@ -50,6 +50,7 @@ import Monitor from './containers/Monitor';
 import DetailsMonitor from './containers/DetailsMonitor';
 import Ble from './containers/Ble';
 import Devices from './containers/Devices';
+//import Sensors from './containers/SensorsMeasurements';
 
 const navigationRef = React.createRef();
 
