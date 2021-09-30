@@ -10,7 +10,7 @@ import { map, filter } from "rxjs/operators";
 
 class Sensors {
     
-    stopScan(timeout, accel, gyro){
+    stopScan(timeout, accel, gyro) {
         setTimeout(() => {
             // If it's the last subscription to accelerometer it will stop polling in the native API
             if(accel) this.subscriptionAccel.unsubscribe();
