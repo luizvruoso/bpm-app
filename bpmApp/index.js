@@ -7,6 +7,7 @@ import {AppRegistry, NativeModules, NativeEventEmitter} from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
 import Ble from './src/components/Ble/BleClass';
+
 import {store} from './src/store';
 import {setActualHeartBeat} from './src/store/modules/heartBeatInstant/Actions';
 import {setActualSteps} from './src/store/modules/stepsInstant/Actions';
