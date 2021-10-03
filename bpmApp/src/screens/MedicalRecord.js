@@ -24,7 +24,7 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RNPickerSelect from 'react-native-picker-select';
 import DatePicker from 'react-native-date-picker';
-import {convertDate} from '../assets/utils';
+import {convertDate, fromDate, fromDateToDate} from '../assets/utils';
 import DashMenu from '../components/DashMenu';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {variables} from '../assets/variables';
@@ -373,6 +373,8 @@ function BirthInput(props) {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
+    console.log(fromDateToDate(currentDate));
+    props.handleChange(currentDate);
   };
 
   const showMode = currentMode => {

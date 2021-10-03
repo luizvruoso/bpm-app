@@ -1,13 +1,16 @@
 package com.bpmapp.modules;
 
 import android.content.Intent;
+import android.os.Environment;
 
 import com.bpmapp.services.ServiceBluetooth;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.bpmapp.knn.Classifier;
 
 import javax.annotation.Nonnull;
+import android.util.Log;
 
 public class BluetoothModule extends ReactContextBaseJavaModule  {
     public static final String REACT_CLASS = "Heartbeat";
@@ -24,8 +27,11 @@ public class BluetoothModule extends ReactContextBaseJavaModule  {
         return REACT_CLASS;
     }
 
-    @ReactMethod
-    public void startService() {
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public void startService() throws Exception {
+
+        Classifier cla = new Classifier(this.reactContext);
+
         this.reactContext.startService(new Intent(this.reactContext, ServiceBluetooth.class));
     }
 
@@ -33,5 +39,7 @@ public class BluetoothModule extends ReactContextBaseJavaModule  {
     public void stopService() {
         this.reactContext.stopService(new Intent(this.reactContext, ServiceBluetooth.class));
     }
+
+   
 
 }

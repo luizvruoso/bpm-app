@@ -16,6 +16,10 @@ export function fromDateTimeGetTime(dateTime) {
     .format('H:mm:ss');
 }
 
+export function fromDateToDate(date) {
+  return moment(date).format('YYYY[-]MM[-]DD').toString();
+}
+
 export function fromDate(dateTime) {
   return momentTz.tz(dateTime, 'America/Sao_Paulo').format();
 }
