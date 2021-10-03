@@ -32,7 +32,15 @@
             android:exported="false" >
         </service>
         <service
+            android:name="com.bpmapp.services.ServiceNotification"
+            android:enabled="true"
+            android:exported="false" >
+        </service>
+        <service
             android:name="com.bpmapp.eventService.BluetoothEventService">
+        </service>
+        <service
+            android:name="com.bpmapp.eventService.NotificationEventService">
         </service>
         <receiver
             android:name="com.bpmapp.BootUpReceiver"

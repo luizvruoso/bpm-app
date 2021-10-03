@@ -7,6 +7,7 @@ import android.os.Build;
 
 import com.bpmapp.knn.Classifier;
 import com.bpmapp.services.ServiceBluetooth;
+import com.bpmapp.services.ServiceNotification;
 
 public class BootUpReceiver extends BroadcastReceiver {
     @Override
@@ -16,10 +17,13 @@ public class BootUpReceiver extends BroadcastReceiver {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 //log("Starting the service in >=26 Mode from a BroadcastReceiver")
                 context.startForegroundService(new Intent(context, ServiceBluetooth.class));
+                //context.startForegroundService(new Intent(context, ServiceNotification.class));
+
 
                 return;
             }
             //log("Starting the service in < 26 Mode from a BroadcastReceiver")
+            //context.startService(new Intent(context, ServiceNotification.class));
             context.startService(new Intent(context, ServiceBluetooth.class));
         }
 
