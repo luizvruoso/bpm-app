@@ -6,7 +6,7 @@ import {
   addEmergencyContact,
   getUserData,
 } from './middlewares';
-import {convertDate, now} from '../../../assets/utils';
+import {convertDate, fromDateToDate, now} from '../../../assets/utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function sendTokenTel(phone) {
@@ -90,8 +90,8 @@ export function registerUserData(data) {
       //email: null,
       //phone: data.phone,
       //password: null,
-      //birthDate: convertDate(data.birth, false),
-      birthDate: convertDate(now(), false),
+      birthDate: fromDateToDate(data.birth),
+      // birthDate: convertDate(now(), false),
       completeName: data.name,
       weight: parseInt(data.weight),
       height: parseInt(data.height),
