@@ -13,6 +13,7 @@ import styles from '../assets/globals';
 import Perifericos from '../components/Ble';
 import BleManager from 'react-native-ble-manager';
 import Heartbeat from '../components/HeartBeat';
+const {Notification} = NativeModules;
 
 const BleManagerModule = NativeModules.BleManager;
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
