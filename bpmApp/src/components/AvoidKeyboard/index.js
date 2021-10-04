@@ -21,16 +21,12 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default function index(props) {
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
-      //behavior="position"
-      style={{flex: 1}}>
+    <View style={{flex: 1}}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView style={{flex: 1}}>
-          <View style={{flex: 1}}>{props.children}</View>
+        <ScrollView style={{height: '100%', minHeight: '100%'}}>
+          {props.children}
         </ScrollView>
       </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+    </View>
   );
 }
