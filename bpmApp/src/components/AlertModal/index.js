@@ -32,15 +32,12 @@ export default function index(props) {
 
   useEffect(
     ret => {
+      setLabelTime('00:30');
+      setTrigger(false);
+
       setModalVisible(props.status);
-      if (props.status) {
-        setLabelTime('00:30');
-        setTrigger(false);
-      } else {
-        setTrigger(false);
-      }
     },
-    [props.status], //controlador
+    [props.status, modalVisible], //controlador
   );
 
   useEffect(
@@ -85,7 +82,7 @@ export default function index(props) {
       isMounted = false;
       clearInterval(intervalId);
     };
-  }, [props.status]);
+  }, [props.status, modalVisible]);
 
   /*const CustomContent = () => {
     return props.children;
@@ -140,7 +137,7 @@ export default function index(props) {
               </View>
             </View>
             <View style={[styles.p20]}>
-              {labeTime != '00:00' ? (
+              {labeTime != '00:00' && !trigger ? (
                 <View style={[styles.row, styles.centerXY, styles.mt20]}>
                   <Text style={[{fontSize: variables.titulo1 + 18}]}>
                     {labeTime}
