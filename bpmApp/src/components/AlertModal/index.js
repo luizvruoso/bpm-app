@@ -21,11 +21,21 @@ export default function index(props) {
 
   const [trigger, setTrigger] = useState(false);
   const [labeTime, setLabelTime] = useState('00:30');
+
+  useEffect(
+    ret => {
+      setTrigger(false);
+      setLabelTime('00:30');
+    },
+    [], //controlador
+  );
+
   useEffect(
     ret => {
       setModalVisible(props.status);
       if (props.status) {
         setLabelTime('00:30');
+        setTrigger(false);
       } else {
         setTrigger(false);
       }
@@ -50,20 +60,26 @@ export default function index(props) {
     var isMounted = true;
     var aux = new Date();
     var endDate = new Date().setSeconds(aux.getSeconds() + 30);
+    var intervalId = 0;
     endDate = new Date(endDate);
-    const intervalId = setInterval(() => {
-      var actualDate = new Date();
-      //console.log(actualDate.getSeconds());
 
-      if (isMounted && props.status) {
-        var aux = endDate.getSeconds() - actualDate.getSeconds();
-        if (aux <= 0) {
-          setLabelTime('00:00');
-          setTrigger(true);
-          clearInterval(intervalId);
-        } else setLabelTime('00:' + (aux <= 9 ? '0' + aux : aux).toString());
-      }
-    }, 1000);
+    if (isMounted && props.status) {
+      intervalId = setInterval(() => {
+        var actualDate = new Date();
+        //console.log(actualDate.getSeconds());
+
+        if (isMounted && props.status) {
+          var aux = endDate.getSeconds() - actualDate.getSeconds();
+          if (aux <= 0) {
+            setLabelTime('00:00');
+            setTrigger(true);
+            clearInterval(intervalId);
+          } else setLabelTime('00:' + (aux <= 9 ? '0' + aux : aux).toString());
+        }
+      }, 1000);
+    } else {
+      clearInterval(intervalId);
+    }
 
     return () => {
       isMounted = false;

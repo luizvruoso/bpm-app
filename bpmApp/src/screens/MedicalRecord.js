@@ -236,7 +236,7 @@ function MedicalRecord(props) {
                   onBlur={onBlur}
                   keyboardType="numeric"
                   onChangeText={onChange}
-                  value={value}
+                  value={value.toString()}
                   placeholderTextColor={variables.gray3}
                   style={[
                     styles.input,
@@ -265,7 +265,7 @@ function MedicalRecord(props) {
                   onBlur={onBlur}
                   keyboardType="numeric"
                   onChangeText={onChange}
-                  value={value}
+                  value={value.toString()}
                   placeholderTextColor={variables.gray3}
                   style={[
                     styles.input,
@@ -365,10 +365,11 @@ function ImageUser(props) {
 }
 
 function BirthInput(props) {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(
+    props.value != null ? props.value : new Date(),
+  );
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
-
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
@@ -470,16 +471,21 @@ function AlzheimerInput(props) {
         <RNPickerSelect
           onClose={props.handleBlurInput}
           placeholder={{
-            label: 'Selecione uma opção',
+            label:
+              convertToString(props.value) == null
+                ? 'Selecione uma opção'
+                : 'Selecionado: ' + convertToString(props.value),
             value: props.value == null ? null : props.value,
           }}
           Icon={() => {
             return (
-              <Icon
-                name="keyboard-arrow-down"
-                size={variables.icon}
-                style={{marginTop: 10}}
-              />
+              Platform.OS === 'ios' && (
+                <Icon
+                  name="keyboard-arrow-down"
+                  size={variables.icon}
+                  style={{marginTop: 10}}
+                />
+              )
             );
           }}
           onValueChange={value => props.handleChange(value)}
@@ -519,16 +525,21 @@ function SexInput(props) {
         <RNPickerSelect
           onClose={props.handleBlurInput}
           placeholder={{
-            label: 'Selecione uma opção',
-            value: null,
+            label:
+              convertToString(props.value) == null
+                ? 'Selecione uma opção'
+                : 'Selecionado: ' + convertToString(props.value),
+            value: props.value == null ? null : props.value,
           }}
           Icon={() => {
             return (
-              <Icon
-                name="keyboard-arrow-down"
-                size={variables.icon}
-                style={{marginTop: 10}}
-              />
+              Platform.OS === 'ios' && (
+                <Icon
+                  name="keyboard-arrow-down"
+                  size={variables.icon}
+                  style={{marginTop: 10}}
+                />
+              )
             );
           }}
           onValueChange={value => props.handleChange(value)}
@@ -547,7 +558,7 @@ function WheelchairInput(props) {
     if (val) return 'Sim';
     else if (val === false) return 'Não';
 
-    return 'Selecione uma Opção';
+    return null;
   };
   return (
     <View>
@@ -572,16 +583,21 @@ function WheelchairInput(props) {
         <RNPickerSelect
           onClose={props.handleBlurInput}
           placeholder={{
-            label: 'Selecione uma opção',
-            value: null,
+            label:
+              convertToString(props.value) == null
+                ? 'Selecione uma opção'
+                : 'Selecionado: ' + convertToString(props.value),
+            value: props.value == null ? null : props.value,
           }}
           Icon={() => {
             return (
-              <Icon
-                name="keyboard-arrow-down"
-                size={variables.icon}
-                style={{marginTop: 10}}
-              />
+              Platform.OS === 'ios' && (
+                <Icon
+                  name="keyboard-arrow-down"
+                  size={variables.icon}
+                  style={{marginTop: 10}}
+                />
+              )
             );
           }}
           onValueChange={value => props.handleChange(value)}

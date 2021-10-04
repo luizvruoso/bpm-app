@@ -99,7 +99,7 @@ function HeartBeatFocus(props) {
               //styles.textLeft,
               styles.textVerticalCenter,
             ]}>
-            {parseInt(props.value)}
+            {isNaN(parseInt(props.value)) ? '0' : parseInt(props.value)}
             <Text style={[{fontSize: 20, color: variables.white}]}>
               &nbsp; bpm
             </Text>

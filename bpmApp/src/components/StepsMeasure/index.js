@@ -81,7 +81,9 @@ function StepsMeasureFocus(props) {
               //styles.textLeft,
               styles.textVerticalCenter,
             ]}>
-            {parseInt(instantStepsData?.value)}
+            {isNaN(parseInt(instantStepsData?.value))
+              ? '0'
+              : parseInt(instantStepsData?.value)}
             <Text style={[{fontSize: 20, color: variables.darkGray3}]}>
               &nbsp; passos
             </Text>

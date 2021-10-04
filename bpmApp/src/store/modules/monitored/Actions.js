@@ -29,7 +29,7 @@ export function sendUserStatusData(data) {
 
       const payload = {
         heartBeat: data.heartBeat,
-        status: 'not defined',
+        status: 'Tudo parece bem',
         latitude: userLocation.latitude,
         longitude: userLocation.longitude,
         cardiacSteps: data.steps,
