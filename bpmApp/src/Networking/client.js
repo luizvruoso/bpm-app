@@ -43,8 +43,8 @@ class SocketClient {
     });
 
     this.socket.on('emergencyNotification', function (ret) {
-      console.log('notification chegou', ret.payload);
-      Notification.sendNotification('Alerta', ret.payload);
+      console.log('notification chegou', ret);
+      Notification.sendNotification(ret.title, ret.message);
     });
 
     this.socket.on('alertAddResponsible', function (ret) {
