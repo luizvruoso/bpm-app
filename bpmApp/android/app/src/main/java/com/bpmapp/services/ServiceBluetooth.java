@@ -71,7 +71,7 @@ public class ServiceBluetooth extends Service {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Alerta")
-                .setContentText("Se algo acontecer, estaremos aqui ;)")
+                .setContentText("Monitoramento ativo ativado.")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(contentIntent)
                 .setOngoing(true)

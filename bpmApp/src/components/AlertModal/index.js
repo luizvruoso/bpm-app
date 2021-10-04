@@ -55,7 +55,7 @@ export default function index(props) {
       var actualDate = new Date();
       //console.log(actualDate.getSeconds());
 
-      if (isMounted) {
+      if (isMounted && props.status) {
         var aux = endDate.getSeconds() - actualDate.getSeconds();
         if (aux <= 0) {
           setLabelTime('00:00');
