@@ -32,7 +32,7 @@ export default function HeartBeat(props) {
 
     if (heartBeat.length > 0) {
       //var aux = heartBeat;
-      console.log('DADSAD', JSON.stringify(heartBeat[1]));
+      //console.log('DADSAD', JSON.stringify(heartBeat[1]));
       setHeartBeatData(heartBeat);
     }
 

@@ -14,9 +14,9 @@ import {setActualSteps} from './src/store/modules/stepsInstant/Actions';
 
 const MyHeadlessTask = async () => {
   const socket = new SocketClient();
-  socket.initSocket(store.dispatch);
-  socket.joinSession(store.getState().user.uuid);
-  /*
+  socket.initSocket(store.dispatch, store.getState().user.uuid);
+  //socket.joinSession(store.getState().user.uuid);
+
   Ble.setProps({
     setActualHeartBeat: data => {
       store.dispatch(setActualHeartBeat(data));
@@ -35,7 +35,7 @@ const MyHeadlessTask = async () => {
 
   return () => {
     Ble.clean();
-  };*/
+  };
 };
 
 const MyHeadlessTask1 = async () => {

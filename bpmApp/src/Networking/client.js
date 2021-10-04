@@ -8,7 +8,7 @@ const {Notification} = NativeModules;
 const SOCKET_URL = 'http://192.168.0.115:1880';
 
 class SocketClient {
-  initSocket(dispatch = null) {
+  initSocket(dispatch = null, roomId = null) {
     this.socket = null;
     this.socket = io(SOCKET_URL, {
       reconnectionDelayMax: 5000,
@@ -24,6 +24,11 @@ class SocketClient {
 
     this.socket.on('connect', () => {
       console.log('cliente connectado');
+      this.joinSession(roomId);
+    });
+
+    this.socket.on('reconnect', () => {
+      console.log('reconectado');
     });
 
     this.socket.connect();
@@ -38,11 +43,8 @@ class SocketClient {
     });
 
     this.socket.on('emergencyNotification', function (ret) {
-      console.log('notification chegou', ret);
-      Notification.sendNotification(
-        'Alerta',
-        'Algo aconteceu com seu monitorado',
-      );
+      console.log('notification chegou', ret.payload);
+      Notification.sendNotification('Alerta', ret.payload);
     });
 
     this.socket.on('alertAddResponsible', function (ret) {

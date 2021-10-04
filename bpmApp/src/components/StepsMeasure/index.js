@@ -22,7 +22,7 @@ export default function index(props) {
   return (
     <View style={[styles.flex1]}>
       <StepsMeasureFocus instantStepsData={instantStepsData} />
-      <View style={[styles.flex1, {paddingBottom: 90}]}>
+      <View style={[styles.flex1, {paddingBottom: 10}]}>
         <FlatList
           data={stepsData}
           keyExtractor={(item, index) => index}

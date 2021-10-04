@@ -38,7 +38,7 @@ public class ServiceBluetooth extends Service {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_LOW;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "HEARTBEAT", importance);
             channel.setDescription("CHANEL DESCRIPTION");
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
@@ -71,7 +71,7 @@ public class ServiceBluetooth extends Service {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Alerta")
-                .setContentText("Monitoramento ativo ativado.")
+                .setContentText("Monitoramento contínuo ativado.")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(contentIntent)
                 .setOngoing(true)
