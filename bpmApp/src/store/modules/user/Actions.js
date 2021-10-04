@@ -27,7 +27,7 @@ export function sendTokenTel(phone) {
 
 export function validateToken(phone, auth) {
   return dispatch => {
-    authenticateUserToken(phone, auth)
+    authenticateUserToken(phone, auth.toUpperCase())
       .then(ret => {
         if (ret != false) {
           const aux = {

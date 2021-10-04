@@ -14,15 +14,63 @@ import styles from '../../assets/globals';
 import {variables} from '../../assets/variables';
 import {Icon} from 'react-native-elements'; //https://fonts.google.com/icons?selected=Material+Icons
 import {ScrollView} from 'react-native-gesture-handler';
+import SocketClient from '../../Networking/client';
 
 export default function index(props) {
   const [modalVisible, setModalVisible] = useState(props.status);
+
+  const [trigger, setTrigger] = useState(false);
+  const [labeTime, setLabelTime] = useState('00:30');
   useEffect(
     ret => {
       setModalVisible(props.status);
+      if (props.status) {
+        setLabelTime('00:30');
+      } else {
+        setTrigger(false);
+      }
     },
     [props.status], //controlador
   );
+
+  useEffect(
+    ret => {
+      if (trigger) {
+        const socket = new SocketClient();
+        socket.initSocket();
+        socket.joinSession(props.uuid);
+        socket.sendNotification(props.uuid);
+        setTrigger(false);
+      }
+    },
+    [trigger], //controlador
+  );
+
+  useEffect(() => {
+    var isMounted = true;
+    var aux = new Date();
+    var endDate = new Date().setSeconds(aux.getSeconds() + 30);
+    endDate = new Date(endDate);
+    const intervalId = setInterval(() => {
+      var actualDate = new Date();
+      //console.log(actualDate.getSeconds());
+
+      if (isMounted) {
+        var aux = endDate.getSeconds() - actualDate.getSeconds();
+        if (aux <= 0) {
+          setLabelTime('00:00');
+          setTrigger(true);
+          clearInterval(intervalId);
+        } else setLabelTime('00:' + (aux <= 9 ? '0' + aux : aux).toString());
+      }
+    }, 1000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(intervalId);
+    };
+  }, [props.status]);
+
   /*const CustomContent = () => {
     return props.children;
   };*/
@@ -76,9 +124,20 @@ export default function index(props) {
               </View>
             </View>
             <View style={[styles.p20]}>
-              <View style={[styles.row, styles.centerXY, styles.mt20]}>
-                <Text style={[{fontSize: variables.titulo1 + 18}]}>00:30</Text>
-              </View>
+              {labeTime != '00:00' ? (
+                <View style={[styles.row, styles.centerXY, styles.mt20]}>
+                  <Text style={[{fontSize: variables.titulo1 + 18}]}>
+                    {labeTime}
+                  </Text>
+                </View>
+              ) : (
+                <View style={[styles.row, styles.centerXY, styles.mt20]}>
+                  <Text style={[{fontSize: 18, textAlign: 'center'}]}>
+                    Alerta disparado. Seus contatos de emergência foram
+                    notificados.
+                  </Text>
+                </View>
+              )}
             </View>
 
             <View style={[styles.mt30, styles.mb30, styles.p20]}>

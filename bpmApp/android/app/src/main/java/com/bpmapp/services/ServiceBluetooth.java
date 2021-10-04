@@ -70,8 +70,8 @@ public class ServiceBluetooth extends Service {
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Heartbeat service")
-                .setContentText("Running...")
+                .setContentTitle("Alerta")
+                .setContentText("Se algo acontecer, estaremos aqui ;)")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(contentIntent)
                 .setOngoing(true)

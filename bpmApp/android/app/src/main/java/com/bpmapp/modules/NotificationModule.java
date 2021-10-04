@@ -57,6 +57,8 @@ public class NotificationModule extends ReactContextBaseJavaModule{
         Notification notification = new NotificationCompat.Builder(this.reactContext, CHANNEL_ID)
                 .setContentTitle(title)
                 .setContentText(content)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(content))
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(contentIntent)
                 .build();

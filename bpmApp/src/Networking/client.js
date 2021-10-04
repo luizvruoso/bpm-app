@@ -1,13 +1,14 @@
 import {Component} from 'react';
 import io from 'socket.io-client';
 import {NativeModules} from 'react-native';
+import {refreshUserInfo} from '../store/modules/user/Actions';
 
 const {Notification} = NativeModules;
 
 const SOCKET_URL = 'http://192.168.0.115:1880';
 
 class SocketClient {
-  initSocket() {
+  initSocket(dispatch = null) {
     this.socket = null;
     this.socket = io(SOCKET_URL, {
       reconnectionDelayMax: 5000,
@@ -36,16 +37,18 @@ class SocketClient {
       Notification.sendNotification('Nova Mensagem', '');
     });
 
-    this.socket.on('notification', function (ret) {
+    this.socket.on('emergencyNotification', function (ret) {
       console.log('notification chegou', ret);
       Notification.sendNotification(
         'Alerta',
         'Algo aconteceu com seu monitorado',
       );
     });
+
     this.socket.on('alertAddResponsible', function (ret) {
       console.log('alertAddResponsible chegou', ret);
-      Notification.sendNotification('Novo Monitorado', ret.payload);
+      Notification.sendNotification('Novo Monitorado', ret);
+      dispatch(refreshUserInfo());
     });
   }
 
@@ -58,8 +61,9 @@ class SocketClient {
     this.socket.emit('join', {room: roomId});
   }
 
-  sendNotification(status) {
-    this.socket.emit('notification', {payload: 'Salve'});
+  sendNotification(uuid) {
+    console.log('aloo', uuid);
+    this.socket.emit('emergencyNotification', {room: uuid});
   }
 
   onConnectSocket() {

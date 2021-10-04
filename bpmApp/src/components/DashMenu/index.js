@@ -26,7 +26,7 @@ export default function DashMenu(props) {
       }
 
       if (item == 'alert') {
-        return <Alert key={index} />;
+        return <Alert uuid={props.uuid} key={index} />;
       }
     });
   };
@@ -180,7 +180,11 @@ function Alert(props) {
         </Text>
       </View>
 
-      <AlertModal status={modal} setModal={status => setModal(status)} />
+      <AlertModal
+        uuid={props.uuid}
+        status={modal}
+        setModal={status => setModal(status)}
+      />
     </TouchableOpacity>
   );
 }

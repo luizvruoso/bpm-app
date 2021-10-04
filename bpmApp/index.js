@@ -14,7 +14,7 @@ import {setActualSteps} from './src/store/modules/stepsInstant/Actions';
 
 const MyHeadlessTask = async () => {
   const socket = new SocketClient();
-  socket.initSocket();
+  socket.initSocket(store.dispatch);
   socket.joinSession(store.getState().user.uuid);
   /*
   Ble.setProps({
@@ -39,7 +39,6 @@ const MyHeadlessTask = async () => {
 };
 
 const MyHeadlessTask1 = async () => {
-  console.log('oiiii');
   const socket = new SocketClient();
   socket.initSocket();
 
