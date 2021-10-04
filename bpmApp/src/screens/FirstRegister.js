@@ -400,11 +400,13 @@ function BirthInput(props) {
               ? 'Selecione uma data'
               : convertDate(date)}
           </Text>
-          <Icon
-            name="keyboard-arrow-down"
-            size={variables.icon}
-            // style={{marginTop: -5}}
-          />
+          {Platform.OS === 'ios' && (
+            <Icon
+              name="keyboard-arrow-down"
+              size={variables.icon}
+              // style={{marginTop: -5}}
+            />
+          )}
         </TouchableOpacity>
 
         {show && (
@@ -455,11 +457,13 @@ function AlzheimerInput(props) {
           }}
           Icon={() => {
             return (
-              <Icon
-                name="keyboard-arrow-down"
-                size={variables.icon}
-                style={{marginTop: 10}}
-              />
+              Platform.OS === 'ios' && (
+                <Icon
+                  name="keyboard-arrow-down"
+                  size={variables.icon}
+                  style={{marginTop: 10}}
+                />
+              )
             );
           }}
           onValueChange={value => props.handleChange(value)}
@@ -503,11 +507,13 @@ function SexInput(props) {
           }}
           Icon={() => {
             return (
-              <Icon
-                name="keyboard-arrow-down"
-                size={variables.icon}
-                style={{marginTop: 10}}
-              />
+              Platform.OS === 'ios' && (
+                <Icon
+                  name="keyboard-arrow-down"
+                  size={variables.icon}
+                  style={{marginTop: 10}}
+                />
+              )
             );
           }}
           onValueChange={value => props.handleChange(value)}
@@ -555,11 +561,13 @@ function WheelchairInput(props) {
           }}
           Icon={() => {
             return (
-              <Icon
-                name="keyboard-arrow-down"
-                size={variables.icon}
-                style={{marginTop: 10}}
-              />
+              Platform.OS === 'ios' && (
+                <Icon
+                  name="keyboard-arrow-down"
+                  size={variables.icon}
+                  style={{marginTop: 10}}
+                />
+              )
             );
           }}
           onValueChange={value => props.handleChange(value)}

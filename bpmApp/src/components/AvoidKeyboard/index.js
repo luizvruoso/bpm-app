@@ -23,7 +23,7 @@ export default function index(props) {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 40}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
       //behavior="position"
       style={{flex: 1}}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
