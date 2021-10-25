@@ -2,7 +2,6 @@ package com.bpmapp;
 
 import android.app.Application;
 import android.content.Context;
-
 import com.bpmapp.reactNativePackage.BluetoothPackage;
 import com.bpmapp.reactNativePackage.NotificationPackage;
 import com.facebook.react.PackageList;
@@ -31,7 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
           // packages.add(new MyReactNativePackage());
             packages.add(new BluetoothPackage());
             packages.add(new NotificationPackage());
-            return packages;
+          return packages;
         }
 
         @Override

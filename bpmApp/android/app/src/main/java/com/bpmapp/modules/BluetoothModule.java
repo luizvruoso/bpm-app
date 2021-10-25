@@ -7,7 +7,6 @@ import com.bpmapp.services.ServiceBluetooth;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.bpmapp.knn.Classifier;
 
 import javax.annotation.Nonnull;
 import android.util.Log;
@@ -29,9 +28,6 @@ public class BluetoothModule extends ReactContextBaseJavaModule  {
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     public void startService() throws Exception {
-
-        Classifier cla = new Classifier(this.reactContext);
-
         this.reactContext.startService(new Intent(this.reactContext, ServiceBluetooth.class));
     }
 
