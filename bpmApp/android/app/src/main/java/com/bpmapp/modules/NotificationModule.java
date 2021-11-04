@@ -6,6 +6,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
@@ -18,6 +19,13 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
+import org.tensorflow.lite.Interpreter;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+
 import javax.annotation.Nonnull;
 
 
@@ -26,6 +34,7 @@ public class NotificationModule extends ReactContextBaseJavaModule{
     private static ReactApplicationContext reactContext;
     private static final String CHANNEL_ID = "NOTIFICATION";
     private static final int SERVICE_NOTIFICATION_ID = 12346;
+    private Interpreter interpreter;
 
     public NotificationModule(@Nonnull ReactApplicationContext reactContext) {
         super(reactContext);
@@ -48,6 +57,50 @@ public class NotificationModule extends ReactContextBaseJavaModule{
                 .setContentText("a")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);*/
     }
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public void loadPredictionFile() throws IOException{
+        interpreter = new Interpreter(this.loadModelFile());
+    }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public float predict(float Ox, float Oy, float Oz, float OxS,float OyS, float OzS) throws IOException {
+        float[] input = {Ox, Oy, Oz, OxS, OyS, OzS};
+
+       float f =  doInference(input);
+       System.out.println("Resultado da inferencia: " + f);
+       return f;
+
+    }
+    private MappedByteBuffer loadModelFile() throws IOException
+    {
+        AssetFileDescriptor assetFileDescriptor = this.reactContext.getAssets().openFd("linear.tflite");
+        FileInputStream fileInputStream = new FileInputStream(assetFileDescriptor.getFileDescriptor());
+        FileChannel fileChannel = fileInputStream.getChannel();
+
+        long startOffset = assetFileDescriptor.getStartOffset();
+        long len = assetFileDescriptor.getLength();
+
+        return fileChannel.map(FileChannel.MapMode.READ_ONLY,startOffset,len);
+    }
+    public float doInference(float[] input)
+    {
+        //float[] input =  {-0.86f,-0.527f,0.235f,-127866f,-0.366f,-21.28f};
+
+        float[][] output = new float[1][1];
+
+        interpreter.run(input,output);
+        System.out.println("aaaa"+output);
+        int i =0 ;
+        int j = 0;
+
+
+
+
+
+        return  output[0][0];
+    }
+
+
     @ReactMethod
     public void sendNotification(String title, String content) {
         //this.reactContext.startService(new Intent(this.reactContext, ServiceNotification.class));

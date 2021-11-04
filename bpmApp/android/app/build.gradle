@@ -130,6 +130,11 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
+    aaptOptions{
+        noCompress "tflite"
+        noCompress "lite"
+    }
+
     defaultConfig {
         applicationId "com.bpmapp"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -195,6 +200,9 @@ dependencies {
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
+    implementation 'org.tensorflow:tensorflow-lite:+'
+
+
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
     }
@@ -215,6 +223,7 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
     compile project(':react-native-vector-icons')
 }
 
