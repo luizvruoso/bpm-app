@@ -14,6 +14,7 @@ import {variables} from '../assets/variables';
 import Header from '../components/Header';
 import {convertDate} from '../assets/utils';
 import Heartbeat from '../components/HeartBeat';
+
 const {Notification} = NativeModules;
 
 export function Home(props) {
@@ -21,6 +22,7 @@ export function Home(props) {
   const [actualHeartBeatData, setActualHeartBeatData] = useState({
     status: 'loading',
   });
+
   const [stepsData, setStepsData] = useState({
     status: 'loading',
   });

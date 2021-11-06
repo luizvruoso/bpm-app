@@ -69,6 +69,7 @@ export function navigatePop() {
   navigationRef.current?.dispatch(StackActions.pop());
 }
 
+
 const headerBackgroundDefault = () => {
   return (
     <LinearGradient
