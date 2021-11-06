@@ -26,67 +26,26 @@ import { map, filter } from "rxjs/operators";
 
 const {Notification} = NativeModules;
 
-setUpdateIntervalForType(SensorTypes.accelerometer, 100); // defaults to 100ms
-setUpdateIntervalForType(SensorTypes.gyroscope, 100);
-var data = [0,0,0,0,0,0];
-var buffer = [0,0,0,0,0,0];
+setUpdateIntervalForType(SensorTypes.accelerometer, 10000); // defaults to 100ms
+setUpdateIntervalForType(SensorTypes.gyroscope, 10000);
+var data = [0, 0, 0, 0, 0, 0];
+var buffer = [0, 0, 0, 0, 0, 0];
 var predict = false;
 
-
-  /*const subscription = accelerometer
-  .pipe(map(({ x, y, z }) => x + y + z), filter(speed => speed > 20))
-  .subscribe(
-    speed => console.log(`You moved your phone with ${speed}`),
-    error => {
-      console.log("The sensor is not available");
-    }
-  );
-
-  console.log("Dados aqui: " + data)
-  */
-
-  var initialPosition = {x:0,y:0,z:0};
-  var lastTimestamp = 0;
-  var firstRound = true;
   const subscription4 = accelerometer.subscribe((dados)=>{
-    if(firstRound){
-        initialPosition = {x:dados.x,y:dados.y,z:dados.z};
 
-        lastTimestamp = dados.timestamp;
-        firstRound=false;
-    }else{
+      data.push([dados.x, dados.y, dados.z]);
+      buffer.push([dados.x, dados.y, dados.z]);
 
-      const deltaSX = dados.x - initialPosition.x;
-      const deltaSY = dados.y - initialPosition.y;
-      const deltaSZ = dados.z - initialPosition.z;
-
-      const time = dados.timestamp - lastTimestamp;
-
-      const velocidadeX = deltaSX / time;
-      const velocidadeY = deltaSY / time;
-      const velocidadeZ = deltaSZ / time;      
-
-      initialPosition = [{x:dados.x}, {y:dados.y}, {z:dados.z}];
-      lastTimestamp = dados.timestamp;
-
-      console.log("Dados1: ", dados.x, dados.y, dados.z, velocidadeX, velocidadeY, velocidadeZ);
-      data.push([dados.x, dados.y, dados.z, velocidadeX, velocidadeY, velocidadeZ]);
-      buffer.push([dados.x, dados.y, dados.z, velocidadeX, velocidadeY, velocidadeZ]);
+      console.log("X: ", dados.x, "Y: ", dados.y, "Z: ", dados.z);
+      
       if(buffer.length == 500) {
         predict = true;
         console.log("PREDICT TRUE")
       }
-      console.log(data);
-    }
 
-    console.log("Dados2", dados);
+      console.log("Dados: ", data);
   });
-
-
-
-
-  
-
 
 export default function Login(props) {
   const [phone, setPhone] = useState('');
@@ -101,15 +60,6 @@ export default function Login(props) {
     let dataAcerto = 0;
     let dataErro = 0;
     //const data = data1;
-    console.log(
-      data[0],
-      data[1],
-      data[2],
-      data[3],
-      data[4],
-      data[5],
-
-    );
     /* Too see
     if(predict == true) {
       for (let i = 0; i < buffer.length; i++) {
@@ -154,18 +104,19 @@ export default function Login(props) {
       sleep(20000)
       }
     };*/
+
     for (let i = 0; i < data.length; i++) {
       let op = 0;
 
-      if (
-        data[i][0] != null &&
-        data[i][1] != null &&
-        data[i][2] != null &&
-        data[i][3] != null &&
-        data[i][4] != null &&
-        data[i][5] != null
-      ) {
-        console.log(
+      if (( 
+         (data[i][0] != null  && !Number.isNaN(data[i][0])) &&
+         (data[i][1] != null  && !Number.isNaN(data[i][1])) &&
+         (data[i][2] != null  && !Number.isNaN(data[i][2])) &&
+         (data[i][3] != null  && !Number.isNaN(data[i][3])) &&
+         (data[i][4] != null  && !Number.isNaN(data[i][4])) &&
+         (data[i][5] != null  && !Number.isNaN(data[i][5])))
+        ) {
+        console.log("Enviando os dados: " +
           data[i][0],
           data[i][1],
           data[i][2],
@@ -181,20 +132,21 @@ export default function Login(props) {
           data[i][2],
           data[i][3],
           data[i][4],
-          data[i][5],
+          data[i][5]
         );
 
         console.log("OP: ", op);
-        console.log("data: " + data);
+        console.log("Data: " + data);
 
         if (op >= 0.5) {
           acerto += 1;
         }
-        if (op <= 0.49999) erro += 1;
+        if (op <= 0.49999) {
+          erro += 1;
+        }
       }
 
     }
-    
     console.log("Acerto: " + acerto, "Erro: " + erro, "Tamanho" + data.length);
   };
   return (
