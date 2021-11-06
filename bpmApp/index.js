@@ -8,13 +8,17 @@ import App from './App';
 import {name as appName} from './app.json';
 import Ble from './src/components/Ble/BleClass';
 import SocketClient from './src/Networking/client';
+import FallDetection from './src/FallDetection/fallDetection';
 import {store} from './src/store';
 import {setActualHeartBeat} from './src/store/modules/heartBeatInstant/Actions';
 import {setActualSteps} from './src/store/modules/stepsInstant/Actions';
 
 const MyHeadlessTask = async () => {
   const socket = new SocketClient();
+  const detect = new FallDetection();
+
   socket.initSocket(store.dispatch, store.getState().user.uuid);
+  detect.detect();
   //socket.joinSession(store.getState().user.uuid);
 
   Ble.setProps({
