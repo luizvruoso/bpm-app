@@ -5,7 +5,7 @@ import {refreshUserInfo} from '../store/modules/user/Actions';
 
 const {Notification} = NativeModules;
 
-const SOCKET_URL = 'http://192.168.0.115:1880';
+const SOCKET_URL = 'http://192.168.0.133:1880';
 
 class SocketClient {
   initSocket(dispatch = null, roomId = null) {
@@ -39,7 +39,7 @@ class SocketClient {
 
     this.socket.on('message', function (ret) {
       console.log('messagem chegou', ret);
-      Notification.sendNotification('Nova Mensagem', '');
+      Notification.sendNotification('Nova Mensagem', ret.message);
     });
 
     this.socket.on('emergencyNotification', function (ret) {
