@@ -29,13 +29,15 @@ export function sendUserStatusData(data) {
 
       const payload = {
         heartBeat: data.heartBeat,
-        status: 'not defined',
+        status: 'Tudo parece bem',
         latitude: userLocation.latitude,
         longitude: userLocation.longitude,
         cardiacSteps: data.steps,
       };
 
       const ret = await sendStatusData(payload);
+
+      //console.log('ret', ret.data);
 
       //dispatch(saveContacts(data.data));
     } catch (err) {

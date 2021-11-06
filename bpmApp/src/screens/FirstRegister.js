@@ -23,7 +23,7 @@ import {
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import DatePicker from 'react-native-date-picker';
-import {convertDate} from '../assets/utils';
+import {convertDate, fromDateToDate} from '../assets/utils';
 import DashMenu from '../components/DashMenu';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {variables} from '../assets/variables';
@@ -356,6 +356,8 @@ function BirthInput(props) {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
+    console.log(fromDateToDate(currentDate));
+    props.handleChange(currentDate);
   };
 
   const showMode = currentMode => {
@@ -398,11 +400,13 @@ function BirthInput(props) {
               ? 'Selecione uma data'
               : convertDate(date)}
           </Text>
-          <Icon
-            name="keyboard-arrow-down"
-            size={variables.icon}
-            // style={{marginTop: -5}}
-          />
+          {Platform.OS === 'ios' && (
+            <Icon
+              name="keyboard-arrow-down"
+              size={variables.icon}
+              // style={{marginTop: -5}}
+            />
+          )}
         </TouchableOpacity>
 
         {show && (
@@ -410,7 +414,7 @@ function BirthInput(props) {
             testID="dateTimePicker"
             value={date}
             mode={mode}
-            display="default"
+            display="spinner"
             onChange={onChange}
           />
         )}
@@ -453,11 +457,13 @@ function AlzheimerInput(props) {
           }}
           Icon={() => {
             return (
-              <Icon
-                name="keyboard-arrow-down"
-                size={variables.icon}
-                style={{marginTop: 10}}
-              />
+              Platform.OS === 'ios' && (
+                <Icon
+                  name="keyboard-arrow-down"
+                  size={variables.icon}
+                  style={{marginTop: 10}}
+                />
+              )
             );
           }}
           onValueChange={value => props.handleChange(value)}
@@ -501,11 +507,13 @@ function SexInput(props) {
           }}
           Icon={() => {
             return (
-              <Icon
-                name="keyboard-arrow-down"
-                size={variables.icon}
-                style={{marginTop: 10}}
-              />
+              Platform.OS === 'ios' && (
+                <Icon
+                  name="keyboard-arrow-down"
+                  size={variables.icon}
+                  style={{marginTop: 10}}
+                />
+              )
             );
           }}
           onValueChange={value => props.handleChange(value)}
@@ -553,11 +561,13 @@ function WheelchairInput(props) {
           }}
           Icon={() => {
             return (
-              <Icon
-                name="keyboard-arrow-down"
-                size={variables.icon}
-                style={{marginTop: 10}}
-              />
+              Platform.OS === 'ios' && (
+                <Icon
+                  name="keyboard-arrow-down"
+                  size={variables.icon}
+                  style={{marginTop: 10}}
+                />
+              )
             );
           }}
           onValueChange={value => props.handleChange(value)}

@@ -50,6 +50,7 @@ import Monitor from './containers/Monitor';
 import DetailsMonitor from './containers/DetailsMonitor';
 import Ble from './containers/Ble';
 import Devices from './containers/Devices';
+//import Sensors from './containers/SensorsMeasurements';
 
 const navigationRef = React.createRef();
 
@@ -67,6 +68,7 @@ export function navigatePop() {
   //CommonActions
   navigationRef.current?.dispatch(StackActions.pop());
 }
+
 
 const headerBackgroundDefault = () => {
   return (
@@ -451,7 +453,7 @@ export default class Routes extends Component {
 
     return (
       <SafeAreaView style={[{flex: 1}, {backgroundColor: variables.primary}]}>
-        <Ble />
+        {/*<Ble />*/}
         <AppMessageNotification
           user={user}
           setErrorToFalse={setErrorToFalse}

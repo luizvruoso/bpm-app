@@ -26,7 +26,7 @@ export default function DashMenu(props) {
       }
 
       if (item == 'alert') {
-        return <Alert key={index} />;
+        return <Alert uuid={props.uuid} key={index} />;
       }
     });
   };
@@ -72,7 +72,7 @@ function Steps(props) {
         />
         <View style={[]}>
           <Text style={[{fontSize: 40}, styles.bold, styles.textLeft]}>
-            {parseInt(steps.value)}
+            {isNaN(parseInt(steps.value)) ? '0' : parseInt(steps.value)}
           </Text>
           <Text style={[{fontSize: variables.fontNormal}, styles.textRight]}>
             passos
@@ -126,7 +126,9 @@ function HeartBeat(props) {
               styles.bold,
               styles.textLeft,
             ]}>
-            {parseInt(instantHeartBeatData.value)}
+            {isNaN(parseInt(instantHeartBeatData.value))
+              ? '0'
+              : parseInt(instantHeartBeatData.value)}
           </Text>
           <Text
             style={[
@@ -180,7 +182,11 @@ function Alert(props) {
         </Text>
       </View>
 
-      <AlertModal status={modal} setModal={status => setModal(status)} />
+      <AlertModal
+        uuid={props.uuid}
+        status={modal}
+        setModal={status => setModal(status)}
+      />
     </TouchableOpacity>
   );
 }

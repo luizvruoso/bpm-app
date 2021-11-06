@@ -22,7 +22,7 @@ export default function index(props) {
   return (
     <View style={[styles.flex1]}>
       <StepsMeasureFocus instantStepsData={instantStepsData} />
-      <View style={[styles.flex1, {paddingBottom: 90}]}>
+      <View style={[styles.flex1, {paddingBottom: 10}]}>
         <FlatList
           data={stepsData}
           keyExtractor={(item, index) => index}
@@ -81,7 +81,9 @@ function StepsMeasureFocus(props) {
               //styles.textLeft,
               styles.textVerticalCenter,
             ]}>
-            {parseInt(instantStepsData?.value)}
+            {isNaN(parseInt(instantStepsData?.value))
+              ? '0'
+              : parseInt(instantStepsData?.value)}
             <Text style={[{fontSize: 20, color: variables.darkGray3}]}>
               &nbsp; passos
             </Text>

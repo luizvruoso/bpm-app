@@ -20,7 +20,6 @@ export default function HeartBeat(props) {
   const [actualHeartBeatData, setActualHeartBeatData] = useState({
     status: 'loading',
   });
-  console.log('adsds');
 
   useEffect(() => {
     const {
@@ -30,9 +29,10 @@ export default function HeartBeat(props) {
       getActualHeartBeatData,
     } = props;
     //console.log('dadsa', heartBeat[0]);
+
     if (heartBeat.length > 0) {
       //var aux = heartBeat;
-      //console.log(heartBeat);
+      //console.log('DADSAD', JSON.stringify(heartBeat[1]));
       setHeartBeatData(heartBeat);
     }
 

@@ -26,7 +26,31 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
-
+        <service
+            android:name="com.bpmapp.services.ServiceBluetooth"
+            android:enabled="true"
+            android:exported="false" >
+        </service>
+        <service
+            android:name="com.bpmapp.services.ServiceNotification"
+            android:enabled="true"
+            android:exported="false" >
+        </service>
+        <service
+            android:name="com.bpmapp.eventService.BluetoothEventService">
+        </service>
+        <service
+            android:name="com.bpmapp.eventService.NotificationEventService">
+        </service>
+        <receiver
+            android:name="com.bpmapp.BootUpReceiver"
+            android:enabled="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
         <meta-data
         android:name="com.google.android.geo.API_KEY"
         android:value="AIzaSyBbTw8TqeSEAIVygwLJHR1UVWsWYnlsQII" />
