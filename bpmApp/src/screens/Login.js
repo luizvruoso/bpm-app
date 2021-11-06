@@ -66,11 +66,6 @@ export default function Login(props) {
               paddingBottom: 10,
             },
           ]}>
-          <TouchableOpacity onPress={() => aloha()}>
-            <View>
-              <Text>Acionaaaar</Text>
-            </View>
-          </TouchableOpacity>
           <AvoidKeyboard>
             <View style={[styles.p10]}>
               <View style={[styles.row, styles.mt20, styles.mb10]}>

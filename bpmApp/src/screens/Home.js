@@ -73,14 +73,6 @@ export function Home(props) {
         styles.fullSize,
         styles.m10,
       ]}>
-      <TouchableOpacity
-        onPress={() => {
-          Notification.predict();
-        }}>
-        <View>
-          <Text>Acionaaaar</Text>
-        </View>
-      </TouchableOpacity>
       <Header navigation={props.navigation} name={user.userInfo.name} />
       {!actualHeartBeatData.hasOwnProperty('status') &&
         !stepsData.hasOwnProperty('status') && (
