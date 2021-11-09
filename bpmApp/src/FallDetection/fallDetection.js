@@ -1,123 +1,94 @@
 import {
-    View,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    Image,
-    ImageBackground,
-    NativeModules,
- } from 'react-native';
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  ImageBackground,
+  NativeModules,
+} from 'react-native';
 import {
-    accelerometer,
-    gyroscope,
-    setUpdateIntervalForType,
-    SensorTypes
-  } from "react-native-sensors";
-  import { map, filter } from "rxjs/operators";
+  accelerometer,
+  gyroscope,
+  setUpdateIntervalForType,
+  SensorTypes,
+} from 'react-native-sensors';
+import {map, filter} from 'rxjs/operators';
 
-  const {Notification} = NativeModules;
-
-  data = [0, 0, 0, 0, 0, 0];
-  variation = [];
-  predict = 0;
-  buffer = [0, 0, 0, 0, 0, 0];
-  acerto = 0;
-  erro = 0; 
-  predict = false;
+const {Notification} = NativeModules;
 
 class FallDetection {
+  history = [
+    {
+      biggerAxis: 'y',
+      x: 0,
+      y: 0,
+      z: 0,
+    },
+  ];
+  lastDelta = {
+    x: 0,
+    y: 0,
+    z: 0,
+  };
+  detect() {
+    Notification.loadPredictionFile();
 
-    detect() {
-        Notification.loadPredictionFile();
+    setUpdateIntervalForType(SensorTypes.accelerometer, 1000); // defaults to 100ms
+    //setUpdateIntervalForType(SensorTypes.gyroscope, 1000);
 
-        setUpdateIntervalForType(SensorTypes.accelerometer, 5000); // defaults to 100ms
-        setUpdateIntervalForType(SensorTypes.gyroscope, 5000);
+    subscription = accelerometer.subscribe(dados => {
+      const payload = this.generatePayloadToPredict(dados.x, dados.y, dados.z);
 
-    console.log(Notification);
-    subscription = accelerometer.subscribe((dados) => {
-    
-        var operation = 0;
-        var dadosX = 0;
-        var dadosY = 0;
-        var dadosZ = 0;
-  
-        if(dados.x >= dados.y && dados.x >= dados.z) {
-          operation = 1;
-        } else if(dados.y >= dados.x && dados.y >= dados.z) {
-          operation = 2;
-        } else  {
-          operation = 3;
-        }
-  
-        if(operation == 1) {
-          dados.x = dados.x - 9.81;
-        }
-        if(operation == 2) {
-          dados.y = dados.y - 9.81;
-        }
-        if(operation == 3) {
-          dados.z = dados.z - 9.81;
-        }
-  
-        let deltaX = dados.x - dadosX;
-        let deltaY = dados.y - dadosY;
-        let deltaZ = dados.z - dadosZ;
-  
-        if(deltaX > 4 || deltaY > 4 || deltaZ > 4) {
-            predict = 1;
-        }
-  
-        data.push([dados.x, dados.y, dados.z]);
-  
-        console.log("X: ", dados.x, "Y: ", dados.y, "Z: ", dados.z);
-  
-        console.log("Dados: ", data);
-        for (let i = data.length - 1; i < data.length; i++) {
-            let op = 0;
-            console.log("for")
-            if(predict == 1) {
-              op = Notification.predict(
-                data[i][0],
-                data[i][1],
-                data[i][2]
-              );
-      
-              console.log("OP: ", op);
-              console.log("Data: " + data);
-      
-              if (op >= 0.5) {
-                acerto += 1;
-              }
-              console.log("Predict da hora");
-              console.log("Acerto: " + acerto, "Erro: " + erro, "Tamanho" + data.length);
-      
-              predict = 0;
-            }
-            else {
-            if (( 
-               (data[i][0] != null  && !Number.isNaN(data[i][0])) &&
-               (data[i][1] != null  && !Number.isNaN(data[i][1])) &&
-               (data[i][2] != null  && !Number.isNaN(data[i][2])))
-              ) {
-              op = Notification.predict(
-                data[i][0],
-                data[i][1],
-                data[i][2]
-              );
-      
-              if (op <= 0.49999) {
-                erro += 1;
-              }
-            }
-        }
-      
-          }
-          data = [];
-          console.log("Predict lixo")
-          console.log("Acerto: " + acerto, "Erro: " + erro, "Tamanho" + data.length);
+      this.history.push(payload);
+      this.calculateDelta(payload);
+      //console.log('Values', payload);
+      //console.log('Delta', this.lastDelta);
+      if (this.lastDelta.y >= 3) {
+        let result = Notification.predict(payload.x, payload.y, payload.z);
+
+        if (result >= 0.5) console.log('Acerto', result, this.lastDelta);
+        else console.log('Erro', result, this.lastDelta);
+      }
     });
+  }
+
+  calculateDelta(payload) {
+    let lastData = this.history[this.history.length - 2];
+
+    this.lastDelta = {
+      x: payload.x - lastData.x,
+      y: payload.y - lastData.y,
+      z: payload.z - lastData.z,
+    };
+    //console.log(payload);
+
+    //console.log(this.lastDelta);
+  }
+
+  generatePayloadToPredict(dadosX, dadosY, dadosZ) {
+    if (dadosX > dadosY && dadosX > dadosZ) {
+      return {
+        biggerAxis: 'x',
+        x: dadosY,
+        y: dadosX - 9.81,
+        z: dadosZ,
+      };
+    } else if (dadosY > dadosX && dadosY > dadosZ) {
+      return {
+        biggerAxis: 'y',
+        x: dadosX,
+        y: dadosY - 9.81,
+        z: dadosZ,
+      };
+    } else {
+      return {
+        biggerAxis: 'z',
+        x: dadosX,
+        y: dadosZ - 9.81,
+        z: dadosY,
+      };
     }
-    
+  }
 }
 export default FallDetection;
-

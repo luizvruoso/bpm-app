@@ -20,10 +20,10 @@ import {
   accelerometer,
   gyroscope,
   setUpdateIntervalForType,
-  SensorTypes
-} from "react-native-sensors";
-import { map, filter } from "rxjs/operators";
-
+  SensorTypes,
+} from 'react-native-sensors';
+import {map, filter} from 'rxjs/operators';
+import Heartbeat from '../components/HeartBeat';
 const {Notification} = NativeModules;
 
 export default function Login(props) {
@@ -31,10 +31,7 @@ export default function Login(props) {
   const [showCodView, setCodView] = useState(false);
 
   const {sendToken, validateToken, setPhoneAuth} = props;
-  const aloha = () => {
-    console.log("chanouts")
-    Notification.loadPredictionFile();
-  };
+
   return (
     <SafeAreaView style={[styles.flex1, styles.bgWhite]}>
       <ImageBackground
