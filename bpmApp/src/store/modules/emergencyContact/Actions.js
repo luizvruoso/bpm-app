@@ -1,4 +1,4 @@
-import {addContact, getContacts} from './middlewares';
+import {addContact, getContacts, deleteContact} from './middlewares';
 import {convertDate} from '../../../assets/utils';
 import {refreshUserInfo} from '../user/Actions';
 import {setErrorMessage, setSuccessMessage} from '../user/Actions';
@@ -46,6 +46,27 @@ export function getEmergencyContacts() {
 
       dispatch(
         setErrorMessage('Erro resgatar dados. Tente Novamente mais tarde.'),
+      );
+      //return dispatch(failedLogin());
+    }
+  };
+}
+
+export function deleteEmergencyContact(data) {
+  return async dispatch => {
+    try {
+      //console.log('chegou', {responsible: [data]});
+
+      const data = await deleteContact({responsible: [data]});
+
+      dispatch(getEmergencyContacts());
+    } catch (err) {
+      console.error(err);
+
+      dispatch(
+        setErrorMessage(
+          'Erro deletar contato de emergência. Tente Novamente mais tarde.',
+        ),
       );
       //return dispatch(failedLogin());
     }

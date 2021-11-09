@@ -14,14 +14,11 @@ import {
   SensorTypes,
 } from 'react-native-sensors';
 import {map, filter} from 'rxjs/operators';
+import SocketClient from '../Networking/client';
 
 const {Notification} = NativeModules;
 
-
-
-
 class FallDetection {
-
   history = [
     {
       biggerAxis: 'y',
@@ -35,8 +32,14 @@ class FallDetection {
     y: 0,
     z: 0,
   };
-  detect() {
+
+  uuid = '';
+  socket;
+  detect(uuid, socket) {
+    this.uuid = uuid;
+
     Notification.loadPredictionFile();
+    this.socket = socket;
 
     setUpdateIntervalForType(SensorTypes.accelerometer, 1000); // defaults to 100ms
     //setUpdateIntervalForType(SensorTypes.gyroscope, 1000);
@@ -48,11 +51,13 @@ class FallDetection {
       this.calculateDelta(payload);
       //console.log('Values', payload);
       //console.log('Delta', this.lastDelta);
-      if (this.lastDelta.y >= 3) {
+      if (this.lastDelta.y >= 4) {
         let result = Notification.predict(payload.x, payload.y, payload.z);
 
-        if (result >= 0.5) console.log('Acerto', result, this.lastDelta);
-        else console.log('Erro', result, this.lastDelta);
+        if (result >= 0.5) {
+          console.log('Acerto', result, this.lastDelta);
+          this.sendNotification();
+        } else console.log('Erro', result, this.lastDelta);
       }
     });
   }
@@ -93,6 +98,16 @@ class FallDetection {
         z: dadosY,
       };
     }
+  }
+
+  createSocket() {
+    this.socket = new SocketClient();
+    this.socket.initSocket();
+    this.socket.joinSession(this.uuid);
+  }
+
+  sendNotification() {
+    this.socket.sendNotification(this.uuid);
   }
 }
 export default FallDetection;

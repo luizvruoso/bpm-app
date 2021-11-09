@@ -39,6 +39,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 export default function FirstRegister(props) {
   const [selectedLanguage, setSelectedLanguage] = useState();
   const [mounted, setMounted] = useState(true);
+  const [photo, setPhoto] = useState(null);
 
   const {
     control,
@@ -62,9 +63,32 @@ export default function FirstRegister(props) {
   }, []);
   const onSubmit = data => send(data);
 
-  const send = data => {
+  const send = async data => {
     const {saveData, user} = props;
+    var base64 = null;
+    var imageType = null;
+
+    if (photo?.assets[0]?.uri != null) {
+      base64 = await fs.readFile(photo.assets[0].uri, 'ascii');
+      //var Buffer = require('buffer/').Buffer;
+      //const buffer = Buffer.from(base64, 'ascii');
+
+      /*  data.append('photo', {
+      name: photo.assets[0].fileName,
+      type: photo.assets[0].type,
+      uri:
+        Platform.OS === 'ios'
+          ? photo.assets[0].uri.replace('file://', '')
+          : photo.assets[0].uri,
+    });*/
+      imageType =
+        photo.assets != null
+          ? photo.assets[0].type.slice(6, photo.assets[0].type.length)
+          : null;
+    }
     saveData({
+      image: base64,
+      imageType: imageType,
       username: user.username,
       name: control._formValues.name,
       phone: control._formValues.phone,
@@ -114,7 +138,12 @@ export default function FirstRegister(props) {
         {/*        <ScrollView refreshControl={false} style={[styles.flex1]}>
          */}
         <View style={[styles.row, styles.centerXY]}>
-          <ImageUser />
+          <ImageUser
+            photo={photo}
+            setPhoto={data => {
+              setPhoto(data);
+            }}
+          />
           <View
             style={[
               {
@@ -322,12 +351,17 @@ export default function FirstRegister(props) {
 }
 
 function ImageUser(props) {
+  const handleChoosePhoto = () => {
+    launchImageLibrary({noData: true}, response => {
+      // console.log(response);
+      if (response) {
+        props.setPhoto(response);
+      }
+    });
+  };
   return (
     <View>
-      <TouchableOpacity
-        onPress={() => {
-          //navigation.openDrawer();
-        }}>
+      <TouchableOpacity onPress={handleChoosePhoto}>
         <Image
           key={'img'}
           style={{
@@ -337,10 +371,13 @@ function ImageUser(props) {
             borderWidth: 0.2,
             borderColor: '#ccc',
           }}
-          source={{
-            uri: 'https://scontent.fvcp1-1.fna.fbcdn.net/v/t1.6435-9/75199895_570256540182686_4591403748336599040_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=174925&_nc_ohc=ZiiIsURFBg8AX_kVmGN&_nc_ht=scontent.fvcp1-1.fna&oh=8b498cf0392cf9a7a7f41fc65fa19b55&oe=615ABE1B',
-            cache: 'force-cache',
-          }}
+          source={
+            props.photo != null
+              ? {
+                  uri: props?.photo?.assets[0]?.uri,
+                }
+              : require('../assets/img/profile-user.png')
+          }
         />
       </TouchableOpacity>
     </View>

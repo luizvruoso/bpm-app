@@ -18,7 +18,8 @@ const MyHeadlessTask = async () => {
   const detect = new FallDetection();
 
   socket.initSocket(store.dispatch, store.getState().user.uuid);
-  detect.detect();
+
+  detect.detect(store.getState().user.uuid, socket);
   //socket.joinSession(store.getState().user.uuid);
 
   Ble.setProps({

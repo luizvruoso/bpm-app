@@ -3,6 +3,7 @@ import EmergencyContacts from '../screens/EmergencyContacts';
 import {
   addUserEmergencyContact,
   getEmergencyContacts,
+  deleteEmergencyContact,
 } from '../store/modules/emergencyContact/Actions';
 
 const mapStateToProps = state => {
@@ -19,6 +20,9 @@ const mapDispatchToProps = (dispatch, props) => {
     },
     getEmergencyContacts: () => {
       return dispatch(getEmergencyContacts());
+    },
+    deleteEmergencyContact: data => {
+      return dispatch(deleteEmergencyContact(data));
     },
   };
 };

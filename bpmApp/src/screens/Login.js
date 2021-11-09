@@ -69,6 +69,7 @@ export default function Login(props) {
                 <TextInput
                   placeholder="(21) 55555-1234"
                   placeholderTextColor={'#88b648'}
+                  keyboardType={'numeric'}
                   value={formatCel(phone)}
                   onChangeText={setPhone}
                   style={[

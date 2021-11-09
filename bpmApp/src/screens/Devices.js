@@ -20,7 +20,7 @@ const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
 export default function Devices(props) {
   //const {setActualSteps, setHeartBeat} = props;
-  const [isConnected, setIsConnected] = useState(true);
+  const [isConnected, setIsConnected] = useState(false);
   const [name, setName] = useState('');
 
   useEffect(() => {
