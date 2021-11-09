@@ -5,7 +5,7 @@ import {refreshUserInfo} from '../store/modules/user/Actions';
 
 const {Notification} = NativeModules;
 
-const SOCKET_URL = 'http://192.168.0.133:1880';
+const SOCKET_URL = 'http://186.236.107.116:1880';
 
 class SocketClient {
   initSocket(dispatch = null, roomId = null) {

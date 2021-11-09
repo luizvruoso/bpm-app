@@ -17,7 +17,11 @@ import {map, filter} from 'rxjs/operators';
 
 const {Notification} = NativeModules;
 
+
+
+
 class FallDetection {
+
   history = [
     {
       biggerAxis: 'y',
