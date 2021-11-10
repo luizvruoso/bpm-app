@@ -10,6 +10,7 @@ const INIT_STATE = {
     sex: '',
     alzheimer: '',
     wheelchairUser: '',
+    photoPath: '',
   },
   loginMethod: null,
   step: 0,

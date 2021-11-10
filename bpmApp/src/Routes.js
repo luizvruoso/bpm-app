@@ -208,7 +208,14 @@ const customDrawerContent = (props, onLogout, user) => {
               height: 80,
               width: 80,
             }}
-            source={require('./assets/img/profile/profile.png')}
+            source={
+              user.userInfo.photoPath != null
+                ? {
+                    uri: user.userInfo.photoPath,
+                  }
+                : require('./assets/img/profile-user.png')
+            }
+            //source={require('./assets/img/profile/profile.png')}
           />
         </TouchableOpacity>
       </View>

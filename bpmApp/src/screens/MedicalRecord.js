@@ -67,9 +67,10 @@ function MedicalRecord(props) {
     const {saveData} = props;
     var base64 = null;
     var imageType = null;
-
     if (photo?.assets[0]?.uri != null) {
-      base64 = await fs.readFile(photo.assets[0].uri, 'ascii');
+      var fs = require('react-native-fs');
+
+      base64 = await fs.readFile(photo.assets[0].uri, 'base64');
       //var Buffer = require('buffer/').Buffer;
       //const buffer = Buffer.from(base64, 'ascii');
 
@@ -86,9 +87,7 @@ function MedicalRecord(props) {
           ? photo.assets[0].type.slice(6, photo.assets[0].type.length)
           : null;
     }
-
     saveData({
-    
       image: base64,
       imageType: imageType,
       name: control._formValues.name,
@@ -153,6 +152,7 @@ function MedicalRecord(props) {
           </View>
           <View style={[styles.row, styles.centerXY]}>
             <ImageUser
+              actualPhoto={props.user.userInfo.photoPath}
               photo={photo}
               setPhoto={data => {
                 setPhoto(data);
@@ -398,6 +398,10 @@ function ImageUser(props) {
             props.photo != null
               ? {
                   uri: props?.photo?.assets[0]?.uri,
+                }
+              : props.actualPhoto != null
+              ? {
+                  uri: props.actualPhoto,
                 }
               : require('../assets/img/profile-user.png')
           }

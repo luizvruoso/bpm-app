@@ -64,7 +64,12 @@ export async function saveUserData(payload) {
 
 export async function uploadUserImage(payload) {
   //try {
-  const data = await fetchAPI('POST', URL_API.AUTH.UPLOAD_USER_IMAGE, null, payload);
+  const data = await fetchAPI(
+    'POST',
+    URL_API.AUTH.UPLOAD_USER_IMAGE,
+    null,
+    payload,
+  );
   if (data?.status == 200) {
     return data;
   }
