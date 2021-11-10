@@ -22,6 +22,7 @@ const mapDispatchToProps = (dispatch, props) => {
       return dispatch(getEmergencyContacts());
     },
     deleteEmergencyContact: data => {
+      console.log("Dispatch Data: ", data)
       return dispatch(deleteEmergencyContact(data));
     },
   };

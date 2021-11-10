@@ -88,6 +88,7 @@ function MedicalRecord(props) {
     }
 
     saveData({
+    
       image: base64,
       imageType: imageType,
       name: control._formValues.name,

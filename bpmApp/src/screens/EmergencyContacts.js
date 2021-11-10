@@ -48,6 +48,7 @@ export default function EmergencyContacts(props) {
         onPress={() => {
           //props.removeFromCart(item.id);
           //navigate('Adicionar Produto', {operation: 'edit', item});
+          console.log("UUID: ", item.uuid)
           deleteMonitor(item.uuid);
         }}>
         <View

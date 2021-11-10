@@ -52,12 +52,17 @@ export function getEmergencyContacts() {
   };
 }
 
-export function deleteEmergencyContact(data) {
+export function deleteEmergencyContact(pay) {
+  console.log("PAYLOAD2: ", pay)
+
   return async dispatch => {
     try {
       //console.log('chegou', {responsible: [data]});
+      console.log("PAYLOAD: ", pay)
 
-      const data = await deleteContact({responsible: [data]});
+      const payload = {responsible: [pay]};
+      console.log("PAYLOAD: ", pay)
+      const data = await deleteContact(payload);
 
       dispatch(getEmergencyContacts());
     } catch (err) {
@@ -68,7 +73,6 @@ export function deleteEmergencyContact(data) {
           'Erro deletar contato de emergência. Tente Novamente mais tarde.',
         ),
       );
-      //return dispatch(failedLogin());
     }
   };
 }

@@ -26,7 +26,7 @@ export async function getContacts() {
 
 export async function deleteContact(payload) {
   const data = await fetchAPI(
-    'POST',
+    'DELETE',
     URL_API.EMERGENCY_CONTACTS.DELETE,
     null,
     payload,

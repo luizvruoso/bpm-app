@@ -5,6 +5,7 @@ import {
   saveUserData,
   addEmergencyContact,
   getUserData,
+  uploadUserImage
 } from './middlewares';
 import {convertDate, fromDateToDate, now} from '../../../assets/utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -83,8 +84,14 @@ export function logout(tel) {
 }
 
 export function registerUserData(data) {
+  console.log("Entrou?")
   return async dispatch => {
     console.log('enviou', data);
+    const payloadUploadImage = {
+      file: data.base64,
+      imageType: data.imageType,
+      docType: "profileImage"
+    };
     const payload = {
       //username: data.username,
       //email: null,
@@ -101,6 +108,7 @@ export function registerUserData(data) {
     };
     try {
       const ret = await saveUserData(payload);
+      const retPhoto = await uploadUserImage(payloadUploadImage);
       const actionPayload = {
         userInfo: {
           name: data.name,
