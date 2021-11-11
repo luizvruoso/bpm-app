@@ -19,7 +19,6 @@ import Contact from '../components/Contact';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {URL_API} from '../env/index';
 import MapView, {Marker} from 'react-native-maps';
-import {fromDateTimeGetTime, now, fromDate} from '../assets/utils';
 import moment from 'moment/min/moment-with-locales';
 
 export default function DetailsMonitor(props) {
@@ -39,10 +38,10 @@ export default function DetailsMonitor(props) {
 
   const calculateLastUpdate = date => {
     const actualDate = new Date();
-    const serverTime = fromDateTimeGetTime(date);
+    const serverDate = new Date(date);
 
-    const serverHour = parseInt(serverTime.slice(0, 2));
-    const serverMinute = parseInt(serverTime.slice(3, 5));
+    const serverHour = serverDate.getUTCHours();
+    const serverMinute = serverDate.getUTCMinutes();
 
     const actualHour = actualDate.getUTCHours();
     const actualMinute = actualDate.getUTCMinutes();
