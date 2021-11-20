@@ -5,7 +5,7 @@
  * @flow strict-local
  */
 
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -22,23 +22,22 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-import BleManager from 'react-native-ble-manager';
+import BleManager, { checkState } from 'react-native-ble-manager';
+import { set } from 'immer/dist/internal';
 
 class Ble {
   peripherals = new Map();
   list = [];
-
+  _connected = [];
+  flag =0;
+  
   constructor() {
     this.BleManagerModule = NativeModules.BleManager;
     this.bleManagerEmitter = new NativeEventEmitter(this.BleManagerModule);
   }
 
-  handleStopScan = () => {
-    console.log('Scan is stopped');
-    setIsScanning(false);
-  };
 
   setProps(props) {
     this.props = props;
@@ -48,19 +47,42 @@ class Ble {
     return this.list;
   }
 
+  reconecta(data) {
+    this.flag = 1;
+    console.log("aqui:"+data);
+    BleManager.scan([], 60, true).then(() => {
+      // Success code
+      console.log("Scan started");
+    });
+  }
+
+  handleConnectPeripheral(data) {
+    console.log("Conectou sozinho");
+    var peripheral = this.peripherals.get(data.peripheral);
+    //this.testPeripheral(peripheral);
+
+
+  }
+
+
   handleDisconnectedPeripheral(data) {
     var peripheral = this.peripherals.get(data.peripheral);
+
     if (peripheral) {
       peripheral.connected = false;
       this.peripherals.set(peripheral.id, peripheral);
-      //setList(Array.from(peripherals.values()));
+      // //setList(Array.from(peripherals.values()));
       this.list = Array.from(this.peripherals.values());
     }
     console.log('Disconnected from ' + data.peripheral);
+    BleManager.removePeripheral(data.peripheral);
+    //this.id_connected = data.peripheral;
+    BleManager.checkState();
+    
   }
 
   handleUpdateValueForCharacteristic(data) {
-    const {setActualSteps, setActualHeartBeat} = this.props;
+    const { setActualSteps, setActualHeartBeat } = this.props;
 
     //console.log('carac', data.characteristic);
     if (data.characteristic == '00002a37-0000-1000-8000-00805f9b34fb') {
@@ -96,17 +118,44 @@ class Ble {
   }
 
   handleDiscoverPeripheral = peripheral => {
-    console.log('Got ble peripheral', peripheral);
+    console.log('Got ble peripheral',this._connected,  peripheral);
     if (!peripheral.name) {
       peripheral.name = 'NO NAME';
     }
     this.peripherals.set(peripheral.id, peripheral);
     //setList(Array.from(this.peripherals.values()));
     this.list = Array.from(this.peripherals.values());
+    if(peripheral.id == this._connected.id){
+      this.flag = 0;
+      BleManager.stopScan().then(() => {
+        // Success code
+        console.log("Scan stopped");
+      });
+      this.testPeripheral(this._connected);
+    }
   };
+  
+  handleStopScan = () => {
+    console.log('Scan is stopped');
+    setIsScanning(false);
+    BleManager.isPeripheralConnected(
+      this._connected.id,
+      []
+    ).then((isConnected) => {
+      if (isConnected) {
+        console.log("Peripheral is connected!");
+      } else {
+        console.log("Peripheral is NOT connected!");
+        this.reconecta(this._connected);
+      }
+    });
+  }
+
+  
   /// passos uuid = fee0 e char = 7 -> 00000007-0000-3512-2118-0009af100700
   testPeripheral(peripheral) {
     console.log('chegou', peripheral);
+    this._connected = peripheral;
     if (peripheral) {
       if (peripheral.connected) {
         BleManager.disconnect(peripheral.id);
@@ -122,6 +171,15 @@ class Ble {
             }
             console.log('Connected to ' + peripheral.id);
 
+            BleManager.requestConnectionPriority(peripheral.id, 1)
+              .then((status) => {
+                // Success code
+                console.log("Requested connection priority");
+              })
+              .catch((error) => {
+                // Failure code
+                console.log("erou");
+              });
             /* Test read current RSSI value */
             BleManager.retrieveServices(peripheral.id).then(peripheralData => {
               //console.log('Retrieved peripheral services', peripheralData);
@@ -159,15 +217,28 @@ class Ble {
   }
 
   init() {
-    BleManager.start({showAlert: false});
+    BleManager.start({ forceLegacy: true });
     console.log(this.props);
+    //
     this.bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', data =>
       this.handleDiscoverPeripheral(data),
     ); // verificar a existencia de novo dispositivo
-
-    this.bleManagerEmitter.addListener('BleManagerStopScan', data =>
-      this.handleStopScan(data),
+    this.bleManagerEmitter.addListener('BleManagerConnectPeripheral', data =>
+      this.handleConnectPeripheral(data),
     );
+    this.bleManagerEmitter.addListener('BleManagerStopScan',  data =>
+    this.handleStopScan );
+    this.bleManagerEmitter.addListener("BleManagerDidUpdateState", (args) => {
+
+      console.log(args);
+      if (args.state == "off") {
+        console.log("Desligado saporra");
+      }
+      if (args.state == "on" && this.flag == 0) {
+        console.log("incia");
+        this.reconecta(this._connected);
+      }
+    });
 
     this.bleManagerEmitter.addListener('BleManagerDisconnectPeripheral', data =>
       this.handleDisconnectedPeripheral(data),
@@ -204,13 +275,6 @@ class Ble {
     console.log('unmount');
 
     this.bleManagerEmitter.remove(
-      'BleManagerDiscoverPeripheral',
-      this.handleDiscoverPeripheral,
-    );
-
-    this.bleManagerEmitter.remove('BleManagerStopScan', this.handleStopScan);
-
-    this.bleManagerEmitter.remove(
       'BleManagerDisconnectPeripheral',
       this.handleDisconnectedPeripheral,
     );
@@ -218,6 +282,14 @@ class Ble {
       'BleManagerDidUpdateValueForCharacteristic',
       this.handleUpdateValueForCharacteristic,
     );
+    this.bleManagerEmitter.remove(
+      'BleManagerDidUpdateState'
+    );
+    this.bleManagerEmitter.remove('BleManagerConnectPeripheral', data =>
+      this.handleConnectPeripheral(data),
+    );
+    this.bleManagerEmitter.remove('BleManagerStopScan',  data =>
+    this.handleStopScan );
   }
 }
 
