@@ -63,8 +63,8 @@ public class NotificationModule extends ReactContextBaseJavaModule{
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
-    public float predict(float Ox, float Oy, float Oz, float OxS,float OyS, float OzS) throws IOException {
-        float[] input = {Ox, Oy, Oz, OxS, OyS, OzS};
+    public float predict(float Ox, float Oy, float Oz) throws IOException {
+        float[] input = {Ox, Oy, Oz};
 
        float f =  doInference(input);
        System.out.println("Resultado da inferencia: " + f);
@@ -90,11 +90,6 @@ public class NotificationModule extends ReactContextBaseJavaModule{
 
         interpreter.run(input,output);
         System.out.println("aaaa"+output);
-        int i =0 ;
-        int j = 0;
-
-
-
 
 
         return  output[0][0];

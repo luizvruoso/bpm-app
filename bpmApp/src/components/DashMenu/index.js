@@ -148,9 +148,12 @@ function Alert(props) {
 
   return (
     <TouchableOpacity
-      onPress={() => {
-        setModal(!modal);
+    onPress={() => {
+      navigate(
+        'Alert' 
+      );
       }}>
+
       <View
         style={[
           //{height: 150},

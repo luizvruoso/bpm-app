@@ -17,6 +17,7 @@ import {variables} from '../assets/variables';
 import styles from '../assets/globals';
 import Contact from '../components/Contact';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {Swipeable} from 'react-native-gesture-handler';
 
 export default function EmergencyContacts(props) {
   const [listContacts, setListContacts] = useState([]);
@@ -36,14 +37,50 @@ export default function EmergencyContacts(props) {
     return item.completeName + key;
   }, []);
 
-  const renderItem = useCallback(({item}) => {
+  const deleteMonitor = async id => {
+    const {deleteEmergencyContact} = props;
+    deleteEmergencyContact(id);
+  };
+
+  const RightAction = item => {
     return (
       <TouchableOpacity
         onPress={() => {
-          //navigate('DetailsMonitor', {item});
+          //props.removeFromCart(item.id);
+          //navigate('Adicionar Produto', {operation: 'edit', item});
+          console.log("UUID: ", item.uuid)
+          deleteMonitor(item.uuid);
         }}>
-        <Contact name={item.completeName} phone={item.phone} />
+        <View
+          style={[
+            {
+              backgroundColor: variables.redVelvet,
+              height: '95%',
+              width: 100,
+              borderRadius: 20,
+              marginTop: 8,
+            },
+            styles.centerXY,
+          ]}>
+          <Text style={{color: '#FFF', fontSize: 18, fontWeight: 'bold'}}>
+            Excluir
+          </Text>
+        </View>
       </TouchableOpacity>
+    );
+  };
+
+  const renderItem = useCallback(({item}) => {
+    //console.log('aaaa', item);
+    return (
+      <Swipeable renderRightActions={() => RightAction(item)}>
+        <TouchableOpacity
+          onPress={() => {
+            //navigate('DetailsMonitor', {item});
+          }}>
+          <Contact name={item.completeName} phone={item.phone} />
+        </TouchableOpacity>
+      </Swipeable>
     );
   }, []);
 

@@ -23,3 +23,14 @@ export async function getContacts() {
 
   return data;
 }
+
+export async function deleteContact(payload) {
+  const data = await fetchAPI(
+    'DELETE',
+    URL_API.EMERGENCY_CONTACTS.DELETE,
+    null,
+    payload,
+  );
+
+  return data;
+}

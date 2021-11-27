@@ -69,7 +69,6 @@ export function navigatePop() {
   navigationRef.current?.dispatch(StackActions.pop());
 }
 
-
 const headerBackgroundDefault = () => {
   return (
     <LinearGradient
@@ -209,7 +208,14 @@ const customDrawerContent = (props, onLogout, user) => {
               height: 80,
               width: 80,
             }}
-            source={require('./assets/img/profile/profile.png')}
+            source={
+              user.userInfo.photoPath != null
+                ? {
+                    uri: user.userInfo.photoPath,
+                  }
+                : require('./assets/img/profile-user.png')
+            }
+            //source={require('./assets/img/profile/profile.png')}
           />
         </TouchableOpacity>
       </View>
@@ -324,7 +330,7 @@ const customDrawerContent = (props, onLogout, user) => {
             navigate('EmergencyContacts');
           }}
         />
-        <DrawerItem
+        {/*<DrawerItem
           label={() => (
             <Text
               style={[
@@ -341,7 +347,7 @@ const customDrawerContent = (props, onLogout, user) => {
               color={variables.darkGray3}
             />
           )}
-        />
+          />*/}
 
         {/*<DrawerItemList {...props} />*/}
       </DrawerContentScrollView>

@@ -156,7 +156,7 @@ export default function index(props) {
             <View style={[styles.mt30, styles.mb30, styles.p20]}>
               <TouchableOpacity
                 onPress={() => {
-                  props.setModal(!props.status);
+                  
                 }}
                 style={[
                   styles.fullWidth,

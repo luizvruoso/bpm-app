@@ -37,7 +37,14 @@ export default function Header(props) {
               height: 80,
               width: 80,
             }}
-            source={require('../../assets/img/profile/profile.png')}
+            source={
+              props.photoPath != null
+                ? {
+                    uri: props.photoPath,
+                  }
+                : require('../../assets/img/profile-user.png')
+            }
+            //source={require('../../assets/img/profile/profile.png')}
           />
         </TouchableOpacity>
       </View>
