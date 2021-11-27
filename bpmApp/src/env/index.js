@@ -14,6 +14,7 @@ export const URL_API = {
     GET_ALL: '/api/get/all',
     GET_USER: '/api/get/user',
     GET_RESPONSIBLE: '/api/get/responsible',
+    UPLOAD_USER_IMAGE: '/api/user/uploadImage',
   },
   MONITOR: {
     GET_ALL: '/api/user/monitored',
@@ -22,5 +23,6 @@ export const URL_API = {
   },
   EMERGENCY_CONTACTS: {
     GET_ALL: '/api/user/emergencyContacts',
+    DELETE: '/api/user/removeEmergencyContact',
   },
 };

@@ -24,7 +24,7 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RNPickerSelect from 'react-native-picker-select';
 import DatePicker from 'react-native-date-picker';
-import {convertDate} from '../assets/utils';
+import {convertDate, fromDate, fromDateToDate} from '../assets/utils';
 import DashMenu from '../components/DashMenu';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {variables} from '../assets/variables';
@@ -34,10 +34,12 @@ import HeartMeasure from '../components/HeartMeasure';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useFocusEffect} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 function MedicalRecord(props) {
   const [selectedLanguage, setSelectedLanguage] = useState();
   const [mounted, setMounted] = useState(true);
+  const [photo, setPhoto] = useState(null);
 
   const {
     control,
@@ -61,9 +63,33 @@ function MedicalRecord(props) {
   }, []);
   const onSubmit = data => send(data);
 
-  const send = data => {
+  const send = async data => {
     const {saveData} = props;
+    var base64 = null;
+    var imageType = null;
+    if (photo?.assets[0]?.uri != null) {
+      var fs = require('react-native-fs');
+
+      base64 = await fs.readFile(photo.assets[0].uri, 'base64');
+      //var Buffer = require('buffer/').Buffer;
+      //const buffer = Buffer.from(base64, 'ascii');
+
+      /*  data.append('photo', {
+      name: photo.assets[0].fileName,
+      type: photo.assets[0].type,
+      uri:
+        Platform.OS === 'ios'
+          ? photo.assets[0].uri.replace('file://', '')
+          : photo.assets[0].uri,
+    });*/
+      imageType =
+        photo.assets != null
+          ? photo.assets[0].type.slice(6, photo.assets[0].type.length)
+          : null;
+    }
     saveData({
+      image: base64,
+      imageType: imageType,
       name: control._formValues.name,
       phone: control._formValues.phone,
       birth: control._formValues.birth,
@@ -125,7 +151,13 @@ function MedicalRecord(props) {
             </TouchableOpacity>
           </View>
           <View style={[styles.row, styles.centerXY]}>
-            <ImageUser />
+            <ImageUser
+              actualPhoto={props.user.userInfo.photoPath}
+              photo={photo}
+              setPhoto={data => {
+                setPhoto(data);
+              }}
+            />
             <View
               style={[
                 {
@@ -236,7 +268,7 @@ function MedicalRecord(props) {
                   onBlur={onBlur}
                   keyboardType="numeric"
                   onChangeText={onChange}
-                  value={value}
+                  value={value.toString()}
                   placeholderTextColor={variables.gray3}
                   style={[
                     styles.input,
@@ -265,7 +297,7 @@ function MedicalRecord(props) {
                   onBlur={onBlur}
                   keyboardType="numeric"
                   onChangeText={onChange}
-                  value={value}
+                  value={value.toString()}
                   placeholderTextColor={variables.gray3}
                   style={[
                     styles.input,
@@ -339,12 +371,20 @@ function areEqual(a, b) {
 export default React.memo(MedicalRecord, areEqual);
 
 function ImageUser(props) {
+  //const [photo, setPhoto] = React.useState(null);
+
+  const handleChoosePhoto = () => {
+    launchImageLibrary({noData: true}, response => {
+      // console.log(response);
+      if (response) {
+        props.setPhoto(response);
+      }
+    });
+  };
+
   return (
     <View>
-      <TouchableOpacity
-        onPress={() => {
-          //navigation.openDrawer();
-        }}>
+      <TouchableOpacity onPress={handleChoosePhoto}>
         <Image
           key={'img'}
           style={{
@@ -354,10 +394,17 @@ function ImageUser(props) {
             borderWidth: 0.2,
             borderColor: '#ccc',
           }}
-          source={{
-            uri: 'https://scontent.fvcp1-1.fna.fbcdn.net/v/t1.6435-9/75199895_570256540182686_4591403748336599040_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=174925&_nc_ohc=ZiiIsURFBg8AX_kVmGN&_nc_ht=scontent.fvcp1-1.fna&oh=8b498cf0392cf9a7a7f41fc65fa19b55&oe=615ABE1B',
-            cache: 'force-cache',
-          }}
+          source={
+            props.photo != null
+              ? {
+                  uri: props?.photo?.assets[0]?.uri,
+                }
+              : props.actualPhoto != null
+              ? {
+                  uri: props.actualPhoto,
+                }
+              : require('../assets/img/profile-user.png')
+          }
         />
       </TouchableOpacity>
     </View>
@@ -365,14 +412,17 @@ function ImageUser(props) {
 }
 
 function BirthInput(props) {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(
+    props.value != null ? props.value : new Date(),
+  );
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
-
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
+    console.log(fromDateToDate(currentDate));
+    props.handleChange(currentDate);
   };
 
   const showMode = currentMode => {
@@ -468,16 +518,21 @@ function AlzheimerInput(props) {
         <RNPickerSelect
           onClose={props.handleBlurInput}
           placeholder={{
-            label: 'Selecione uma opção',
+            label:
+              convertToString(props.value) == null
+                ? 'Selecione uma opção'
+                : 'Selecionado: ' + convertToString(props.value),
             value: props.value == null ? null : props.value,
           }}
           Icon={() => {
             return (
-              <Icon
-                name="keyboard-arrow-down"
-                size={variables.icon}
-                style={{marginTop: 10}}
-              />
+              Platform.OS === 'ios' && (
+                <Icon
+                  name="keyboard-arrow-down"
+                  size={variables.icon}
+                  style={{marginTop: 10}}
+                />
+              )
             );
           }}
           onValueChange={value => props.handleChange(value)}
@@ -517,16 +572,21 @@ function SexInput(props) {
         <RNPickerSelect
           onClose={props.handleBlurInput}
           placeholder={{
-            label: 'Selecione uma opção',
-            value: null,
+            label:
+              convertToString(props.value) == null
+                ? 'Selecione uma opção'
+                : 'Selecionado: ' + convertToString(props.value),
+            value: props.value == null ? null : props.value,
           }}
           Icon={() => {
             return (
-              <Icon
-                name="keyboard-arrow-down"
-                size={variables.icon}
-                style={{marginTop: 10}}
-              />
+              Platform.OS === 'ios' && (
+                <Icon
+                  name="keyboard-arrow-down"
+                  size={variables.icon}
+                  style={{marginTop: 10}}
+                />
+              )
             );
           }}
           onValueChange={value => props.handleChange(value)}
@@ -545,7 +605,7 @@ function WheelchairInput(props) {
     if (val) return 'Sim';
     else if (val === false) return 'Não';
 
-    return 'Selecione uma Opção';
+    return null;
   };
   return (
     <View>
@@ -570,16 +630,21 @@ function WheelchairInput(props) {
         <RNPickerSelect
           onClose={props.handleBlurInput}
           placeholder={{
-            label: 'Selecione uma opção',
-            value: null,
+            label:
+              convertToString(props.value) == null
+                ? 'Selecione uma opção'
+                : 'Selecionado: ' + convertToString(props.value),
+            value: props.value == null ? null : props.value,
           }}
           Icon={() => {
             return (
-              <Icon
-                name="keyboard-arrow-down"
-                size={variables.icon}
-                style={{marginTop: 10}}
-              />
+              Platform.OS === 'ios' && (
+                <Icon
+                  name="keyboard-arrow-down"
+                  size={variables.icon}
+                  style={{marginTop: 10}}
+                />
+              )
             );
           }}
           onValueChange={value => props.handleChange(value)}

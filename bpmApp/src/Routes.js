@@ -50,6 +50,7 @@ import Monitor from './containers/Monitor';
 import DetailsMonitor from './containers/DetailsMonitor';
 import Ble from './containers/Ble';
 import Devices from './containers/Devices';
+//import Sensors from './containers/SensorsMeasurements';
 
 const navigationRef = React.createRef();
 
@@ -207,7 +208,14 @@ const customDrawerContent = (props, onLogout, user) => {
               height: 80,
               width: 80,
             }}
-            source={require('./assets/img/profile/profile.png')}
+            source={
+              user.userInfo.photoPath != null
+                ? {
+                    uri: user.userInfo.photoPath,
+                  }
+                : require('./assets/img/profile-user.png')
+            }
+            //source={require('./assets/img/profile/profile.png')}
           />
         </TouchableOpacity>
       </View>
@@ -322,7 +330,7 @@ const customDrawerContent = (props, onLogout, user) => {
             navigate('EmergencyContacts');
           }}
         />
-        <DrawerItem
+        {/*<DrawerItem
           label={() => (
             <Text
               style={[
@@ -339,7 +347,7 @@ const customDrawerContent = (props, onLogout, user) => {
               color={variables.darkGray3}
             />
           )}
-        />
+          />*/}
 
         {/*<DrawerItemList {...props} />*/}
       </DrawerContentScrollView>
@@ -451,7 +459,7 @@ export default class Routes extends Component {
 
     return (
       <SafeAreaView style={[{flex: 1}, {backgroundColor: variables.primary}]}>
-        <Ble />
+        {/*<Ble />*/}
         <AppMessageNotification
           user={user}
           setErrorToFalse={setErrorToFalse}

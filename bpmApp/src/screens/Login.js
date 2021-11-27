@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
+  NativeModules,
 } from 'react-native';
 import {variables} from '../assets/variables';
 import styles from '../assets/globals';
@@ -15,8 +16,15 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AvoidKeyboard from '../components/AvoidKeyboard';
 import {navigate} from '../Routes';
 import {formatCel} from '../assets/utils';
-
+import {
+  accelerometer,
+  gyroscope,
+  setUpdateIntervalForType,
+  SensorTypes,
+} from 'react-native-sensors';
+import {map, filter} from 'rxjs/operators';
 import Heartbeat from '../components/HeartBeat';
+const {Notification} = NativeModules;
 
 export default function Login(props) {
   const [phone, setPhone] = useState('');
@@ -61,6 +69,7 @@ export default function Login(props) {
                 <TextInput
                   placeholder="(21) 55555-1234"
                   placeholderTextColor={'#88b648'}
+                  keyboardType={'numeric'}
                   value={formatCel(phone)}
                   onChangeText={setPhone}
                   style={[
@@ -107,29 +116,11 @@ export default function Login(props) {
                   </Text>
                 </TouchableOpacity>
               </View>
-              {/*<TouchableOpacity
-              style={[
-                styles.row,
-                //styles.bgWhite,
-                styles.btnBorderRadius,
-                styles.centerXY,
-                {
-                  width: '100%',
-                  height: 60,
-                  borderColor: '#FFF',
-                  backgroundColor: '#88b648',
-                },
-              ]}
-              onPress={() => {
-                console.log(Heartbeat.aobaService());
-                //Heartbeat.startService()
-              }}>
-              <Text>Start</Text>
-            </TouchableOpacity>*/}
             </View>
           </AvoidKeyboard>
         </View>
       </ImageBackground>
     </SafeAreaView>
   );
-}
+                }
+

@@ -5,19 +5,22 @@ import {
   NativeModules,
   NativeEventEmitter,
   Text,
+  TouchableOpacity,
 } from 'react-native';
 
 import {variables} from '../assets/variables';
 import styles from '../assets/globals';
 import Perifericos from '../components/Ble';
 import BleManager from 'react-native-ble-manager';
+import Heartbeat from '../components/HeartBeat';
+const {Notification} = NativeModules;
 
 const BleManagerModule = NativeModules.BleManager;
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
 export default function Devices(props) {
   //const {setActualSteps, setHeartBeat} = props;
-  const [isConnected, setIsConnected] = useState(true);
+  const [isConnected, setIsConnected] = useState(false);
   const [name, setName] = useState('');
 
   useEffect(() => {
@@ -61,6 +64,51 @@ export default function Devices(props) {
         <Text style={[]}>
           {isConnected == true ? 'Conectado' : 'Não conectado'}
         </Text>
+      </View>
+      <View style={[styles.row, styles.centerXY, styles.mx30, styles.mt30]}>
+        <TouchableOpacity
+          style={[
+            styles.row,
+
+            //styles.bgWhite,
+            styles.btnBorderRadius,
+            styles.centerXY,
+            {
+              width: '100%',
+              height: 60,
+              marginBottom: 20,
+              borderColor: '#FFF',
+              backgroundColor: '#88b648',
+            },
+          ]}
+          onPress={() => {
+            console.log(Heartbeat.startService());
+            //Heartbeat.startService()
+          }}>
+          <Text style={[{color: '#FFF'}]}>Iniciar Monitoramento Contínuo</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={[styles.row, styles.centerXY, styles.mx30]}>
+        <TouchableOpacity
+          style={[
+            styles.row,
+            //styles.bgWhite,
+            styles.btnBorderRadius,
+            styles.centerXY,
+            {
+              width: '100%',
+              height: 60,
+              marginBottom: 20,
+              borderColor: '#FFF',
+              backgroundColor: '#88b648',
+            },
+          ]}
+          onPress={() => {
+            console.log(Heartbeat.stopService());
+            //Heartbeat.startService()
+          }}>
+          <Text style={[{color: '#FFF'}]}>Finalizar Monitoramento</Text>
+        </TouchableOpacity>
       </View>
 
       {/* <Perifericos {...props} />*/}

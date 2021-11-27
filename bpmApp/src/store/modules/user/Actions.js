@@ -5,9 +5,11 @@ import {
   saveUserData,
   addEmergencyContact,
   getUserData,
+  uploadUserImage,
 } from './middlewares';
-import {convertDate, now} from '../../../assets/utils';
+import {convertDate, fromDateToDate, now} from '../../../assets/utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {URL_API} from '../../../env';
 
 export function sendTokenTel(phone) {
   return async dispatch => {
@@ -27,7 +29,7 @@ export function sendTokenTel(phone) {
 
 export function validateToken(phone, auth) {
   return dispatch => {
-    authenticateUserToken(phone, auth)
+    authenticateUserToken(phone, auth.toUpperCase())
       .then(ret => {
         if (ret != false) {
           const aux = {
@@ -83,15 +85,22 @@ export function logout(tel) {
 }
 
 export function registerUserData(data) {
+  //console.log('Entrou?');
+
   return async dispatch => {
-    console.log('enviou', data);
+    //console.log('enviou', data);
+    const payloadUploadImage = {
+      file: data.image,
+      imageType: data.imageType,
+      docType: 'profileImage',
+    };
     const payload = {
       //username: data.username,
       //email: null,
       //phone: data.phone,
       //password: null,
-      //birthDate: convertDate(data.birth, false),
-      birthDate: convertDate(now(), false),
+      birthDate: fromDateToDate(data.birth),
+      // birthDate: convertDate(now(), false),
       completeName: data.name,
       weight: parseInt(data.weight),
       height: parseInt(data.height),
@@ -101,8 +110,13 @@ export function registerUserData(data) {
     };
     try {
       const ret = await saveUserData(payload);
+      const retPhoto = await uploadUserImage(payloadUploadImage);
+
+      const userData = await getUserData();
+
       const actionPayload = {
         userInfo: {
+          photoPath: URL_API.URL + userData.data.photoPath,
           name: data.name,
           phone: data.username,
           birth: data.birth,
@@ -143,6 +157,7 @@ export function refreshUserInfo(data = null) {
 
       const actionPayload = {
         userInfo: {
+          photoPath: URL_API.URL + userData.data.photoPath,
           name: userData.data.completeName,
           phone: userData.data.phone,
           birth: userData.data.birthDate,

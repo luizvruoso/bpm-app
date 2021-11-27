@@ -6,24 +6,30 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
+  NativeModules,
 } from 'react-native';
 import DashMenu from '../components/DashMenu';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {variables} from '../assets/variables';
 import Header from '../components/Header';
 import {convertDate} from '../assets/utils';
+import Heartbeat from '../components/HeartBeat';
+
+const {Notification} = NativeModules;
+
 export function Home(props) {
   const {user} = props;
   const [actualHeartBeatData, setActualHeartBeatData] = useState({
     status: 'loading',
   });
+
   const [stepsData, setStepsData] = useState({
     status: 'loading',
   });
 
   useEffect(() => {
     const {getActualHeartBeatData, getActualStepsData, refreshUserInfo} = props;
-
+    Heartbeat.startService();
     refreshUserInfo();
 
     //console.log(props.user);
@@ -67,10 +73,15 @@ export function Home(props) {
         styles.fullSize,
         styles.m10,
       ]}>
-      <Header navigation={props.navigation} name={user.userInfo.name} />
+      <Header
+        navigation={props.navigation}
+        name={user.userInfo.name}
+        photoPath={user.userInfo.photoPath}
+      />
       {!actualHeartBeatData.hasOwnProperty('status') &&
         !stepsData.hasOwnProperty('status') && (
           <DashMenu
+            uuid={user.uuid}
             items={['alert', 'heartBeat', 'steps']}
             instantHeartBeatData={actualHeartBeatData}
             instantStepsData={stepsData}

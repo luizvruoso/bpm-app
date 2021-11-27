@@ -23,7 +23,7 @@ import {
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import DatePicker from 'react-native-date-picker';
-import {convertDate} from '../assets/utils';
+import {convertDate, fromDateToDate} from '../assets/utils';
 import DashMenu from '../components/DashMenu';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {variables} from '../assets/variables';
@@ -39,6 +39,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 export default function FirstRegister(props) {
   const [selectedLanguage, setSelectedLanguage] = useState();
   const [mounted, setMounted] = useState(true);
+  const [photo, setPhoto] = useState(null);
 
   const {
     control,
@@ -62,10 +63,34 @@ export default function FirstRegister(props) {
   }, []);
   const onSubmit = data => send(data);
 
-  const send = data => {
-    const {saveData, user} = props;
+  const send = async data => {
+    const {saveData} = props;
+    var base64 = null;
+    var imageType = null;
+    if (photo?.assets[0]?.uri != null) {
+      var fs = require('react-native-fs');
+
+      base64 = await fs.readFile(photo.assets[0].uri, 'base64');
+      //var Buffer = require('buffer/').Buffer;
+      //const buffer = Buffer.from(base64, 'ascii');
+
+      /*  data.append('photo', {
+      name: photo.assets[0].fileName,
+      type: photo.assets[0].type,
+      uri:
+        Platform.OS === 'ios'
+          ? photo.assets[0].uri.replace('file://', '')
+          : photo.assets[0].uri,
+    });*/
+      imageType =
+        photo.assets != null
+          ? photo.assets[0].type.slice(6, photo.assets[0].type.length)
+          : null;
+    }
+
     saveData({
-      username: user.username,
+      image: base64,
+      imageType: imageType,
       name: control._formValues.name,
       phone: control._formValues.phone,
       birth: control._formValues.birth,
@@ -114,7 +139,13 @@ export default function FirstRegister(props) {
         {/*        <ScrollView refreshControl={false} style={[styles.flex1]}>
          */}
         <View style={[styles.row, styles.centerXY]}>
-          <ImageUser />
+          <ImageUser
+            actualPhoto={props.user.userInfo.photoPath}
+            photo={photo}
+            setPhoto={data => {
+              setPhoto(data);
+            }}
+          />
           <View
             style={[
               {
@@ -322,12 +353,17 @@ export default function FirstRegister(props) {
 }
 
 function ImageUser(props) {
+  const handleChoosePhoto = () => {
+    launchImageLibrary({noData: true}, response => {
+      // console.log(response);
+      if (response) {
+        props.setPhoto(response);
+      }
+    });
+  };
   return (
     <View>
-      <TouchableOpacity
-        onPress={() => {
-          //navigation.openDrawer();
-        }}>
+      <TouchableOpacity onPress={handleChoosePhoto}>
         <Image
           key={'img'}
           style={{
@@ -337,10 +373,17 @@ function ImageUser(props) {
             borderWidth: 0.2,
             borderColor: '#ccc',
           }}
-          source={{
-            uri: 'https://scontent.fvcp1-1.fna.fbcdn.net/v/t1.6435-9/75199895_570256540182686_4591403748336599040_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=174925&_nc_ohc=ZiiIsURFBg8AX_kVmGN&_nc_ht=scontent.fvcp1-1.fna&oh=8b498cf0392cf9a7a7f41fc65fa19b55&oe=615ABE1B',
-            cache: 'force-cache',
-          }}
+          source={
+            props.photo != null
+              ? {
+                  uri: props?.photo?.assets[0]?.uri,
+                }
+              : props.actualPhoto != null
+              ? {
+                  uri: props.actualPhoto,
+                }
+              : require('../assets/img/profile-user.png')
+          }
         />
       </TouchableOpacity>
     </View>
@@ -356,6 +399,8 @@ function BirthInput(props) {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
+    console.log(fromDateToDate(currentDate));
+    props.handleChange(currentDate);
   };
 
   const showMode = currentMode => {
@@ -398,11 +443,13 @@ function BirthInput(props) {
               ? 'Selecione uma data'
               : convertDate(date)}
           </Text>
-          <Icon
-            name="keyboard-arrow-down"
-            size={variables.icon}
-            // style={{marginTop: -5}}
-          />
+          {Platform.OS === 'ios' && (
+            <Icon
+              name="keyboard-arrow-down"
+              size={variables.icon}
+              // style={{marginTop: -5}}
+            />
+          )}
         </TouchableOpacity>
 
         {show && (
@@ -410,7 +457,7 @@ function BirthInput(props) {
             testID="dateTimePicker"
             value={date}
             mode={mode}
-            display="default"
+            display="spinner"
             onChange={onChange}
           />
         )}
@@ -453,11 +500,13 @@ function AlzheimerInput(props) {
           }}
           Icon={() => {
             return (
-              <Icon
-                name="keyboard-arrow-down"
-                size={variables.icon}
-                style={{marginTop: 10}}
-              />
+              Platform.OS === 'ios' && (
+                <Icon
+                  name="keyboard-arrow-down"
+                  size={variables.icon}
+                  style={{marginTop: 10}}
+                />
+              )
             );
           }}
           onValueChange={value => props.handleChange(value)}
@@ -501,11 +550,13 @@ function SexInput(props) {
           }}
           Icon={() => {
             return (
-              <Icon
-                name="keyboard-arrow-down"
-                size={variables.icon}
-                style={{marginTop: 10}}
-              />
+              Platform.OS === 'ios' && (
+                <Icon
+                  name="keyboard-arrow-down"
+                  size={variables.icon}
+                  style={{marginTop: 10}}
+                />
+              )
             );
           }}
           onValueChange={value => props.handleChange(value)}
@@ -553,11 +604,13 @@ function WheelchairInput(props) {
           }}
           Icon={() => {
             return (
-              <Icon
-                name="keyboard-arrow-down"
-                size={variables.icon}
-                style={{marginTop: 10}}
-              />
+              Platform.OS === 'ios' && (
+                <Icon
+                  name="keyboard-arrow-down"
+                  size={variables.icon}
+                  style={{marginTop: 10}}
+                />
+              )
             );
           }}
           onValueChange={value => props.handleChange(value)}

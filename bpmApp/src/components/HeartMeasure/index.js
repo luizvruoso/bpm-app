@@ -38,7 +38,7 @@ export default function HeartMeasure(props) {
   return (
     <View style={[styles.flex1]}>
       <HeartBeatFocus {...instantData} />
-      <View style={[styles.flex1, {paddingBottom: 90}]}>
+      <View style={[styles.flex1, {paddingBottom: 10}]}>
         <FlatList
           //inverted
           data={heartBeatData}
@@ -99,7 +99,7 @@ function HeartBeatFocus(props) {
               //styles.textLeft,
               styles.textVerticalCenter,
             ]}>
-            {parseInt(props.value)}
+            {isNaN(parseInt(props.value)) ? '0' : parseInt(props.value)}
             <Text style={[{fontSize: 20, color: variables.white}]}>
               &nbsp; bpm
             </Text>
