@@ -35,6 +35,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import AvoidKeyboard from '../components/AvoidKeyboard';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 export default function FirstRegister(props) {
   const [selectedLanguage, setSelectedLanguage] = useState();
@@ -355,8 +356,8 @@ export default function FirstRegister(props) {
 function ImageUser(props) {
   const handleChoosePhoto = () => {
     launchImageLibrary({noData: true}, response => {
-      // console.log(response);
-      if (response) {
+      //console.log(response);
+      if (response.didCancel != true) {
         props.setPhoto(response);
       }
     });
@@ -455,7 +456,7 @@ function BirthInput(props) {
         {show && (
           <DateTimePicker
             testID="dateTimePicker"
-            value={date}
+            value={new Date(date)}
             mode={mode}
             display="spinner"
             onChange={onChange}

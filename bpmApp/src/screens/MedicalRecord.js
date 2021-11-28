@@ -376,7 +376,7 @@ function ImageUser(props) {
   const handleChoosePhoto = () => {
     launchImageLibrary({noData: true}, response => {
       // console.log(response);
-      if (response) {
+      if (response.didCancel != true) {
         props.setPhoto(response);
       }
     });
@@ -476,7 +476,7 @@ function BirthInput(props) {
         {show && (
           <DateTimePicker
             testID="dateTimePicker"
-            value={date}
+            value={new Date(date)}
             mode={mode}
             display="spinner"
             onChange={onChange}

@@ -89,34 +89,46 @@ export function registerUserData(data) {
 
   return async dispatch => {
     //console.log('enviou', data);
-    const payloadUploadImage = {
-      file: data.image,
-      imageType: data.imageType,
-      docType: 'profileImage',
-    };
-    const payload = {
-      //username: data.username,
-      //email: null,
-      //phone: data.phone,
-      //password: null,
-      birthDate: fromDateToDate(data.birth),
-      // birthDate: convertDate(now(), false),
-      completeName: data.name,
-      weight: parseInt(data.weight),
-      height: parseInt(data.height),
-      sex: data.sex,
-      isWheelchairUser: data.wheelchairUser,
-      hasAlzheimer: data.alzheimer,
-    };
+
     try {
+      const payloadUploadImage = {
+        file: data.hasOwnProperty('image') ? data.image : null,
+        imageType: data.hasOwnProperty('imageType') ? data.imageType : null,
+        docType: 'profileImage',
+      };
+
+      const payload = {
+        //username: data.username,
+        //email: null,
+        //phone: data.phone,
+        //password: null,
+        birthDate:
+          data.birth == null || data.birth == ''
+            ? fromDateToDate(new Date())
+            : fromDateToDate(data.birth),
+        // birthDate: convertDate(now(), false),
+        completeName: data.name,
+        weight: parseInt(data.weight),
+        height: parseInt(data.height),
+        sex: data.sex,
+        isWheelchairUser: data.wheelchairUser,
+        hasAlzheimer: data.alzheimer,
+      };
+
       const ret = await saveUserData(payload);
-      const retPhoto = await uploadUserImage(payloadUploadImage);
+      //console.log('aqui', payloadUploadImage);
+      if (payloadUploadImage.file != null) {
+        const retPhoto = await uploadUserImage(payloadUploadImage);
+      }
 
       const userData = await getUserData();
-
+      //console.log('user', userData);
       const actionPayload = {
         userInfo: {
-          photoPath: URL_API.URL + userData.data.photoPath,
+          photoPath:
+            userData.data.photoPath != null
+              ? URL_API.URL + userData.data.photoPath
+              : null,
           name: data.name,
           phone: data.username,
           birth: data.birth,
@@ -157,7 +169,10 @@ export function refreshUserInfo(data = null) {
 
       const actionPayload = {
         userInfo: {
-          photoPath: URL_API.URL + userData.data.photoPath,
+          photoPath:
+            userData.data.photoPath != null
+              ? URL_API.URL + userData.data.photoPath
+              : null,
           name: userData.data.completeName,
           phone: userData.data.phone,
           birth: userData.data.birthDate,
