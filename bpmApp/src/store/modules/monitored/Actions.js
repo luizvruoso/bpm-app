@@ -9,6 +9,7 @@ export function getMonitoreds() {
       const data = await getContacts();
 
       dispatch(saveContacts(data.data));
+      console.log('data', data.data);
     } catch (err) {
       console.error(err);
       dispatch(

@@ -5,13 +5,18 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {variables} from '../../assets/variables';
 import {navigate} from '../../Routes';
 import {formatCel} from '../../assets/utils';
+import {URL_API} from '../../env/index';
 
 export default function Contact(props) {
   const items = props.items;
 
   return (
     <View>
-      <ContactCard name={props.name} phone={props.phone} />
+      <ContactCard
+        name={props.name}
+        phone={props.phone}
+        photoPath={props.photoPath}
+      />
     </View>
   );
 }
@@ -46,7 +51,11 @@ function ContactCard(props) {
             height: 80,
             width: 80,
           }}
-          source={require('../../assets/img/profile/profile.png')}
+          source={
+            props.photoPath != null
+              ? {uri: URL_API.URL + props.photoPath}
+              : require('../../assets/img/profile/profile.png')
+          }
         />
         <View
           style={[styles.colorWhite, styles.ml10, {alignItems: 'flex-end'}]}>

@@ -39,7 +39,7 @@ export function getEmergencyContacts() {
     try {
       //const ret = await addEmergencyContact(data);
       const data = await getContacts();
-
+      console.log('adadsa', data.data);
       dispatch(saveContacts(data.data));
     } catch (err) {
       console.error(err);
@@ -53,15 +53,15 @@ export function getEmergencyContacts() {
 }
 
 export function deleteEmergencyContact(pay) {
-  console.log("PAYLOAD2: ", pay)
+  console.log('PAYLOAD2: ', pay);
 
   return async dispatch => {
     try {
       //console.log('chegou', {responsible: [data]});
-      console.log("PAYLOAD: ", pay)
+      console.log('PAYLOAD: ', pay);
 
       const payload = {responsible: [pay]};
-      console.log("PAYLOAD: ", pay)
+      console.log('PAYLOAD: ', pay);
       const data = await deleteContact(payload);
 
       dispatch(getEmergencyContacts());

@@ -44,7 +44,11 @@ export default function Monitor(props) {
             item,
           });
         }}>
-        <Contact name={item.completeName} phone={item.phone} />
+        <Contact
+          name={item.completeName}
+          phone={item.phone}
+          photoPath={item.photoPath}
+        />
       </TouchableOpacity>
     );
   }, []);

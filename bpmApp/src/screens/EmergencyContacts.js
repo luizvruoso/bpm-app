@@ -48,7 +48,7 @@ export default function EmergencyContacts(props) {
         onPress={() => {
           //props.removeFromCart(item.id);
           //navigate('Adicionar Produto', {operation: 'edit', item});
-          console.log("UUID: ", item.uuid)
+          console.log('UUID: ', item.uuid);
           deleteMonitor(item.uuid);
         }}>
         <View
@@ -78,7 +78,11 @@ export default function EmergencyContacts(props) {
           onPress={() => {
             //navigate('DetailsMonitor', {item});
           }}>
-          <Contact name={item.completeName} phone={item.phone} />
+          <Contact
+            name={item.completeName}
+            phone={item.phone}
+            photoPath={item.photoPath}
+          />
         </TouchableOpacity>
       </Swipeable>
     );
