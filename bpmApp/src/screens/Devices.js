@@ -58,10 +58,10 @@ export default function Devices(props) {
       />
 
       <View style={[styles.row, styles.centerXY, styles.h1]}>
-        <Text style={[styles.h4]}>{name}</Text>
+        <Text style={[styles.h4,{color: '#000'}]}>{name}</Text>
       </View>
       <View style={[styles.row, styles.centerXY]}>
-        <Text style={[]}>
+        <Text style={[{color: '#000'}]}>
           {isConnected == true ? 'Conectado' : 'Não conectado'}
         </Text>
       </View>

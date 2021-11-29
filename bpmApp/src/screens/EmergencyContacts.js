@@ -147,6 +147,7 @@ export function ModalContact(props) {
               fontSize: variables.fontLarge,
               textAlignVertical: 'center',
               marginLeft: 8,
+              color: '#000'
             },
           ]}>
           Contato

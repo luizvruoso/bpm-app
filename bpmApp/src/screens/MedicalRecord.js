@@ -188,7 +188,7 @@ function MedicalRecord(props) {
             }}
             render={({field: {onChange, onBlur, value}}) => (
               <View>
-                <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>
+                <Text style={[{fontSize: variables.fontNormal, color: "black"}, styles.mb10]}>
                   Nome:
                 </Text>
                 <TextInput
@@ -261,7 +261,7 @@ function MedicalRecord(props) {
             }}
             render={({field: {onChange, onBlur, value}}) => (
               <View>
-                <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>
+                <Text style={[{fontSize: variables.fontNormal, color: "black"}, styles.mb10]}>
                   Peso (Kg):
                 </Text>
                 <TextInput
@@ -289,7 +289,7 @@ function MedicalRecord(props) {
             }}
             render={({field: {onChange, onBlur, value}}) => (
               <View>
-                <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>
+                <Text style={[{fontSize: variables.fontNormal, color: "black"}, styles.mb10]}>
                   Altura (cm):
                 </Text>
 
@@ -436,7 +436,7 @@ function BirthInput(props) {
 
   return (
     <View>
-      <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>
+      <Text style={[{fontSize: variables.fontNormal, color: "black"}, styles.mb10]}>
         Data de Nascimento:
       </Text>
       <View
@@ -461,7 +461,7 @@ function BirthInput(props) {
             styles.row,
           ]}
           onPress={showDatepicker}>
-          <Text style={[styles.mt5]}>
+          <Text style={[{color: "black"}, styles.mt5]}>
             {isNaN(new Date(date).getTime())
               ? 'Selecione uma data'
               : convertDate(date)}
@@ -497,7 +497,7 @@ function AlzheimerInput(props) {
 
   return (
     <View>
-      <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>
+      <Text style={[{fontSize: variables.fontNormal, color: "black"}, styles.mb10]}>
         Possui Alzheimer:
       </Text>
       <View
@@ -553,7 +553,7 @@ function SexInput(props) {
   };
   return (
     <View>
-      <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>Sexo:</Text>
+      <Text style={[{fontSize: variables.fontNormal, color: "black"}, styles.mb10]}>Sexo:</Text>
       <View
         style={[
           {
@@ -609,7 +609,7 @@ function WheelchairInput(props) {
   };
   return (
     <View>
-      <Text style={[{fontSize: variables.fontNormal}, styles.mb10]}>
+      <Text style={[{fontSize: variables.fontNormal, color: "black"}, styles.mb10]}>
         Cadeirante:
       </Text>
       <View

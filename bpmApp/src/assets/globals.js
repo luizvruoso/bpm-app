@@ -244,6 +244,10 @@ export default styles = StyleSheet.create({
   colorDarkGray4: {
     color: variables.darkGray4,
   },
+  colorPrimary: {
+    color: variables.black,
+  },
+  
 
   bgGray1: {
     backgroundColor: variables.gray1,

@@ -193,12 +193,13 @@ function HeartBeat(props) {
         <View style={[styles.row]}>
           <Text
             style={[
-              {fontSize: variables.fontSmall},
-              styles.textVerticalCenter,
+              {fontSize: variables.fontSmall, color: '#000'},
+              styles.textVerticalCenter
+              
             ]}>
             min &nbsp;
           </Text>
-          <Text style={[{fontSize: variables.fontLarger}, styles.bold]}>
+          <Text style={[{fontSize: variables.fontLarger, color: '#000'}, styles.bold]}>
             {parseInt(props?.data.min)}
           </Text>
         </View>
@@ -206,12 +207,12 @@ function HeartBeat(props) {
         <View style={[styles.row, styles.ml20]}>
           <Text
             style={[
-              {fontSize: variables.fontSmall},
+              {fontSize: variables.fontSmall, color: '#000'},
               styles.textVerticalCenter,
             ]}>
             máx &nbsp;
           </Text>
-          <Text style={[{fontSize: variables.fontLarger}, styles.bold]}>
+          <Text style={[{fontSize: variables.fontLarger, color: '#000'}, styles.bold]}>
             {parseInt(props?.data.max)}
           </Text>
         </View>

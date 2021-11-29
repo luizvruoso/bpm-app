@@ -91,7 +91,7 @@ export default function index(props) {
               </View>
             ) : (
               <View style={[styles.row, styles.centerXY, styles.mt20]}>
-                <Text style={[{fontSize: 18, textAlign: 'center'}]}>
+                <Text style={[{fontSize: 18, textAlign: 'center', color: '#000'}]}>
                   Alerta disparado. Seus contatos de emergência foram
                   notificados.
                 </Text>

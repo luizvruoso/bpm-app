@@ -245,7 +245,7 @@ const customDrawerContent = (props, onLogout, user) => {
           styles.mt10,
           styles.mb40,
         ]}>
-        <Text style={[styles.bold, {fontSize: variables.fontSmall + 2}]}>
+        <Text style={[styles.colorPrimary, styles.bold, {fontSize: variables.fontSmall + 2}]}>
           {user.uuid}
         </Text>
       </View>

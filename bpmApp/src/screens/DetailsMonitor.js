@@ -1,4 +1,4 @@
-import React, {Component, useState, useEffect} from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -13,22 +13,22 @@ import {
 import DashMenu from '../components/DashMenu';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
-import {variables} from '../assets/variables';
+import { variables } from '../assets/variables';
 import styles from '../assets/globals';
 import Contact from '../components/Contact';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {URL_API} from '../env/index';
-import MapView, {Marker} from 'react-native-maps';
+import { URL_API } from '../env/index';
+import MapView, { Marker } from 'react-native-maps';
 import moment from 'moment/min/moment-with-locales';
 
 export default function DetailsMonitor(props) {
-  const {item} = props.route.params;
+  const { item } = props.route.params;
 
   const [selectedMonitor, setSelectedMonitor] = useState(item);
 
   useEffect(() => {
-    const {item, getMonitoreds} = props.route.params;
-    const {monitored} = props;
+    const { item, getMonitoreds } = props.route.params;
+    const { monitored } = props;
 
     const index = monitored.findIndex(item => {
       return item.uuid == item.uuid;
@@ -57,7 +57,7 @@ export default function DetailsMonitor(props) {
   return (
     <View
       style={[
-        {backgroundColor: variables.primary, height: '100%'},
+        { backgroundColor: variables.primary, height: '100%' },
         styles.flex1,
         //styles.m10,
       ]}>
@@ -65,11 +65,13 @@ export default function DetailsMonitor(props) {
         <View
           style={[styles.row, styles.mx10, styles.mt10, styles.spaceBetween]}>
           <View>
-            <Text style={[styles.h3]}>{selectedMonitor.completeName}</Text>
+            <Text style={[styles.h3, { color: '#000' }]}>
+              {selectedMonitor.completeName}
+            </Text>
           </View>
           <TouchableOpacity
             onPress={() => {
-              const {getMonitoreds} = props;
+              const { getMonitoreds } = props;
 
               getMonitoreds();
             }}>
@@ -77,7 +79,7 @@ export default function DetailsMonitor(props) {
           </TouchableOpacity>
         </View>
         <View style={[styles.mx10, styles.mb20]}>
-          <Text style={[{fontSize: 13}]}>
+          <Text style={[{ fontSize: 13, color: '#222222' }]}>
             Última atualização foi há{' '}
             {calculateLastUpdate(selectedMonitor.date)}
           </Text>
@@ -87,9 +89,9 @@ export default function DetailsMonitor(props) {
             styles.row,
             styles.m10,
             styles.centerXY,
-            {backgroundColor: '#008000', borderRadius: 10, padding: 10},
+            { backgroundColor: '#008000', borderRadius: 10, padding: 10 },
           ]}>
-          <Text style={{fontSize: variables.fontNormal, color: '#fff'}}>
+          <Text style={{ fontSize: variables.fontNormal, color: '#fff' }}>
             {selectedMonitor.status}
           </Text>
         </View>
@@ -101,10 +103,15 @@ export default function DetailsMonitor(props) {
                 fontSize: variables.fontLarge + 5,
                 fontWeight: 'bold',
                 marginLeft: 10,
+                color: '#222222',
               }}>
               {selectedMonitor.heartBeat}
               <Text
-                style={{fontSize: variables.fontNormal, fontWeight: 'normal'}}>
+                style={{
+                  fontSize: variables.fontNormal,
+                  fontWeight: 'normal',
+                  color: '#222222',
+                }}>
                 {'\n'}bpm
               </Text>
             </Text>
@@ -117,11 +124,16 @@ export default function DetailsMonitor(props) {
                   fontSize: variables.fontLarge + 5,
                   marginLeft: 10,
                   fontWeight: 'bold',
+                  color: '#222222',
                 },
               ]}>
               {selectedMonitor.cardiacSteps}
               <Text
-                style={{fontSize: variables.fontNormal, fontWeight: 'normal'}}>
+                style={{
+                  fontSize: variables.fontNormal,
+                  fontWeight: 'normal',
+                  color: '#222222',
+                }}>
                 {'\n'}passos
               </Text>
             </Text>

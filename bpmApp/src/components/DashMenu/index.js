@@ -71,10 +71,10 @@ function Steps(props) {
           source={require('../../assets/img/icon/littleSalsaWalk.png')}
         />
         <View style={[]}>
-          <Text style={[{fontSize: 40}, styles.bold, styles.textLeft]}>
+          <Text style={[{fontSize: 40, color: variables.black}, styles.bold, styles.textLeft]}>
             {isNaN(parseInt(steps.value)) ? '0' : parseInt(steps.value)}
           </Text>
-          <Text style={[{fontSize: variables.fontNormal}, styles.textRight]}>
+          <Text style={[{fontSize: variables.fontNormal,color: variables.black}, styles.textRight]}>
             passos
           </Text>
         </View>
