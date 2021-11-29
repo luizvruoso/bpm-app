@@ -1,533 +1,572 @@
 [
-    {
-        "id": "7eaf1f34e4c241c5",
-        "type": "tab",
-        "label": "Flow 1",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
-        "id": "2d750ed.93b04f2",
-        "type": "tab",
-        "label": "SocketIO test"
-    },
-    {
-        "id": "47235b74.69f984",
-        "type": "socketio-config",
-        "port": "1881",
-        "sendClient": "true",
-        "path": "/socket.io1",
-        "bindToNode": true
-    },
-    {
-        "id": "10304712.9b83e9",
-        "type": "debug",
-        "z": "2d750ed.93b04f2",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "complete": "true",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 230,
-        "y": 140,
-        "wires": []
-    },
-    {
-        "id": "f8fc0121.575f1",
-        "type": "socketio-in",
-        "z": "2d750ed.93b04f2",
-        "name": "",
-        "server": "47235b74.69f984",
-        "rules": [
-            {
-                "v": "join"
-            },
-            {
-                "v": "emergencyNotification"
-            },
-            {
-                "v": "alertAddResponsible"
-            }
-        ],
-        "x": 70,
-        "y": 240,
-        "wires": [
-            [
-                "10304712.9b83e9",
-                "5b63bcd4.846c34"
-            ]
-        ]
-    },
-    {
-        "id": "5b63bcd4.846c34",
-        "type": "switch",
-        "z": "2d750ed.93b04f2",
-        "name": "checkEvent",
-        "property": "socketIOEvent",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "join",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "emergencyNotification",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "alertAddResponsible",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "message",
-                "vt": "str"
-            }
-        ],
-        "checkall": "false",
-        "repair": false,
-        "outputs": 4,
-        "x": 250,
-        "y": 240,
-        "wires": [
-            [
-                "30d221c8865a675e"
-            ],
-            [
-                "1d48c9986b1c18fa"
-            ],
-            [
-                "4e5d6d4940bbdc1d"
-            ],
-            [
-                "e062a66861d37868"
-            ]
-        ]
-    },
-    {
-        "id": "30d221c8865a675e",
-        "type": "function",
-        "z": "2d750ed.93b04f2",
-        "name": "Join - ",
-        "func": "let room = msg.payload;\n\nmsg.payload = {\n    room: room\n};\n\nreturn msg;\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 430,
-        "y": 160,
-        "wires": [
-            [
-                "27d01db77f675991"
-            ]
-        ]
-    },
-    {
-        "id": "1d48c9986b1c18fa",
-        "type": "function",
-        "z": "2d750ed.93b04f2",
-        "name": "emergencyNotification -",
-        "func": "let room = msg.payload;\n\nmsg.payload = {\n    uuid: room\n};\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 490,
-        "y": 220,
-        "wires": [
-            [
-                "b9be2679a97e034a"
-            ]
-        ]
-    },
-    {
-        "id": "b9be2679a97e034a",
-        "type": "link out",
-        "z": "2d750ed.93b04f2",
-        "name": "",
-        "mode": "link",
-        "links": [
-            "e4b798177d0a96ad"
-        ],
-        "x": 655,
-        "y": 220,
-        "wires": []
-    },
-    {
-        "id": "e4b798177d0a96ad",
-        "type": "link in",
-        "z": "2d750ed.93b04f2",
-        "name": "",
-        "links": [
-            "b9be2679a97e034a"
-        ],
-        "x": 55,
-        "y": 460,
-        "wires": [
-            [
-                "427138a033b105b1"
-            ]
-        ]
-    },
-    {
-        "id": "427138a033b105b1",
-        "type": "http request",
-        "z": "2d750ed.93b04f2",
-        "name": "",
-        "method": "POST",
-        "ret": "obj",
-        "paytoqs": "ignore",
-        "url": "http://177.194.52.168:8082/api/user/emergencyContactsWithUuid",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "authType": "basic",
-        "senderr": false,
-        "x": 170,
-        "y": 460,
-        "wires": [
-            [
-                "34460f89473c751e",
-                "5d22201eaad605c6"
-            ]
-        ]
-    },
-    {
-        "id": "34460f89473c751e",
-        "type": "debug",
-        "z": "2d750ed.93b04f2",
-        "name": "Recebeu Resposta - Salsa Server",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 320,
-        "y": 540,
-        "wires": []
-    },
-    {
-        "id": "5d22201eaad605c6",
-        "type": "function",
-        "z": "2d750ed.93b04f2",
-        "name": "Set User to send messages",
-        "func": "msg.room = [];\nmsg.socketIOEvent=\"emergencyNotification\";\n\nconst {responsibles, dependent} = msg.payload;\n\nresponsibles.map((item, index)=>{\n    msg.room.push(item.uuid)\n});\n\nmsg.payload = {\n    title: `Alerta Disparado para seu contato ${dependent}`,\n    message: `Alerta disparado para seu monitorado. Acesse a página monitorados para mais detalhes`\n};\n\n\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 440,
-        "y": 460,
-        "wires": [
-            [
-                "1c38d579642fb4ac",
-                "523c510ff689366c"
-            ]
-        ]
-    },
-    {
-        "id": "1c38d579642fb4ac",
-        "type": "socketio-out",
-        "z": "2d750ed.93b04f2",
-        "name": "",
-        "server": "47235b74.69f984",
-        "x": 740,
-        "y": 460,
-        "wires": []
-    },
-    {
-        "id": "523c510ff689366c",
-        "type": "debug",
-        "z": "2d750ed.93b04f2",
-        "name": "Pacote para notificação",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 690,
-        "y": 540,
-        "wires": []
-    },
-    {
-        "id": "4e5d6d4940bbdc1d",
-        "type": "function",
-        "z": "2d750ed.93b04f2",
-        "name": "alertAddResponsible - ",
-        "func": "\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 480,
-        "y": 260,
-        "wires": [
-            [
-                "fe0e75f4b8da1603"
-            ]
-        ]
-    },
-    {
-        "id": "fe0e75f4b8da1603",
-        "type": "link out",
-        "z": "2d750ed.93b04f2",
-        "name": "",
-        "mode": "link",
-        "links": [],
-        "x": 655,
-        "y": 260,
-        "wires": []
-    },
-    {
-        "id": "4588651d657d587b",
-        "type": "http in",
-        "z": "2d750ed.93b04f2",
-        "name": "",
-        "url": "/sendNotificationAddResponsible",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 210,
-        "y": 700,
-        "wires": [
-            [
-                "6863dabd775dd0cc",
-                "8ce3bca126b03379",
-                "d6daba4246428b6a"
-            ]
-        ]
-    },
-    {
-        "id": "6863dabd775dd0cc",
-        "type": "debug",
-        "z": "2d750ed.93b04f2",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 350,
-        "y": 780,
-        "wires": []
-    },
-    {
-        "id": "8ce3bca126b03379",
-        "type": "http response",
-        "z": "2d750ed.93b04f2",
-        "name": "",
-        "statusCode": "200",
-        "headers": {},
-        "x": 550,
-        "y": 640,
-        "wires": []
-    },
-    {
-        "id": "d6daba4246428b6a",
-        "type": "function",
-        "z": "2d750ed.93b04f2",
-        "name": "",
-        "func": "\nconst {name, uuid} = msg.payload;\n\nmsg.socketIOEvent=\"alertAddResponsible\";\nmsg.room = uuid;\nmsg.payload = `${name} adicionou você como contato de emergência.`\n\n\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 500,
-        "y": 700,
-        "wires": [
-            [
-                "30c8d60b580a4348"
-            ]
-        ]
-    },
-    {
-        "id": "19d23d2b47c04e46",
-        "type": "catch",
-        "z": "2d750ed.93b04f2",
-        "name": "",
-        "scope": null,
-        "uncaught": false,
-        "x": 80,
-        "y": 40,
-        "wires": [
-            [
-                "d88fde7e8736421d",
-                "a629fe182e54ab68"
-            ]
-        ]
-    },
-    {
-        "id": "d88fde7e8736421d",
-        "type": "debug",
-        "z": "2d750ed.93b04f2",
-        "name": "Erro",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 250,
-        "y": 40,
-        "wires": []
-    },
-    {
-        "id": "a629fe182e54ab68",
-        "type": "http response",
-        "z": "2d750ed.93b04f2",
-        "name": "",
-        "statusCode": "500",
-        "headers": {},
-        "x": 440,
-        "y": 40,
-        "wires": []
-    },
-    {
-        "id": "30c8d60b580a4348",
-        "type": "socketio-out",
-        "z": "2d750ed.93b04f2",
-        "name": "",
-        "server": "47235b74.69f984",
-        "x": 720,
-        "y": 700,
-        "wires": []
-    },
-    {
-        "id": "abf3fe4832a41977",
-        "type": "inject",
-        "z": "2d750ed.93b04f2",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 220,
-        "y": 400,
-        "wires": [
-            [
-                "5d22201eaad605c6"
-            ]
-        ]
-    },
-    {
-        "id": "27d01db77f675991",
-        "type": "socketio-join",
-        "z": "2d750ed.93b04f2",
-        "name": "",
-        "server": "47235b74.69f984",
-        "x": 720,
-        "y": 160,
-        "wires": []
-    },
-    {
-        "id": "e062a66861d37868",
-        "type": "function",
-        "z": "2d750ed.93b04f2",
-        "name": "Message - ",
-        "func": "\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 450,
-        "y": 320,
-        "wires": [
-            [
-                "9137d39523b3377d"
-            ]
-        ]
-    },
-    {
-        "id": "9137d39523b3377d",
-        "type": "link out",
-        "z": "2d750ed.93b04f2",
-        "name": "",
-        "mode": "link",
-        "links": [
-            "9fca117a6a0c62b7"
-        ],
-        "x": 655,
-        "y": 320,
-        "wires": []
-    },
-    {
-        "id": "9fca117a6a0c62b7",
-        "type": "link in",
-        "z": "2d750ed.93b04f2",
-        "name": "",
-        "links": [
-            "9137d39523b3377d"
-        ],
-        "x": 65,
-        "y": 880,
-        "wires": [
-            [
-                "398901cc6cc40400"
-            ]
-        ]
-    },
-    {
-        "id": "398901cc6cc40400",
-        "type": "function",
-        "z": "2d750ed.93b04f2",
-        "name": "Message",
-        "func": "const {room, message} = msg.payload;\n\nmsg.socketIOEvent=\"message\";\nmsg.room = room;\nmsg.payload = {\n    message: message\n}\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 200,
-        "y": 880,
-        "wires": [
-            [
-                "c52b46f92cb5d537"
-            ]
-        ]
-    },
-    {
-        "id": "c52b46f92cb5d537",
-        "type": "socketio-out",
-        "z": "2d750ed.93b04f2",
-        "name": "",
-        "server": "47235b74.69f984",
-        "x": 400,
-        "y": 880,
-        "wires": []
-    }
+  {
+    "id": "ba6064c0d0e17df6",
+    "type": "tab",
+    "label": "SocketIO test"
+  },
+  {
+    "id": "bc01a84d1b57b24a",
+    "type": "socketio-config",
+    "port": "1881",
+    "sendClient": "true",
+    "path": "/socket.io",
+    "bindToNode": true
+  },
+  {
+    "id": "cfd5cd24625f8e71",
+    "type": "debug",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "complete": "true",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 230,
+    "y": 140,
+    "wires": []
+  },
+  {
+    "id": "cc73083cf4249c19",
+    "type": "socketio-in",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "server": "bc01a84d1b57b24a",
+    "rules": [
+      {
+        "v": "join"
+      },
+      {
+        "v": "emergencyNotification"
+      },
+      {
+        "v": "alertAddResponsible"
+      }
+    ],
+    "x": 70,
+    "y": 240,
+    "wires": [["cfd5cd24625f8e71", "5b93455a13cec896"]]
+  },
+  {
+    "id": "5b93455a13cec896",
+    "type": "switch",
+    "z": "ba6064c0d0e17df6",
+    "name": "checkEvent",
+    "property": "socketIOEvent",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "eq",
+        "v": "join",
+        "vt": "str"
+      },
+      {
+        "t": "eq",
+        "v": "emergencyNotification",
+        "vt": "str"
+      },
+      {
+        "t": "eq",
+        "v": "alertAddResponsible",
+        "vt": "str"
+      },
+      {
+        "t": "eq",
+        "v": "message",
+        "vt": "str"
+      }
+    ],
+    "checkall": "false",
+    "repair": false,
+    "outputs": 4,
+    "x": 250,
+    "y": 240,
+    "wires": [
+      ["70abc290dd03993e"],
+      ["5797ceef61289aab"],
+      ["9ab62f688c1d64cf"],
+      ["cb74f7e0eafc3750"]
+    ]
+  },
+  {
+    "id": "70abc290dd03993e",
+    "type": "function",
+    "z": "ba6064c0d0e17df6",
+    "name": "Join - ",
+    "func": "let {room} = msg.payload;\n\nmsg.payload = {\n    room: room\n};\n\nreturn msg;\n",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 430,
+    "y": 160,
+    "wires": [["a00c8917014eaca6", "39506854d077ba62", "27b3f678e02a253c"]]
+  },
+  {
+    "id": "5797ceef61289aab",
+    "type": "function",
+    "z": "ba6064c0d0e17df6",
+    "name": "emergencyNotification -",
+    "func": "let {room} = msg.payload;\n\nmsg.payload = {\n    uuid: room\n};\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 490,
+    "y": 220,
+    "wires": [["5171534ff358d167"]]
+  },
+  {
+    "id": "5171534ff358d167",
+    "type": "link out",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "mode": "link",
+    "links": ["737efb5e271c2361"],
+    "x": 655,
+    "y": 220,
+    "wires": []
+  },
+  {
+    "id": "737efb5e271c2361",
+    "type": "link in",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "links": ["5171534ff358d167"],
+    "x": 55,
+    "y": 460,
+    "wires": [["2b30e90ed6ccc0f3"]]
+  },
+  {
+    "id": "2b30e90ed6ccc0f3",
+    "type": "http request",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "method": "POST",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "http://177.194.52.168:8082/api/user/emergencyContactsWithUuid",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "authType": "basic",
+    "senderr": false,
+    "x": 170,
+    "y": 460,
+    "wires": [["8004a6c740b9f8e8", "a7265132f0f4b12f"]]
+  },
+  {
+    "id": "8004a6c740b9f8e8",
+    "type": "debug",
+    "z": "ba6064c0d0e17df6",
+    "name": "Recebeu Resposta - Salsa Server",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 320,
+    "y": 540,
+    "wires": []
+  },
+  {
+    "id": "a7265132f0f4b12f",
+    "type": "function",
+    "z": "ba6064c0d0e17df6",
+    "name": "Set User to send messages",
+    "func": "msg.room = [];\nmsg.socketIOEvent=\"emergencyNotification\";\nmsg.socketIOEmit=\"room\";\n\nconst {responsibles, dependent} = msg.payload;\n\nresponsibles.map((item, index)=>{\n    msg.room.push(item.uuid)\n});\n\nmsg.payload = {\n    title: `Alerta Disparado para seu contato ${dependent}`,\n    message: `Alerta disparado para seu monitorado. Acesse a página monitorados para mais detalhes`\n};\n\n\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 440,
+    "y": 460,
+    "wires": [["a3a36bc9eb147315", "c9cb7685d4a718c0"]]
+  },
+  {
+    "id": "a3a36bc9eb147315",
+    "type": "debug",
+    "z": "ba6064c0d0e17df6",
+    "name": "Pacote para notificação",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 690,
+    "y": 540,
+    "wires": []
+  },
+  {
+    "id": "9ab62f688c1d64cf",
+    "type": "function",
+    "z": "ba6064c0d0e17df6",
+    "name": "alertAddResponsible - ",
+    "func": "\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 480,
+    "y": 260,
+    "wires": [["f893a35f7474421a"]]
+  },
+  {
+    "id": "f893a35f7474421a",
+    "type": "link out",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "mode": "link",
+    "links": [],
+    "x": 655,
+    "y": 260,
+    "wires": []
+  },
+  {
+    "id": "d9eaa0fc7c6a82aa",
+    "type": "http in",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "url": "/sendNotificationAddResponsible",
+    "method": "post",
+    "upload": false,
+    "swaggerDoc": "",
+    "x": 210,
+    "y": 700,
+    "wires": [["c69919d40cb86bbc", "489e2c11718cb980"]]
+  },
+  {
+    "id": "e6b35cc1a7753ff5",
+    "type": "debug",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 370,
+    "y": 840,
+    "wires": []
+  },
+  {
+    "id": "c69919d40cb86bbc",
+    "type": "http response",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "statusCode": "200",
+    "headers": {},
+    "x": 550,
+    "y": 640,
+    "wires": []
+  },
+  {
+    "id": "489e2c11718cb980",
+    "type": "function",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "func": "\nconst {name, uuid} = msg.payload;\n\nmsg.socketIOEvent=\"alertAddResponsible\";\nmsg.socketIOEmit=\"room\";\nmsg.room = uuid;\nmsg.payload = `${name} adicionou você como contato de emergência.`\n\n\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 500,
+    "y": 700,
+    "wires": [["3a3c887ef902a01a"]]
+  },
+  {
+    "id": "1fa5e36a8038af61",
+    "type": "catch",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "scope": null,
+    "uncaught": false,
+    "x": 80,
+    "y": 40,
+    "wires": [["172f3c9fa07031bd", "1b6ef8f0e9a3af58"]]
+  },
+  {
+    "id": "172f3c9fa07031bd",
+    "type": "debug",
+    "z": "ba6064c0d0e17df6",
+    "name": "Erro",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 250,
+    "y": 40,
+    "wires": []
+  },
+  {
+    "id": "1b6ef8f0e9a3af58",
+    "type": "http response",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "statusCode": "500",
+    "headers": {},
+    "x": 440,
+    "y": 40,
+    "wires": []
+  },
+  {
+    "id": "4dc14936a51c621a",
+    "type": "inject",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 220,
+    "y": 400,
+    "wires": [["a7265132f0f4b12f"]]
+  },
+  {
+    "id": "a00c8917014eaca6",
+    "type": "socketio-join",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "server": "bc01a84d1b57b24a",
+    "x": 720,
+    "y": 160,
+    "wires": []
+  },
+  {
+    "id": "cb74f7e0eafc3750",
+    "type": "function",
+    "z": "ba6064c0d0e17df6",
+    "name": "Message - ",
+    "func": "\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 450,
+    "y": 320,
+    "wires": [["99e9b4d57d531621"]]
+  },
+  {
+    "id": "99e9b4d57d531621",
+    "type": "link out",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "mode": "link",
+    "links": ["3029173740b33a01"],
+    "x": 655,
+    "y": 320,
+    "wires": []
+  },
+  {
+    "id": "3029173740b33a01",
+    "type": "link in",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "links": ["99e9b4d57d531621"],
+    "x": 65,
+    "y": 880,
+    "wires": [["9d1b0cb5622c1fb6"]]
+  },
+  {
+    "id": "9d1b0cb5622c1fb6",
+    "type": "function",
+    "z": "ba6064c0d0e17df6",
+    "name": "Message",
+    "func": "//const {room, message} = msg.payload;\n\nmsg.socketIOEvent = \"message\";\nmsg.socketIOEmit=\"room\";\nmsg.room = \"@3D279\";\nmsg.payload = {\n    message: 'message'\n}\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 200,
+    "y": 880,
+    "wires": [["e6b35cc1a7753ff5", "147efb9ccf9bd369"]]
+  },
+  {
+    "id": "b755846e90817984",
+    "type": "inject",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payloadType": "date",
+    "x": 140,
+    "y": 820,
+    "wires": [["9d1b0cb5622c1fb6"]]
+  },
+  {
+    "id": "39506854d077ba62",
+    "type": "debug",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "complete": "true",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 550,
+    "y": 100,
+    "wires": []
+  },
+  {
+    "id": "a311c37ef7ca5086",
+    "type": "socketio-out",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "server": "bc01a84d1b57b24a",
+    "x": 1180,
+    "y": 680,
+    "wires": []
+  },
+  {
+    "id": "147efb9ccf9bd369",
+    "type": "link out",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "mode": "link",
+    "links": ["2b8ae42abeb468a3"],
+    "x": 565,
+    "y": 880,
+    "wires": []
+  },
+  {
+    "id": "2b8ae42abeb468a3",
+    "type": "link in",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "links": ["147efb9ccf9bd369", "3a3c887ef902a01a"],
+    "x": 875,
+    "y": 680,
+    "wires": [["6fdf1df16e6b107e"]]
+  },
+  {
+    "id": "6fdf1df16e6b107e",
+    "type": "function",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "func": "const {room} = msg;\nconst rooms = global.get('rooms')\n\n\n\nif(Array.isArray(room)){\n    var aux = [ ];    \n    room.map(el, index=>{\n        if(rooms[`${el}`] != null){\n            aux.push(rooms[`${el}`])\n        }\n    });\n    \n    msg.room = aux;\n    \n}else{\n    if(rooms[`${room}`] != null){\n    \n    msg.room = msg.payload[`${room}`];\n        \n}\n\n}\n\n\n\n//msg.payload = toSend;\n\n\n\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1000,
+    "y": 680,
+    "wires": [["a311c37ef7ca5086", "f849bcc07fd59cdb"]]
+  },
+  {
+    "id": "f849bcc07fd59cdb",
+    "type": "debug",
+    "z": "ba6064c0d0e17df6",
+    "name": "final",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 960,
+    "y": 620,
+    "wires": []
+  },
+  {
+    "id": "1a29dde98e3d5e7a",
+    "type": "function",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "func": "global.set('rooms', msg.payload)\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 920,
+    "y": 120,
+    "wires": [[]]
+  },
+  {
+    "id": "27b3f678e02a253c",
+    "type": "socketio-rooms",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "server": "bc01a84d1b57b24a",
+    "x": 730,
+    "y": 120,
+    "wires": [["1a29dde98e3d5e7a"]]
+  },
+  {
+    "id": "3a3c887ef902a01a",
+    "type": "link out",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "mode": "link",
+    "links": ["2b8ae42abeb468a3"],
+    "x": 635,
+    "y": 700,
+    "wires": []
+  },
+  {
+    "id": "c9cb7685d4a718c0",
+    "type": "link out",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "mode": "link",
+    "links": ["6ddf104d90f3cb69"],
+    "x": 635,
+    "y": 460,
+    "wires": []
+  },
+  {
+    "id": "6ddf104d90f3cb69",
+    "type": "link in",
+    "z": "ba6064c0d0e17df6",
+    "name": "",
+    "links": ["c9cb7685d4a718c0"],
+    "x": 1095,
+    "y": 600,
+    "wires": [["a311c37ef7ca5086"]]
+  }
 ]
